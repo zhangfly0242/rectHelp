@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="home_page_cell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="113"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="112.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TDj-U3-Ab3">
+                        <rect key="frame" x="17" y="3" width="28.5" height="13.5"/>
+                        <color key="backgroundColor" red="1" green="0.49909678229999999" blue="0.339787856" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4KK-1A-dOn">
+                        <rect key="frame" x="17" y="39" width="288" height="61"/>
+                        <color key="backgroundColor" red="1" green="0.56590118209999996" blue="0.38099864360000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <string key="text">issssisisisiisisisisiisisisisiissisisisiffffffffffffffffffffffffsisiffffffffffffffffffffffffsisiffffffffffffffffffffffffsisifffffffffddddffff</string>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="plK-nf-Nrp">
+                        <rect key="frame" x="17" y="22" width="19.5" height="8.5"/>
+                        <color key="backgroundColor" red="0.33673003579999999" green="0.36853306400000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="7"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <color key="backgroundColor" name="alternateSelectedControlTextColor" catalog="System" colorSpace="catalog"/>
+                <constraints>
+                    <constraint firstAttribute="bottomMargin" secondItem="4KK-1A-dOn" secondAttribute="bottom" constant="4.5" id="L6l-UK-iza"/>
+                    <constraint firstItem="plK-nf-Nrp" firstAttribute="top" secondItem="TDj-U3-Ab3" secondAttribute="bottom" constant="5.5" id="MMp-ED-3HP"/>
+                    <constraint firstItem="plK-nf-Nrp" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="9" id="UhZ-Dr-KCp"/>
+                    <constraint firstItem="4KK-1A-dOn" firstAttribute="top" secondItem="plK-nf-Nrp" secondAttribute="bottom" constant="8.5" id="Y6n-8y-NIn"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="4KK-1A-dOn" secondAttribute="trailing" constant="7.5" id="aTf-2G-BVn"/>
+                    <constraint firstItem="4KK-1A-dOn" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="9" id="eWU-vV-Y8V"/>
+                    <constraint firstItem="4KK-1A-dOn" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="9" id="g4A-3p-SEV"/>
+                    <constraint firstItem="TDj-U3-Ab3" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="17" id="hXp-nB-N11"/>
+                    <constraint firstItem="TDj-U3-Ab3" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="3" id="qmi-3K-nlp"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="createTime" destination="TDj-U3-Ab3" id="2tV-yC-SHE"/>
+                <outlet property="detailText" destination="4KK-1A-dOn" id="ZMg-BI-MYc"/>
+                <outlet property="groupName" destination="plK-nf-Nrp" id="ca5-8d-lg0"/>
+            </connections>
+            <point key="canvasLocation" x="34" y="53.5"/>
+        </tableViewCell>
+    </objects>
+</document>

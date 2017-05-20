@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina5_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="cardGroupDisplayController"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="cellContentView">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="CBh-HD-5Fz">
+                    <rect key="frame" x="16" y="6" width="382" height="442"/>
+                    <color key="backgroundColor" red="0.88564187288284302" green="0.89684069156646729" blue="0.96733134984970093" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="eTs-Nc-H71">
+                    <rect key="frame" x="16" y="456" width="382" height="133"/>
+                    <color key="backgroundColor" red="0.88564187288284302" green="0.89684069156646729" blue="0.96733134984970093" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YKT-TO-QM8">
+                    <rect key="frame" x="150" y="597" width="114" height="21"/>
+                    <color key="backgroundColor" red="0.070342920366405104" green="1" blue="0.58893324472244812" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Zr-51-9KJ">
+                    <rect key="frame" x="368" y="6" width="30" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="30" id="npJ-wR-m0L"/>
+                        <constraint firstAttribute="height" constant="30" id="wJc-Wq-e3T"/>
+                    </constraints>
+                    <state key="normal" backgroundImage="group_delete_icon.png"/>
+                    <connections>
+                        <action selector="click_delete:" destination="iN0-l3-epB" eventType="touchUpInside" id="72E-rn-Cky"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="eTs-Nc-H71" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="020-EP-av1"/>
+                <constraint firstItem="eTs-Nc-H71" firstAttribute="width" secondItem="CBh-HD-5Fz" secondAttribute="width" id="4f2-ny-f05"/>
+                <constraint firstAttribute="trailing" secondItem="6Zr-51-9KJ" secondAttribute="trailing" constant="16" id="Cck-yg-4GB"/>
+                <constraint firstItem="eTs-Nc-H71" firstAttribute="top" secondItem="CBh-HD-5Fz" secondAttribute="bottom" constant="8.3300000000000001" id="KND-G1-GD9"/>
+                <constraint firstAttribute="trailing" secondItem="CBh-HD-5Fz" secondAttribute="trailing" constant="16" id="Qt0-zF-6aS"/>
+                <constraint firstItem="YKT-TO-QM8" firstAttribute="width" secondItem="eTs-Nc-H71" secondAttribute="width" multiplier="0.3" id="RUk-6Q-O70"/>
+                <constraint firstItem="CBh-HD-5Fz" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="6" id="Slx-TM-p4C"/>
+                <constraint firstItem="6Zr-51-9KJ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="6" id="WGm-Yi-N9r"/>
+                <constraint firstItem="eTs-Nc-H71" firstAttribute="height" secondItem="CBh-HD-5Fz" secondAttribute="height" multiplier="0.3" id="X8d-rm-b6H"/>
+                <constraint firstItem="YKT-TO-QM8" firstAttribute="top" secondItem="eTs-Nc-H71" secondAttribute="bottom" constant="8.3300000000000001" id="YUz-Ro-bsc"/>
+                <constraint firstItem="CBh-HD-5Fz" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="clA-YM-7lU"/>
+                <constraint firstItem="YKT-TO-QM8" firstAttribute="height" secondItem="eTs-Nc-H71" secondAttribute="height" multiplier="0.1" constant="7.7333333333333414" id="gH9-FA-u09"/>
+                <constraint firstItem="YKT-TO-QM8" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="k1e-eH-PfN"/>
+                <constraint firstItem="CBh-HD-5Fz" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" multiplier="0.6" id="w6A-q4-EB0"/>
+            </constraints>
+            <connections>
+                <outlet property="countDescription" destination="eTs-Nc-H71" id="AQa-EG-rxE"/>
+                <outlet property="delete_buttion" destination="6Zr-51-9KJ" id="kdH-Zr-7kz"/>
+                <outlet property="groupName" destination="CBh-HD-5Fz" id="RgB-Tx-jE2"/>
+            </connections>
+            <point key="canvasLocation" x="86" y="144"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="group_delete_icon.png" width="160" height="160"/>
+    </resources>
+</document>

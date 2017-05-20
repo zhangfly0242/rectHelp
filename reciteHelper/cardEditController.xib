@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="cardEditController">
+            <connections>
+                <outlet property="collect_button" destination="ncU-4A-08t" id="P4k-mx-Ixl"/>
+                <outlet property="doubleShowButton" destination="c8M-QI-zUm" id="vcu-Rn-8l8"/>
+                <outlet property="little_delete_button" destination="5NJ-UK-hRg" id="EVG-8Z-gXv"/>
+                <outlet property="note_button" destination="uP6-bL-vC9" id="om5-I6-ZU6"/>
+                <outlet property="numbers" destination="PH5-87-WsA" id="RwE-77-ioo"/>
+                <outlet property="scrollView" destination="9V3-ft-iF1" id="C4I-6z-Dwd"/>
+                <outlet property="view" destination="iN0-l3-epB" id="uwF-Ey-0eI"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ncU-4A-08t">
+                    <rect key="frame" x="7" y="8" width="55" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="Ev3-Qn-bI4"/>
+                        <constraint firstAttribute="width" constant="55" id="Pr3-uz-Fmn"/>
+                    </constraints>
+                    <state key="normal" backgroundImage="collect card.jpg"/>
+                    <connections>
+                        <action selector="gatherCard:" destination="-1" eventType="touchUpInside" id="A40-Gu-He5"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uP6-bL-vC9">
+                    <rect key="frame" x="70" y="8" width="55" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="9nz-GQ-90r"/>
+                        <constraint firstAttribute="width" constant="55" id="xPr-6l-eCY"/>
+                    </constraints>
+                    <state key="normal" backgroundImage="write note.jpg"/>
+                    <connections>
+                        <action selector="noteCard:" destination="-1" eventType="touchUpInside" id="GHn-Jd-5uV"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c8M-QI-zUm">
+                    <rect key="frame" x="294" y="8" width="70" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="7qy-UO-bNB"/>
+                        <constraint firstAttribute="width" constant="70" id="jZH-py-ogM"/>
+                    </constraints>
+                    <state key="normal" backgroundImage="double show.jpg"/>
+                    <connections>
+                        <action selector="doubleViewModule:" destination="-1" eventType="touchUpInside" id="Gb3-RG-UNs"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="编译/30字" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PH5-87-WsA">
+                    <rect key="frame" x="16" y="641" width="56.5" height="14.5"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="14.5" id="JFb-Dm-A0m"/>
+                        <constraint firstAttribute="width" constant="56.5" id="LL6-5I-JV2"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="italicSystem" pointSize="12"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9V3-ft-iF1">
+                    <rect key="frame" x="0.0" y="36" width="375" height="597"/>
+                    <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                </scrollView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5NJ-UK-hRg">
+                    <rect key="frame" x="304" y="638" width="50" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="50" id="6AV-O5-6dv"/>
+                        <constraint firstAttribute="height" constant="20" id="P6k-9G-x0c"/>
+                    </constraints>
+                    <state key="normal" backgroundImage="down little delete.jpg"/>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="5NJ-UK-hRg" secondAttribute="bottom" constant="9" id="0y8-gN-U4s"/>
+                <constraint firstItem="uP6-bL-vC9" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="6S5-yN-EbP"/>
+                <constraint firstItem="PH5-87-WsA" firstAttribute="top" secondItem="9V3-ft-iF1" secondAttribute="bottom" constant="8" id="6VI-13-33F"/>
+                <constraint firstItem="ncU-4A-08t" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="7" id="8RW-fb-4ls"/>
+                <constraint firstAttribute="trailing" secondItem="9V3-ft-iF1" secondAttribute="trailing" id="AMb-zv-eUB"/>
+                <constraint firstItem="c8M-QI-zUm" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="Fa2-1k-gEv"/>
+                <constraint firstItem="9V3-ft-iF1" firstAttribute="top" secondItem="ncU-4A-08t" secondAttribute="bottom" constant="8" id="SCo-rW-MNp"/>
+                <constraint firstItem="uP6-bL-vC9" firstAttribute="leading" secondItem="ncU-4A-08t" secondAttribute="trailing" constant="8" id="SQ5-jK-HxD"/>
+                <constraint firstItem="PH5-87-WsA" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="c8N-3v-4Fh"/>
+                <constraint firstAttribute="trailing" secondItem="c8M-QI-zUm" secondAttribute="trailing" constant="11" id="gVF-O6-Xpn"/>
+                <constraint firstItem="9V3-ft-iF1" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="jVY-5Y-Qzh"/>
+                <constraint firstAttribute="trailing" secondItem="5NJ-UK-hRg" secondAttribute="trailing" constant="21" id="t0M-eu-KRR"/>
+                <constraint firstItem="ncU-4A-08t" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="tpp-bN-V88"/>
+                <constraint firstAttribute="bottom" secondItem="PH5-87-WsA" secondAttribute="bottom" constant="11.5" id="xPf-8j-VIw"/>
+            </constraints>
+            <point key="canvasLocation" x="33.5" y="106.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="collect card.jpg" width="110" height="40"/>
+        <image name="double show.jpg" width="140" height="40"/>
+        <image name="down little delete.jpg" width="100" height="40"/>
+        <image name="write note.jpg" width="110" height="40"/>
+    </resources>
+</document>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="cardInfoController">
+            <connections>
+                <outlet property="createTime" destination="CIC-52-qza" id="jgA-fb-Ydq"/>
+                <outlet property="detailText" destination="DQK-8f-OhP" id="fNI-1M-bhE"/>
+                <outlet property="headText" destination="sIO-Gp-5LI" id="R00-IR-QOS"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="backPicture.png" translatesAutoresizingMaskIntoConstraints="NO" id="ebB-tQ-E0C">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="750" horizontalCompressionResistancePriority="751" text="cccccccccccccc" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CIC-52-qza">
+                    <rect key="frame" x="16" y="40" width="128" height="21"/>
+                    <color key="backgroundColor" red="1" green="0.46240303440000002" blue="0.21334309909999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="323" placeholderIntrinsicHeight="531" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="DQK-8f-OhP">
+                    <rect key="frame" x="0.0" y="136" width="375" height="531"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
+                <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sIO-Gp-5LI">
+                    <rect key="frame" x="16" y="73" width="330" height="30"/>
+                    <nil key="textColor"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uPV-y9-RNw">
+                    <rect key="frame" x="300" y="35" width="46" height="30"/>
+                    <state key="normal" title="Button"/>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="DQK-8f-OhP" secondAttribute="trailing" id="0A8-xR-1Uv"/>
+                <constraint firstAttribute="trailing" secondItem="uPV-y9-RNw" secondAttribute="trailing" constant="29" id="1iQ-dd-FR9"/>
+                <constraint firstItem="CIC-52-qza" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="40" id="KNY-hS-vg0"/>
+                <constraint firstItem="ebB-tQ-E0C" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="NQR-eQ-Xre"/>
+                <constraint firstItem="DQK-8f-OhP" firstAttribute="top" secondItem="sIO-Gp-5LI" secondAttribute="bottom" constant="33" id="V31-ax-W3a"/>
+                <constraint firstAttribute="bottom" secondItem="DQK-8f-OhP" secondAttribute="bottom" id="dgy-b1-lX9"/>
+                <constraint firstAttribute="bottom" secondItem="ebB-tQ-E0C" secondAttribute="bottom" id="eS0-e9-KaA"/>
+                <constraint firstItem="uPV-y9-RNw" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="35" id="iNo-6a-VuK"/>
+                <constraint firstItem="CIC-52-qza" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="mha-WZ-9rH"/>
+                <constraint firstItem="DQK-8f-OhP" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="o7S-A7-fOs"/>
+                <constraint firstItem="sIO-Gp-5LI" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="oE9-yY-sve"/>
+                <constraint firstItem="sIO-Gp-5LI" firstAttribute="top" secondItem="CIC-52-qza" secondAttribute="bottom" constant="12" id="r40-oa-PxY"/>
+                <constraint firstItem="ebB-tQ-E0C" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="rf2-ug-OEJ"/>
+                <constraint firstAttribute="trailing" secondItem="ebB-tQ-E0C" secondAttribute="trailing" id="uLz-tR-I7y"/>
+                <constraint firstAttribute="trailing" secondItem="sIO-Gp-5LI" secondAttribute="trailing" constant="29" id="xfu-wN-6et"/>
+            </constraints>
+            <point key="canvasLocation" x="34.5" y="54.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="backPicture.png" width="713" height="1075"/>
+    </resources>
+</document>
