@@ -92,8 +92,6 @@
 {
     NSArray * grpArr = [card_manage card_mng].array;
     
-    NSLog(@" init_data array.count %lu", (unsigned long)grpArr.count);
-    
     for (cardGroup * grp in grpArr)
     {
         [self.grp_arr addObject:grp];
@@ -155,17 +153,13 @@
         return ;
     }
     
-    NSLog(@" kvoGrpIntelChange keypath %@ change %@ ",keyPath, change);
-    
     /* 组内发生了添加card事件 */
     if (NSKeyValueChangeInsertion == [[change valueForKey:@"kind"] intValue])
     {
-        NSLog(@" kvoGrpIntelChange add ");
         cell.group_brief.text = [NSString stringWithFormat:@"%lu条", (unsigned long)grp.cardArr.count];
     }/* 组内发生了删除card事件 */
     else if (NSKeyValueChangeRemoval == [[change valueForKey:@"kind"] intValue])
     {
-        NSLog(@" kvoGrpIntelChange delete ");
         cell.group_brief.text = [NSString stringWithFormat:@"%lu条", (unsigned long)grp.cardArr.count];
     }/* 组内其它变化 */
     else

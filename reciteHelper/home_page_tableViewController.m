@@ -16,6 +16,7 @@
 #import "cardAddController.h"
 #import "icloudManager.h"
 #import "cardEditController.h"
+#import "test1ViewController.h"
 
 @interface home_page_tableViewController ()
 
@@ -25,20 +26,15 @@
 
 -(void) init_data
 {
-    NSLog(@" %p going to observeCard [%d]!!!!!!!!!!!",self, self.data.count);
-    
     /* 初始化时从 card管理结构(card_manage)获取初始数据，后者从CORE DATA中获取数据*/
     for (card * cd in self.data)
     {
         [self.cell_arr addObject:cd];
         /* 对添加进来的进行监视 ，监视其它内容可以监视到card本身内容的变化，
          通过监视group可以监视到card所在分组的切换*/
-        
-        NSLog(@" %p going to observeCard   cd %p  !!!!!!!!!!!",self,cd);
+
         [self observeCard: cd];
     }
-    
-    NSLog(@" %p going to observeCard done!!!!!!!!!!!",self);
     
     [[card_manage card_mng] addObserver: self
           forKeyPath:@"addCard"
@@ -55,17 +51,16 @@
     table.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     /* 可选 : 设置tableView背景图片 */
-    UIImageView *backImageView=[[UIImageView alloc]initWithFrame:self.view.bounds];
-    [backImageView setImage:[UIImage imageNamed:@"backPicture"]];
-    self.tableView.backgroundView = backImageView;
+//    UIImageView *backImageView=[[UIImageView alloc]initWithFrame:self.view.bounds];
+//    [backImageView setImage:[UIImage imageNamed:@"backPicture"]];
+//   self.tableView.backgroundView = backImageView;
+    self.tableView.backgroundColor = [UIColor lightGrayColor];
     
     return;
 }
 
 -(void) observeCard: (card *)cd
 {
-    NSLog(@" %p observeCard   cd %p  !!!!!!!!!!!",self,cd);
-    
     /* 监听 每一个card ，发生变化，则更新界面 */
     [cd addObserver:self
          forKeyPath:@"createTime"
@@ -95,9 +90,6 @@
 
 -(void)unObserveCard:(card *)cd
 {
-    
-    NSLog(@" %p unObserveCard   cd %p  !!!!!!!!!!!",self,cd);
-    
     /* zhang-attention : 对象被删除，需要移除观察者 */
     [cd removeObserver:self forKeyPath:@"createTime"];
     [cd removeObserver:self forKeyPath:@"headText"];
@@ -116,22 +108,16 @@
 {
      card * cd = [change valueForKey:@"new"];
     
-    
-    NSLog(@" cd.grpname %@ ",cd.groupName);
      /* 如果当前显示的是某个特定分组的grp，并且当前增加或删除卡片的组名不是这个分组的，那么不用关心 */
      if (![self.grp_name isEqualToString:ALL_GROUP]
          && [cd.groupName isEqualToString:self.grp_name])
      {
-         
-         
-         NSLog(@" cd.grpname %@  return !!!!!!!!!!!",cd.groupName);
          return ;
      }
     
     /* 发生了添加事件 */
     if ([keyPath isEqualToString:@"addCard"])
     {
-        NSLog(@" %p going(kvo) to observeCard   cd %p  !!!!!!!!!!!",self,cd);
         /* 观察这个新卡片 */
         [self observeCard:cd];
         
@@ -178,9 +164,7 @@
          }
          */
         
-        card * cd1 = object;
-        NSLog(@" observeValueForKeyPath : %@  keypath %@  change %@", cd1.detailText, keyPath,
-              change);
+        //card * cd1 = object;
     }
     
     /* 卡片本身变化 */
@@ -267,7 +251,7 @@
     /* 当前显示的所有分组的卡片，没有回退的动作 */
     if ([self.grp_name isEqualToString:ALL_GROUP])
     {
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"我" style: UIBarButtonItemStylePlain target: self.navigationController action: @selector(profile_click)];
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"ni" style: UIBarButtonItemStylePlain target: self.navigationController action: @selector(profile_click)];
         
         /* zhang-attention : 创建button  */
         UIImage * addImg = [UIImage imageNamed:@"add_button.png"];
@@ -284,12 +268,6 @@
     
     /* 获取本地数据 */
     [self init_data];
-    
-//    for (card * cd in self.data)
-//    {
-//        [self observeCard:cd];
-//        NSLog(@" %s 2 ,cd.grp %@[%@]",__FUNCTION__,cd.groupName,cd.detailText);
-//    }
    
     return ;
 }
@@ -432,19 +410,6 @@
     // Navigation logic may go here, for example:
     // Create the next view controller.
     
-#if 0
-    cardInfoController * detailViewController = [[cardInfoController alloc] init];
-    
-    // Pass the selected object to the new view controller.
-    card * card = self.cell_arr[indexPath.row];
-    detailViewController.backCard = card;
-    
-    /*如果在push跳转时需要隐藏tabBar，返回的时候显示 : */
-    //detailViewController.hidesBottomBarWhenPushed = YES;
-        
-    // Push the view controller.
-    [self.navigationController pushViewController:detailViewController animated:YES];
-#endif
     cardEditController * cardEdit = [[cardEditController alloc]init];
     card * card = self.cell_arr[indexPath.row];
     cardEdit.backCard = card;
@@ -466,7 +431,6 @@
 {
     self = [super init];
     
-    NSLog(@" initWithData");
     self.data = [[NSMutableArray alloc]init];
     /* zhang-attention : 这里这样做不好，它不需要保持一个分组，它只需要一开始获得所有卡片，组的另一个作用是后续添加或删除卡片时，进行过滤不必要的kvo而已 */
     for (cardGroup * grp in data)
@@ -482,8 +446,6 @@
     /* 表示这个list table展示的是哪个组的信息。如果name是"all group"，那么展示
      的是所有组的信息。意味着会关心所有组内卡片的添加删除。和组名的变化*/
     self.grp_name = name;
-    
-    NSLog(@" <==========================================================> home list %p",self);
 
     return self;
 }
@@ -520,8 +482,6 @@
 
 -(void) dealloc
 {
-    NSLog(@" dealloc  !!!!!!!!!!   %p",self);
-    
     /* 删除时，取消kvo*/
     for (card * cd in self.data)
     {

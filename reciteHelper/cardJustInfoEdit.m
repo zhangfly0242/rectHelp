@@ -34,7 +34,6 @@
     [self setTextViewKeyBoard : self.content];
     
     /* 通过kvo监听 self.backCard.detailText */
-    /* zhang-attention : 这里释放时，取消注册的处理没有考虑。。。。。 */
     /* 监听数据的变化 */
     [backCard addObserver:self
                forKeyPath:@"headText"
@@ -93,8 +92,6 @@
     NSString * str1 = self.backCard.detailText;
     NSString * str2 = self.backCard.detailText;
     BOOL handle = FALSE;
-    
-    NSLog(@" %s ",__FUNCTION__);
     
     for (i = 0; i <= self.backCard.detailText.length - 1; i++)
     {

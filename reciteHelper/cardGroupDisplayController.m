@@ -58,7 +58,6 @@
 
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    NSLog(@" setion count  %lu  ",self.grpArr.count/MAX_ITEM_NUM);
     if (0 == self.grpArr.count%MAX_ITEM_NUM)
     {
         return self.grpArr.count/MAX_ITEM_NUM;
@@ -118,8 +117,7 @@
         /* 附在cell上的contentView的tag是20，方便后续访问cell上的contentView */
         contentView.tag = 20;
         [contentView configDeleteButton];
-        
-        NSLog(@" indexPath  %@ add contentView",indexPath);
+
         [cell addSubview:contentView];
     }
     
@@ -149,6 +147,7 @@
         /* 组名可以更改 */
         contentView.groupName.editable  = YES;
     }
+    contentView.countDescription.editable = FALSE;
     
     return cell;
 }
@@ -169,8 +168,6 @@
 -(void) kvoHandleGrpAddDelete:(NSDictionary *)change KeyPath:(NSString *)keyPath
 {
     cardGroup * grp = nil;
-    
-    NSLog(@" kvo grp controller , change %@", change);
     
     /* 发生了添加组事件 */
     if ([keyPath isEqualToString:@"addGrp"])
@@ -226,6 +223,10 @@
     
     /* 获得该组对应的cell */
     UICollectionViewCell * cell = [self.myCollectionView cellForItemAtIndexPath:path];
+    if (!cell)
+    {
+        return ;
+    }
     
     /* 获得cell上的contentView*/
     cellContentView * contentView = [cell viewWithTag:20];
@@ -233,17 +234,9 @@
     /* 如果此时cell没有加载，那么它上面的contentView是nil的, 此时不需要进行后续的三个处理，到时显示时会直接获取最新的*/
     if (!contentView)
     {
-        NSLog(@" %s ,RETURN ",__FUNCTION__);
+        NSLog(@" ERROR : %s ,RETURN ",__FUNCTION__);
         return ;
     }
-    
-    NSLog(@" %s , grp name : %@  keyPath %@",__FUNCTION__, grp.grpName, keyPath);
-    
-    for (id val in cell.subviews)
-    {
-        NSLog(@"class %@",[val class]);
-    }
-    NSLog(@" %s , grp name2 : %@  keyPath %@",__FUNCTION__, grp.grpName, keyPath);
     
     /* 组名变化 */
     if ([keyPath isEqualToString:@"grpName"])
@@ -262,11 +255,8 @@
     }/* 组内卡片个数发生变化 */
     else if ([keyPath isEqualToString:@"cardArr"])
     {
-        NSLog(@" card count change contentView.countDescription.text %@",contentView.countDescription.text);
         /* 不需要特殊处理，直接reload即可 */
         contentView.countDescription.text = [[NSString alloc]initWithFormat:@"%lu张卡片", (unsigned long)grp.cardArr.count];
-        
-        NSLog(@" card count change2 contentView.countDescription.text %@",contentView.countDescription.text);
     }
     else
     {
@@ -279,8 +269,6 @@
 /* 监听总数据的变化 , 先判断是发生了数量增加还是数量减少，然后相应地增加或删除本地数据*/
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    NSLog(@" kvo grp controller %@", [object class]);
-    
     /* 组发生变化, 可能是组名发生变化，也可能是组的内卡片增多或者减少 */
     if ([object isKindOfClass:[cardGroup class]])
     {
@@ -326,9 +314,7 @@
     UIBarButtonItem * addBar = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(edit_click)];
     
     self.navigationItem.rightBarButtonItems = @[addBar];
-    
-    
-    NSLog(@" <==========================================================>  grpController %p",self);
+
     return self;
 }
 
@@ -397,17 +383,15 @@
     /* 如果此时cell没有加载，那么它上面的contentView是nil的, 此时不需要进行后续的三个处理，到时显示时会直接获取最新的*/
     if (!contentView)
     {
-        NSLog(@" %s ,RETURN ",__FUNCTION__);
+        NSLog(@" ERROR : %s ,RETURN ",__FUNCTION__);
         return ;
     }
     
     NSMutableArray * arr = [[NSMutableArray alloc]init];
     [arr addObject:contentView.backGroup];
     
-
     home_page_tableViewController * list_table = [[home_page_tableViewController alloc]initWithData:arr grpName: contentView.backGroup.grpName];
     
-    NSLog(@" <==========================================================>");
     [self.navigationController pushViewController:list_table animated:YES];
     return;
 }

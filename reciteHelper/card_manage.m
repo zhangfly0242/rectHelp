@@ -60,12 +60,10 @@
         {
             if ([temGrp.grpName isEqualToString:@"添加分组"])
             {
-                NSLog(@" change opetaion 1");
                 temGrp.operation = NO;
             }
             else
             {
-                NSLog(@" change opetaion 2");
                 temGrp.operation = YES;
             }
 
@@ -157,7 +155,6 @@
     {
         if ([[change valueForKey:@"old"] isEqualToString:@"添加分组"])
         {
-            NSLog(@" change opetaion 3");
             group.operation = YES;
             [[DataController dataController] EditOneGroup:group oldGroupName:[change valueForKey:@"old"]];
             
@@ -177,7 +174,6 @@
     {
         [self kvoHandleGrp:object keyPath:keyPath change:change];
     }
-    
     
 #if US_ICLOUD
     if ([object isKindOfClass: [card class]])
@@ -339,9 +335,6 @@
     
     [[newGrp mutableArrayValueForKey:@"cardArr"] addObject:cd];
     
-    
-    NSLog(@" card[%p] observe %@   ",cd,cd.observationInfo);
-    
     cd.groupName = newGrpName;
     [[DataController dataController]moveOneCard:cd fromOldGroup:oldGrpName toGroup:newGrpName];
     [test1ViewController itSelf].textField.text = [[test1ViewController itSelf].textField.text stringByAppendingString:@"1x1x"];
@@ -365,11 +358,9 @@
     
     if ([name isEqualToString:@"添加分组"])
     {
-        NSLog(@" change opetaion 4");
         newGrp.operation = NO;
     }
     else{
-        NSLog(@" change opetaion 5");
         newGrp.operation = YES;
     }
     
@@ -448,14 +439,12 @@
 //-(void)insertObject:(id)object inArrayAtIndex:(NSUInteger)index //这个是代表property名字，就是上面定义的array，系统会自动生成，要根据自己定义的属性名字改变。
 //
 //{
-//    NSLog(@" insertObject. ");
 //    [self.array insertObject:object atIndex:index];
 //}
 
 //-(void)removeObjectFromArrayAtIndex:(NSUInteger)index
 //
 //{
-//    NSLog(@" deleteObject. ");
 //    [self.array removeObjectAtIndex:index];
 //    
 //}

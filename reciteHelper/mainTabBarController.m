@@ -68,6 +68,8 @@
     /* 创建navcontroller */
     UINavigationController * groupNavController = [[UINavigationController alloc]initWithRootViewController:cardGroup];
     groupNavController.tabBarItem = barItem2;
+    /* zhang-attention : 套路 ：注意设置navigation bar非透明 ，否则默认会自动让navigation bar遮住中的视图，这往往不是想要的效果*/
+    groupNavController.navigationBar.translucent = NO;
     
     cardAddController * other1 = [[cardAddController alloc]init];
     UIImage * img3 = [UIImage imageNamed:@"add_new.jpg"];

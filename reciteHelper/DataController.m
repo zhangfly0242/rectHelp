@@ -93,7 +93,7 @@
         NSError *error2 = nil;
         NSArray * results2 = [backMoc executeFetchRequest:request error:&error2];
         if (!results2) {
-            NSLog(@"Error fetching Employee objects: %@\n%@", [error2 localizedDescription], [error2 userInfo]);
+            NSLog(@"ERROR fetching Employee objects: %@\n%@", [error2 localizedDescription], [error2 userInfo]);
             abort();
         }
         
@@ -153,7 +153,7 @@
     [self.persistentContainer performBackgroundTask:^(NSManagedObjectContext * backMoc) {
         /* zhang-attention : core data还有这种情况吗，难道每次执行前别的在执行，这里同时操作，就会挂到，不是应该等待吗? 
          目前的临时做法，可能前面的移动分组还在进行中，所以这里等一下，。 */
-        sleep(2);
+        sleep(8);
         NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Group"];
         [request setPredicate:[NSPredicate predicateWithFormat:@"grpName == %@",grp.grpName]];
         
@@ -167,11 +167,12 @@
         }
         
         [backMoc deleteObject:results[0]];
-        
-        NSLog(@" grpName %@ ", grp.grpName);
-        
+ 
         if ([backMoc save:&error] == NO) {
             NSAssert(NO, @"Error ：%s saving context: %@\n%@", __FUNCTION__,[error localizedDescription], [error userInfo]);
+        }
+        else{
+            NSLog(@" delete grp success!!!!!!!!!!!!! ");
         }
     }];
     return ;
@@ -181,8 +182,6 @@
 /* 编辑一个指定数据 */
 -(void) EditOneCard:(card *) cd
 {
-    NSLog(@"EditOneCard , cd group name %@",cd.groupName);
-    
     /* 调用performBackgroundTask时：
      apple 帮你创建了一个back_ground_moc，并传入。
      */
@@ -220,6 +219,9 @@
 {
     [self.persistentContainer performBackgroundTask:^(NSManagedObjectContext * backMoc) {
         
+        NSLog(@" move thread : %@  <=================> backMoc %@", [NSThread currentThread],
+              backMoc);
+    
         /* 先找到老分组 */
         NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Group"];
         [request setPredicate:[NSPredicate predicateWithFormat:@"grpName == %@",oldgGrpName]];
@@ -283,8 +285,21 @@
             [[grpMO2 mutableSetValueForKeyPath:@"relationCard"] addObject:cdMO];
             
             NSError *error4 = nil;
-            if ([backMoc save:&error4] == NO) {
-                NSAssert(NO, @"Error ：%s saving context: %@\n%@", __FUNCTION__,[error4 localizedDescription], [error4 userInfo]);
+            
+            @try {
+                if ([backMoc save:&error4] == NO) {
+                    NSAssert(NO, @"Error ：%s saving context: %@\n%@", __FUNCTION__,[error4 localizedDescription], [error4 userInfo]);
+                }
+                else{
+                    NSLog(@" move thread : %@ done <=================> backMoc %@.", [NSThread currentThread],
+                          backMoc);
+                }
+            } @catch (NSException *exception) {
+                NSLog(@" WARNING %s : exception %@.", __FUNCTION__,exception);
+                /* 再执行一次 */
+                [self moveOneCard:cd fromOldGroup:oldgGrpName toGroup:newGrpName];
+            } @finally {
+                /* do nothing */
             }
         }
     }];
@@ -346,8 +361,6 @@
         if ([backMoc save:&error] == NO) {
             NSAssert(NO, @"Error ：%s saving context: %@\n%@", __FUNCTION__,[error localizedDescription], [error userInfo]);
         }
-        
-        NSLog(@"%s , %@ add card success thread %@",__FUNCTION__,groupName,[NSThread currentThread]);
     }];
     
     [self observeOneCd:cd];

@@ -31,8 +31,6 @@
 /* 注册通知，随时显示和再次隐藏 */
 -(void)configDeleteButton
 {
-    NSLog(@" %@  configDeleteButton  ",self.backGroup.grpName);
-    
     /* 接收通知，当点击“编辑”时，显示出组的delete_button */
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(click_edit) name:@"group_display_enter_edit" object: nil];
 }
@@ -71,24 +69,18 @@
         return ;
     }
     
-    NSLog(@" %p   %@ current  %d ",self,self.backGroup.grpName, self.hiddenDelete);
-    
     if (self.hiddenDelete)
     {
         self.hiddenDelete = NO;
         self.delete_buttion.hidden = NO;
-        
-        NSLog(@" show button ");
     }
     else{
         self.hiddenDelete = YES;
         self.delete_buttion.hidden = YES;
-        NSLog(@" hide button ");
     }
 }
 
 - (IBAction)click_delete:(id)sender {
-    NSLog(@" %s ,  self.backGroup %@",__FUNCTION__,self.backGroup.grpName);
     [[card_manage card_mng] deleteGrp:self.backGroup];
 }
 @end
