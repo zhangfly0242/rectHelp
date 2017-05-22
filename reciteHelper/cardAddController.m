@@ -22,7 +22,6 @@
     
     /* 将 textFiled的 代理设置自己，这样当点击输入键盘的确定时，会通知到方法
      textFieldShouldReturn，在textFieldShouldReturn中调用resignFirstResponder实现取消键盘*/
-    
     self.headText.delegate = self;
     self.detailText.delegate = self;
     //UIReturnKeyDone
@@ -149,12 +148,6 @@
     [[NSNotificationCenter defaultCenter]postNotificationName:@"betterHiddenTabBar" object:nil];
 }
 
--(void) viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    /* 弹出该页面时显示tabBar */
-    [[NSNotificationCenter defaultCenter]postNotificationName:@"betterShowTabBar" object:nil];
-}
 /*
 #pragma mark - Navigation
 
@@ -164,5 +157,15 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+/* 用户点击“分组”，退回到分组界面 */
+-(void)exit_click
+{
+    [self.navigationController popViewControllerAnimated:self];
+    
+    /* 弹出该页面时显示tabBar */
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"betterShowTabBar" object:nil];
+
+}
 
 @end

@@ -636,15 +636,23 @@
 -(void )viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    /* 弹出该页面时隐藏tabBar */
-    [[NSNotificationCenter defaultCenter]postNotificationName:@"betterHiddenTabBar" object:nil];
+    
+    if (!self.shouldShowTabBar)
+    {
+        /* 弹出该页面时隐藏tabBar */
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"betterHiddenTabBar" object:nil];
+    }
 }
 
 -(void) viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    /* 弹出该页面时显示tabBar */
-    [[NSNotificationCenter defaultCenter]postNotificationName:@"betterShowTabBar" object:nil];
+    
+    if (!self.shouldShowTabBar)
+    {
+        /* 弹出该页面时显示tabBar */
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"betterShowTabBar" object:nil];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

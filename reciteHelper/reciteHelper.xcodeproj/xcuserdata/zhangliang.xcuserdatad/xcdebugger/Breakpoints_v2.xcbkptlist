@@ -322,11 +322,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "mainTabBarController.m"
-            timestampString = "517035127.162488"
+            timestampString = "517122070.525817"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "77"
-            endingLineNumber = "77"
+            startingLineNumber = "97"
+            endingLineNumber = "97"
             landmarkName = "-initWithTabBar"
             landmarkType = "7">
          </BreakpointContent>

@@ -251,7 +251,7 @@
     /* 当前显示的所有分组的卡片，没有回退的动作 */
     if ([self.grp_name isEqualToString:ALL_GROUP])
     {
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"ni" style: UIBarButtonItemStylePlain target: self.navigationController action: @selector(profile_click)];
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"我" style: UIBarButtonItemStylePlain target: self.navigationController action: @selector(profile_click)];
         
         /* zhang-attention : 创建button  */
         UIImage * addImg = [UIImage imageNamed:@"add_button.png"];

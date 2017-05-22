@@ -12,8 +12,6 @@
 
 @interface cardEditController : UIViewController <UITextViewDelegate, UIScrollViewDelegate>
 
-
-
 /* "收藏" button */
 @property (weak, nonatomic) IBOutlet UIButton *collect_button;
 /* "备注" button*/
@@ -28,7 +26,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *little_delete_button;
 
 @property (weak, nonatomic) card * backCard;
-
+@property (nonatomic) BOOL shouldShowTabBar;
 
 /* 维护一个tinyGroupController，用来显示分组 */
 @property(strong, nonatomic) tinyGroupListController * grpController;

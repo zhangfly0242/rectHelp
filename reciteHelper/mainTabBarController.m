@@ -14,12 +14,29 @@
 #import "test1ViewController.h"
 #import "cardAddController.h"
 #import "card_manage.h"
+#import "cardEditController.h"
 
 @interface mainTabBarController ()
 
 @end
 
 @implementation mainTabBarController
+
+/* 系统刚来时，获取当前背诵的卡片，默认是第一张 */
+-(cardEditController *) getCurrentRectCardVC
+{
+    NSMutableArray * arr = [card_manage card_mng].array;
+    
+    cardEditController * cardEdit = [[cardEditController alloc]init];
+    /* 默认获取第一个分组的第一个卡片 */
+    cardGroup * grp = arr[0];
+    card * card = grp.cardArr[0];
+    cardEdit.backCard = card;
+    
+    /* 不隐藏tabBar */
+    cardEdit.shouldShowTabBar = YES;
+    return cardEdit;
+}
 
 -(void) initWithTabBar
 {
@@ -71,7 +88,10 @@
     /* zhang-attention : 套路 ：注意设置navigation bar非透明 ，否则默认会自动让navigation bar遮住中的视图，这往往不是想要的效果*/
     groupNavController.navigationBar.translucent = NO;
     
-    cardAddController * other1 = [[cardAddController alloc]init];
+    
+    
+    cardEditController * other1 = [self getCurrentRectCardVC];
+
     UIImage * img3 = [UIImage imageNamed:@"add_new.jpg"];
     img3 = [img3 imageWithRenderingMode: UIImageRenderingModeAlwaysOriginal];
     UIImage * img3_2 = [UIImage imageNamed:@"add_new_selected.jpg"];
@@ -79,7 +99,9 @@
     UITabBarItem * barItem3 = [[UITabBarItem alloc] initWithTitle:@" " image:img3 selectedImage:img3_2];
 
     barItem3.imageInsets = UIEdgeInsetsMake(5, 1, -5, -1);
-    other1.tabBarItem = barItem3;
+    UINavigationController * nav3 = [[UINavigationController alloc]initWithRootViewController:other1];
+    nav3.tabBarItem = barItem3;
+    nav3.navigationBar.translucent = NO;
     
     UIViewController * other2 = [[UIViewController alloc]init];
     UIImage * img4 = [UIImage imageNamed:@"persion_info.jpg"];
@@ -93,12 +115,11 @@
     other2.view = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
     other2.view.backgroundColor = [UIColor redColor];
     
-    
     root_navViewController * root_nav2 = [[root_navViewController alloc]init];
     [root_nav2 pushViewController:other2 animated:NO];
     root_nav2.tabBarItem = barItem4;
     
-    NSArray * array = @[root_nav, groupNavController, other1, root_nav2];
+    NSArray * array = @[root_nav, groupNavController, nav3, root_nav2];
     self.viewControllers = array;
 }
 
