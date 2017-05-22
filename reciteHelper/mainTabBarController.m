@@ -117,7 +117,7 @@
     nav3.tabBarItem = barItem3;
     nav3.navigationBar.translucent = NO;
     
-    UIViewController * other2 = [[UIViewController alloc]init];
+    UIViewController * aboutMe = [[UIViewController alloc]init];
     UIImage * img4 = [UIImage imageNamed:@"persion_info.jpg"];
     img4 = [img4 imageWithRenderingMode: UIImageRenderingModeAlwaysOriginal];
     UIImage * img4_2 = [UIImage imageNamed:@"persion_info_selected.jpg"];
@@ -126,14 +126,18 @@
     
     barItem4.imageInsets = UIEdgeInsetsMake(5, 2, -5, -2);
     
-    other2.view = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
-    other2.view.backgroundColor = [UIColor redColor];
+    UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"https://www.zhihu.com/question/27371173/answer/152263546"]];
+    [webView loadRequest:request];
     
-    root_navViewController * root_nav2 = [[root_navViewController alloc]init];
-    [root_nav2 pushViewController:other2 animated:NO];
-    root_nav2.tabBarItem = barItem4;
+    aboutMe.view = webView;
+    aboutMe.view.backgroundColor = [UIColor greenColor];
+
+    root_navViewController * aboutMeNav = [[root_navViewController alloc]init];
+    [aboutMeNav pushViewController:aboutMe animated:NO];
+    aboutMeNav.tabBarItem = barItem4;
     
-    NSArray * array = @[root_nav, groupNavController, nav3, root_nav2];
+    NSArray * array = @[root_nav, groupNavController, nav3, aboutMeNav];
     self.viewControllers = array;
 }
 
