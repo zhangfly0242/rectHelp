@@ -29,13 +29,21 @@
     
     cardEditController * cardEdit = [[cardEditController alloc]init];
     /* 默认获取第一个分组的第一个卡片 */
-    cardGroup * grp = arr[0];
-    card * card = grp.cardArr[0];
-    cardEdit.backCard = card;
+    if (arr.count > 0)
+    {
+        cardGroup * grp = arr[0];
+        if (grp.cardArr.count > 0)
+        {
+            card * card = grp.cardArr[0];
+            cardEdit.backCard = card;
     
-    /* 不隐藏tabBar */
-    cardEdit.shouldShowTabBar = YES;
-    return cardEdit;
+            /* 不隐藏tabBar */
+            cardEdit.shouldShowTabBar = YES;
+            return cardEdit;
+        }
+    }
+    
+    return nil;
 }
 
 -(void) initWithTabBar
@@ -90,7 +98,13 @@
     
     
     
-    cardEditController * other1 = [self getCurrentRectCardVC];
+    cardEditController * other1 = nil;
+    
+    other1 = [self getCurrentRectCardVC];
+    if (!other1)
+    {
+        other1 = [[UIViewController alloc]init];
+    }
 
     UIImage * img3 = [UIImage imageNamed:@"add_new.jpg"];
     img3 = [img3 imageWithRenderingMode: UIImageRenderingModeAlwaysOriginal];
