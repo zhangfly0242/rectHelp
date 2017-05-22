@@ -143,6 +143,16 @@
 - (void) noteViewAppear
 {
     NSInteger tag = 0;
+    
+    /* 当前已经显示了备注框 ，此时再点击，取消备注框 */
+    if (self.have_show_note)
+    {
+        [self noteViewDisappear];
+        return;
+    }
+    
+    self.have_show_note = YES;
+    
     if (self.scrollView.contentOffset.x < [UIScreen mainScreen].bounds.size.width)
     {
         tag = 10;
@@ -233,6 +243,7 @@
 /* 向下方隐匿弹出的view */
 -(void) noteViewDisappear
 {
+    self.have_show_note = NO;
     [UIView animateWithDuration:0.2 animations:^{
         
         NSInteger tag = 0;
@@ -517,6 +528,14 @@
     
     cardJustInfoEdit * currentTab  = [self gatCurrentTab];
     
+    if (self.have_show_gather)
+    {
+        [self exit_groupView];
+        return ;
+    }
+    
+    self.have_show_gather = YES;
+    
     /* 二，临时覆盖一个view, 实现变暗的效果，如果仅设置原tabBar的背景色为黑，无法将原tabBar中白色content部分也变黑 */
     UIView * tempCover = [[UIView alloc]initWithFrame:currentTab.bounds];
     tempCover.backgroundColor = [UIColor blackColor];
@@ -535,8 +554,6 @@
     self.scrollView.scrollEnabled = NO;
     currentTab.content.editable = NO;
 
-    
-    
     /* 将group view弹出 */
     self.grpController = [[tinyGroupListController alloc]init];
     self.grpController.backCard = self.backCard;
@@ -549,6 +566,9 @@
 /* 退出显示的分组信息 */
 -(void) exit_groupView
 {
+    NSLog(@"  exit_groupView ");
+    
+    self.have_show_gather = NO;
     [self.grpController.view removeFromSuperview];
     self.grpController = nil;
     
@@ -560,7 +580,6 @@
 /* 点击 “备注卡 */
 - (IBAction)noteCard:(id)sender {
     [self noteViewAppear];
-    
 }
 
 /* 点击 “双框模式 */
@@ -637,22 +656,26 @@
 {
     [super viewWillAppear:animated];
     
+#if 0
     if (!self.shouldShowTabBar)
     {
         /* 弹出该页面时隐藏tabBar */
         [[NSNotificationCenter defaultCenter]postNotificationName:@"betterHiddenTabBar" object:nil];
     }
+#endif
 }
 
 -(void) viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     
+#if 0
     if (!self.shouldShowTabBar)
     {
         /* 弹出该页面时显示tabBar */
         [[NSNotificationCenter defaultCenter]postNotificationName:@"betterShowTabBar" object:nil];
     }
+#endif
 }
 
 - (void)didReceiveMemoryWarning {

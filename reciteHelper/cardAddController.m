@@ -17,7 +17,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     // Do any additional setup after loading the view from its nib.
     
     /* 将 textFiled的 代理设置自己，这样当点击输入键盘的确定时，会通知到方法
@@ -123,6 +123,12 @@
 {
     self.detailText.text = textView.text;
     
+    /* 这是新建页面，如果数据长度为0，那么不走后续的添加数据流程 */
+    if (0 == self.detailText.text.length)
+    {
+        return ;
+    }
+    
     if (!self.backCard)
     {
         self.backCard = [[card alloc]init];
@@ -144,8 +150,16 @@
 -(void )viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    /* 弹出该页面时隐藏tabBar */
+    /* 进入该页面时隐藏tabBar */
     [[NSNotificationCenter defaultCenter]postNotificationName:@"betterHiddenTabBar" object:nil];
+}
+
+-(void) viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    /* 弹出该页面时显示tabBar */
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"betterShowTabBar" object:nil];
 }
 
 /*

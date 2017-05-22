@@ -35,7 +35,7 @@
                              collectionViewLayout:flowLayout];
     
     /* 设置collectionView的背景颜色 */
-    self.myCollectionView.backgroundColor = [UIColor grayColor];
+    self.myCollectionView.backgroundColor = [UIColor lightGrayColor];
     
     /* 设置重用cell */
     [self.myCollectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"myCell"];
@@ -148,6 +148,10 @@
         contentView.groupName.editable  = YES;
     }
     contentView.countDescription.editable = FALSE;
+    
+    /* 可选 : 设置cell外观 : 圆角 */
+    cell.layer.cornerRadius = 8;
+    cell.layer.masksToBounds = YES;
     
     return cell;
 }
@@ -393,6 +397,11 @@
     home_page_tableViewController * list_table = [[home_page_tableViewController alloc]initWithData:arr grpName: contentView.backGroup.grpName];
     
     [self.navigationController pushViewController:list_table animated:YES];
+    
+    /* 随后负责显示该tabBar */
+    self.makeTabBarShowLater = YES;
+    /* 隐藏tabBar */
+     [[NSNotificationCenter defaultCenter]postNotificationName:@"betterHiddenTabBar" object:nil];
     return;
 }
 
@@ -402,6 +411,38 @@
     /* 发送通知，使得所有的cell进入编辑状态 */
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"group_display_enter_edit" object:nil]];
 }
+
+
+
+-(void )viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if (self.makeTabBarShowLater)
+    {
+        self.makeTabBarShowLater = NO;
+        /* 弹出该页面时显示tabBar */
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"betterShowTabBar" object:nil];
+    }
+
+}
+
+-(void) viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+#if 0
+    UINavigationController * nav = self.tabBarController.selectedViewController;
+    NSLog(@" vie will disappear  %@", [self.tabBarController.selectedViewController class]);
+    if (self.navigationController == nav)
+    {
+        NSLog(@" vie will disappear 1");
+        /* 弹出该页面时隐藏tabBar */
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"betterHiddenTabBar" object:nil];
+    }
+#endif
+    
+}
+
 
 /*
 #pragma mark - Navigation

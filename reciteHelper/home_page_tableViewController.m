@@ -199,7 +199,6 @@
     cardAddController * addViewController = [[cardAddController alloc] init];
 
     /*如果在push跳转时需要隐藏tabBar，返回的时候显示 : */
-    //addViewController.hidesBottomBarWhenPushed = YES;
     [[NSNotificationCenter defaultCenter]postNotificationName:@"betterHiddenTabBar" object:nil];
     
     // Push the view controller.
@@ -414,6 +413,14 @@
     card * card = self.cell_arr[indexPath.row];
     cardEdit.backCard = card;
     [self.navigationController pushViewController:cardEdit animated:YES];
+    
+    if ([self.grp_name isEqualToString:ALL_GROUP])
+    {
+        /* 随后负责显示该tabBar */
+        self.makeTabBarShowLater = YES;
+        /* 隐藏tabBar */
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"betterHiddenTabBar" object:nil];
+    }
 }
 
 /*
@@ -459,12 +466,12 @@
 -(void )viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    /* 如果是显示某个特定分组，那么进入后隐藏tabBar */
-    if (![self.grp_name isEqualToString:ALL_GROUP])
+
+    if (self.makeTabBarShowLater)
     {
-        /* 弹出该页面时隐藏tabBar */
-        [[NSNotificationCenter defaultCenter]postNotificationName:@"betterHiddenTabBar" object:nil];
+        self.makeTabBarShowLater = NO;
+        /* 弹出该页面时显示tabBar */
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"betterShowTabBar" object:nil];
     }
 }
 
@@ -472,12 +479,20 @@
 {
     [super viewWillDisappear:animated];
     
-    /* 如果是显示某个特定分组，那么退出后显示tabBar */
+#if 0
+    /* 如果是显示某个特定分组，那么不用处理显示隐藏tabBar*/
     if (![self.grp_name isEqualToString:ALL_GROUP])
     {
-        /* 弹出该页面时显示tabBar */
-        [[NSNotificationCenter defaultCenter]postNotificationName:@"betterShowTabBar" object:nil];
+        return ;
     }
+    
+    UINavigationController * nav = self.tabBarController.selectedViewController;
+    if (self.navigationController == nav)
+    {
+        /* 弹出该页面时隐藏tabBar */
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"betterHiddenTabBar" object:nil];
+    }
+#endif
 }
 
 -(void) dealloc

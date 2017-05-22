@@ -368,6 +368,55 @@
     return ;
 }
 
+/* 删除一个卡片*/
+-(void) DeleteOneCard:(card *) cd
+{
+    /* 调用performBackgroundTask时：
+     apple 帮你创建了一个back_ground_moc，并传入。
+     */
+    [self.persistentContainer performBackgroundTask:^(NSManagedObjectContext * backMoc) {
+        
+        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Group"];
+        [request setPredicate:[NSPredicate predicateWithFormat:@"grpName == %@",cd.groupName]];
+        
+        NSError *error = nil;
+        NSArray * results = [backMoc executeFetchRequest:request error:&error];
+        
+        /* 找不到或找到多个数据 */
+        if (!results || 1 != results.count) {
+            NSLog(@" WARNING %s fetching Employee objects: %@\n%@ ,  search result : %lu", __FUNCTION__,[error localizedDescription], [error userInfo], results.count);
+        }
+        
+        NSFetchRequest *request2 = [NSFetchRequest fetchRequestWithEntityName:@"Group"];
+        [request2 setPredicate:[NSPredicate predicateWithFormat:@"grpName == %@",cd.groupName]];
+        
+        NSError *error2 = nil;
+        NSArray * results2 = [backMoc executeFetchRequest:request2 error:&error2];
+        
+        /* 找不到或找到多个数据 */
+        if (!results2 || 1 != results2.count) {
+            NSLog(@" WARNING %s fetching Employee objects: %@\n%@ ,  search result : %lu", __FUNCTION__,[error localizedDescription], [error userInfo], results.count);
+        }
+        
+        groupMO * grpMO = (groupMO *)results[0];
+        cardMO * cdMO = results2[0];
+        
+        /* 从分组中解除关系 */
+        [[grpMO mutableSetValueForKeyPath:@"relationCard"] removeObject:cdMO];
+        /* 删除卡片 */
+        [backMoc deleteObject:cdMO];
+        
+        if ([backMoc save:&error2] == NO) {
+            NSAssert(NO, @"Error ：%s saving context: %@\n%@", __FUNCTION__,[error2 localizedDescription], [error2 userInfo]);
+        }
+        else{
+            NSLog(@" delete card success!!!!!!!!!!!!! ");
+        }
+    }];
+    return ;
+}
+
+
 -(void) kvoHandleAddDelete
 {
     /* 发生了添加事件 */

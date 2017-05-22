@@ -22,6 +22,7 @@
 		C61203851EC810D800098AC0 /* groupMO.m in Sources */ = {isa = PBXBuildFile; fileRef = C61203841EC810D800098AC0 /* groupMO.m */; };
 		C61203921EC9FF8D00098AC0 /* test1ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C61203901EC9FF8D00098AC0 /* test1ViewController.m */; };
 		C61203931EC9FF8D00098AC0 /* test1ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C61203911EC9FF8D00098AC0 /* test1ViewController.xib */; };
+		C61ABC4A1ED30C3A00655ED5 /* home_list_selected.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C61ABC491ED30C3A00655ED5 /* home_list_selected.jpg */; };
 		C626B9591E8E6D8F00ED4BB6 /* launch_screen.png in Resources */ = {isa = PBXBuildFile; fileRef = C626B9571E8E6D8F00ED4BB6 /* launch_screen.png */; };
 		C626B95A1E8E6D8F00ED4BB6 /* app icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C626B9581E8E6D8F00ED4BB6 /* app icon.png */; };
 		C626B9611E96898700ED4BB6 /* card.m in Sources */ = {isa = PBXBuildFile; fileRef = C626B9601E96898700ED4BB6 /* card.m */; };
@@ -52,7 +53,6 @@
 		C63BBD151EB0E7A000A2F620 /* home_list.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C63BBD111EB0E7A000A2F620 /* home_list.jpg */; };
 		C63BBD1A1EB0E84000A2F620 /* classify_card.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C63BBD181EB0E84000A2F620 /* classify_card.jpg */; };
 		C63BBD1B1EB0E84000A2F620 /* persion_info.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C63BBD191EB0E84000A2F620 /* persion_info.jpg */; };
-		C63E87BD1EB230A400F08FDB /* home_list_selected.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C63E87BA1EB230A400F08FDB /* home_list_selected.jpg */; };
 		C63E87BE1EB230A400F08FDB /* persion_info_selected.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C63E87BB1EB230A400F08FDB /* persion_info_selected.jpg */; };
 		C63E87C01EB2341800F08FDB /* add_new_selected.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C63E87BF1EB2341800F08FDB /* add_new_selected.jpg */; };
 		C63E87C21EB2369F00F08FDB /* classify_card_selected.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C63E87C11EB2369F00F08FDB /* classify_card_selected.jpg */; };
@@ -126,6 +126,7 @@
 		C612038F1EC9FF8D00098AC0 /* test1ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = test1ViewController.h; sourceTree = "<group>"; };
 		C61203901EC9FF8D00098AC0 /* test1ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = test1ViewController.m; sourceTree = "<group>"; };
 		C61203911EC9FF8D00098AC0 /* test1ViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = test1ViewController.xib; sourceTree = "<group>"; };
+		C61ABC491ED30C3A00655ED5 /* home_list_selected.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = home_list_selected.jpg; sourceTree = "<group>"; };
 		C626B9571E8E6D8F00ED4BB6 /* launch_screen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launch_screen.png; sourceTree = "<group>"; };
 		C626B9581E8E6D8F00ED4BB6 /* app icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "app icon.png"; sourceTree = "<group>"; };
 		C626B95F1E96898700ED4BB6 /* card.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = card.h; sourceTree = "<group>"; };
@@ -169,7 +170,6 @@
 		C63BBD111EB0E7A000A2F620 /* home_list.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = home_list.jpg; sourceTree = "<group>"; };
 		C63BBD181EB0E84000A2F620 /* classify_card.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = classify_card.jpg; sourceTree = "<group>"; };
 		C63BBD191EB0E84000A2F620 /* persion_info.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = persion_info.jpg; sourceTree = "<group>"; };
-		C63E87BA1EB230A400F08FDB /* home_list_selected.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = home_list_selected.jpg; sourceTree = "<group>"; };
 		C63E87BB1EB230A400F08FDB /* persion_info_selected.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = persion_info_selected.jpg; sourceTree = "<group>"; };
 		C63E87BF1EB2341800F08FDB /* add_new_selected.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = add_new_selected.jpg; sourceTree = "<group>"; };
 		C63E87C11EB2369F00F08FDB /* classify_card_selected.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = classify_card_selected.jpg; sourceTree = "<group>"; };
@@ -465,10 +465,10 @@
 			children = (
 				C63E87C11EB2369F00F08FDB /* classify_card_selected.jpg */,
 				C63E87BF1EB2341800F08FDB /* add_new_selected.jpg */,
-				C63E87BA1EB230A400F08FDB /* home_list_selected.jpg */,
 				C63E87BB1EB230A400F08FDB /* persion_info_selected.jpg */,
 				C63BBD181EB0E84000A2F620 /* classify_card.jpg */,
 				C63BBD191EB0E84000A2F620 /* persion_info.jpg */,
+				C61ABC491ED30C3A00655ED5 /* home_list_selected.jpg */,
 				C63BBD101EB0E7A000A2F620 /* add_new.jpg */,
 				C63BBD111EB0E7A000A2F620 /* home_list.jpg */,
 			);
@@ -682,7 +682,6 @@
 				C659C5421EA1E3A6006AFAD2 /* delete.png in Resources */,
 				C609BF491E8D21D100BF3CA5 /* LaunchScreen.storyboard in Resources */,
 				C6CFAFF21E98818800D45BE9 /* profile_vc.xib in Resources */,
-				C63E87BD1EB230A400F08FDB /* home_list_selected.jpg in Resources */,
 				C60B6B281ECDBD6C00BB2248 /* group_delete_icon.png in Resources */,
 				C6CFAFEC1E9870CB00D45BE9 /* root_navViewController.xib in Resources */,
 				C62B2CB31EB58448006A3CC1 /* more edit.jpg in Resources */,
@@ -700,6 +699,7 @@
 				C659ED3F1EA4E6870027A39E /* searchImage.png in Resources */,
 				C659C5431EA1E3A6006AFAD2 /* label.png in Resources */,
 				C626B96B1E9693C400ED4BB6 /* home_page_tableViewController.xib in Resources */,
+				C61ABC4A1ED30C3A00655ED5 /* home_list_selected.jpg in Resources */,
 				C626B9591E8E6D8F00ED4BB6 /* launch_screen.png in Resources */,
 				C609BF411E8D21D100BF3CA5 /* Main.storyboard in Resources */,
 				C6DAB10F1EC4A95700A76E62 /* cellContentView.xib in Resources */,

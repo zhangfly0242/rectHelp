@@ -28,6 +28,12 @@
 @property (weak, nonatomic) card * backCard;
 @property (nonatomic) BOOL shouldShowTabBar;
 
+
+/* 标记当前是否正在显示“收藏卡” */
+@property (nonatomic) BOOL have_show_gather;
+/* 标记当前是否正在显示“备注卡” */
+@property (nonatomic) BOOL have_show_note;
+
 /* 维护一个tinyGroupController，用来显示分组 */
 @property(strong, nonatomic) tinyGroupListController * grpController;
 

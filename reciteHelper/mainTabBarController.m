@@ -22,42 +22,64 @@
 
 @implementation mainTabBarController
 
+/* 将图片缩小到tabBar的大小范围内 */
+-(UIImage *) scaleImgeFitTabBar: (UIImage *) originImg
+{
+    CGSize size = CGSizeMake(self.tabBar.frame.size.height, self.tabBar.frame.size.height);
+    
+    NSLog(@" size %f %f",size.height,size.width);
+    
+    UIGraphicsBeginImageContext(size);
+    [originImg drawInRect:CGRectMake(0, 0, size.height, size.height)];
+    UIImage * resultImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return resultImage;
+}
+
 /* 系统刚来时，获取当前背诵的卡片，默认是第一张 */
 -(cardEditController *) getCurrentRectCardVC
 {
     NSMutableArray * arr = [card_manage card_mng].array;
     
     cardEditController * cardEdit = [[cardEditController alloc]init];
-    /* 默认获取第一个分组的第一个卡片 */
+    /* 默认获取分组的第一个卡片 */
     if (arr.count > 0)
     {
-        cardGroup * grp = arr[0];
-        if (grp.cardArr.count > 0)
+        for (cardGroup * grp in arr)
         {
-            card * card = grp.cardArr[0];
-            cardEdit.backCard = card;
-    
-            /* 不隐藏tabBar */
-            cardEdit.shouldShowTabBar = YES;
-            return cardEdit;
+            if (grp.cardArr.count > 0)
+            {
+                card * card = grp.cardArr[0];
+                cardEdit.backCard = card;
+        
+                /* 不隐藏tabBar */
+                cardEdit.shouldShowTabBar = YES;
+                return cardEdit;
+            }
         }
     }
     
     return nil;
 }
 
+
+
 -(void) initWithTabBar
 {
+    /* “卡片列表”视图 */
     home_page_tableViewController * home_table = [[home_page_tableViewController alloc]initWithData: [card_manage card_mng].array grpName:ALL_GROUP];
     
     UIImage * img1 = [UIImage imageNamed:@"home_list.jpg"];
-    /* 设置tabBarItem套路一 : 必须要设置这个，否则显示tabBar显示的是一个色块 */
-    img1 = [img1 imageWithRenderingMode: UIImageRenderingModeAlwaysOriginal];
+    img1 = [UIImage imageWithCGImage:img1.CGImage scale:1.88 orientation:UIImageOrientationUp];
     
     UIImage * img1_1 = [UIImage imageNamed:@"home_list_selected.jpg"];
+    img1_1 = [UIImage imageWithCGImage:img1_1.CGImage scale:1.88 orientation:UIImageOrientationUp];
+    
     /* 设置tabBarItem套路一 : 必须要设置这个，否则显示tabBar显示的是一个色块 */
     img1 = [img1 imageWithRenderingMode: UIImageRenderingModeAlwaysOriginal];
     img1_1 = [img1_1 imageWithRenderingMode: UIImageRenderingModeAlwaysOriginal];
+    
     /* 设置tabBarItem套路二，创建barItem，注意这里不设置名字，因为后续会偏移barItem中的img，但无法偏移这里的名字。
      (所以这里不要显示名字，这样就不会有img偏移，文字不偏移的问题了。实际上点击barItem的时候，就是要点击img所在的位置的, 所以偏移的是img，从效果上(外观以及点击)完全可以认为是在偏移barItem)*/
     UITabBarItem * barItem1 = [[UITabBarItem alloc] initWithTitle:@" " image:img1 selectedImage:img1_1];
@@ -80,11 +102,14 @@
     [root_nav pushViewController:home_table animated:NO];
     root_nav.tabBarItem = barItem1;
     
+    /* “卡片组”视图 */
     cardGroupDisplayController * cardGroup = [[cardGroupDisplayController alloc]init];
     
     UIImage * img2 = [UIImage imageNamed:@"classify_card.jpg"];
+    img2 = [UIImage imageWithCGImage:img2.CGImage scale:1.88 orientation:UIImageOrientationUp];
     img2 = [img2 imageWithRenderingMode: UIImageRenderingModeAlwaysOriginal];
     UIImage * img2_2 = [UIImage imageNamed:@"classify_card_selected.jpg"];
+    img2_2 = [UIImage imageWithCGImage:img2_2.CGImage scale:1.88 orientation:UIImageOrientationUp];
     img2_2 = [img2_2 imageWithRenderingMode: UIImageRenderingModeAlwaysOriginal];
     UITabBarItem * barItem2 = [[UITabBarItem alloc] initWithTitle:@" " image:img2 selectedImage:img2_2];
 
@@ -96,19 +121,20 @@
     /* zhang-attention : 套路 ：注意设置navigation bar非透明 ，否则默认会自动让navigation bar遮住中的视图，这往往不是想要的效果*/
     groupNavController.navigationBar.translucent = NO;
     
-    
-    
+    /* “最近”视图 */
     cardEditController * other1 = nil;
-    
     other1 = [self getCurrentRectCardVC];
     if (!other1)
     {
-        other1 = [[UIViewController alloc]init];
+        NSLog(@"other1 is nil");
+        other1 = (cardEditController *)[[UIViewController alloc]init];
     }
 
     UIImage * img3 = [UIImage imageNamed:@"add_new.jpg"];
+    img3 = [UIImage imageWithCGImage:img3.CGImage scale:1.88 orientation:UIImageOrientationUp];
     img3 = [img3 imageWithRenderingMode: UIImageRenderingModeAlwaysOriginal];
     UIImage * img3_2 = [UIImage imageNamed:@"add_new_selected.jpg"];
+    img3_2 = [UIImage imageWithCGImage:img3_2.CGImage scale:1.88 orientation:UIImageOrientationUp];
     img3_2 = [img3_2 imageWithRenderingMode: UIImageRenderingModeAlwaysOriginal];
     UITabBarItem * barItem3 = [[UITabBarItem alloc] initWithTitle:@" " image:img3 selectedImage:img3_2];
 
@@ -117,10 +143,14 @@
     nav3.tabBarItem = barItem3;
     nav3.navigationBar.translucent = NO;
     
+    /* “我的”视图 */
     UIViewController * aboutMe = [[UIViewController alloc]init];
     UIImage * img4 = [UIImage imageNamed:@"persion_info.jpg"];
+    img4 = [UIImage imageWithCGImage:img4.CGImage scale:1.88 orientation:UIImageOrientationUp];
     img4 = [img4 imageWithRenderingMode: UIImageRenderingModeAlwaysOriginal];
+    
     UIImage * img4_2 = [UIImage imageNamed:@"persion_info_selected.jpg"];
+    img4_2 = [UIImage imageWithCGImage:img4_2.CGImage scale:1.88 orientation:UIImageOrientationUp];
     img4_2 = [img4_2 imageWithRenderingMode: UIImageRenderingModeAlwaysOriginal];
     UITabBarItem * barItem4 = [[UITabBarItem alloc] initWithTitle:@" " image:img4 selectedImage:img4_2];
     
@@ -166,6 +196,10 @@
     
     /* 获取任意颜色的UIColor ：先用取色器工具取出想要颜色的rgb数值，得到98D0B0 ，对应值为152，208，176，然后传入参数时记得传入.0(必须要带.0，否则除了后的结果没有小小数部分，只有0！)并除以255即可。*/
     self.tabBar.barTintColor = [UIColor colorWithRed:254.0/255 green:255.0/255 blue:254.0/255 alpha:1];
+    
+    self.tabBar.translucent = NO;
+    self.tabBar.barStyle = UIBarStyleBlack;
+    self.tabBar.alpha = 1.0;
     
     /* 套路 ：设置了tabBar的颜色，就必须同时设置非透明，这样可以避免受后面内容颜色的影响。
     //  self.tabBar.translucent = NO;
@@ -242,12 +276,20 @@ shouldSelectViewController:(UIViewController *)viewController
 
 -(void) hiddenTabBar
 {
-    self.tabBar.hidden = YES;
+    self.tabBar.translucent = YES;
+
+    [UIView animateWithDuration:0.6 animations:^{
+            self.tabBar.alpha = 0.0;
+    }];
+
+    return;
 }
 
 -(void) showTabBar
 {
-    self.tabBar.hidden = NO;
+    self.tabBar.translucent = NO;
+    self.tabBar.alpha = 1.0;
+    return ;
 }
 
 /*

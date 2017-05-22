@@ -92,6 +92,7 @@
     NSString * str1 = self.backCard.detailText;
     NSString * str2 = self.backCard.detailText;
     BOOL handle = FALSE;
+    NSInteger jump_count = 0;
     
     for (i = 0; i <= self.backCard.detailText.length - 1; i++)
     {
@@ -103,6 +104,20 @@
             continue;
         }
         
+        
+        if (jump_count < 2)
+        {
+            jump_count++;
+            continue;
+        }
+        else{
+            jump_count = 0;
+            range.length = 1;
+            range.location = i;
+            str1 = [str1 stringByReplacingCharactersInRange:range withString:@"x"];
+        }
+        
+#if 0
         if (handle)
         {
             range.length = 1;
@@ -114,6 +129,7 @@
         {
             handle = TRUE;
         }
+#endif
     }
     
     handle = FALSE;
@@ -127,6 +143,19 @@
             continue;
         }
         
+        if (jump_count < 2)
+        {
+            jump_count++;
+            continue;
+        }
+        else{
+            jump_count = 0;
+            range.length = 1;
+            range.location = i;
+            str1 = [str1 stringByReplacingCharactersInRange:range withString:@"x"];
+        }
+        
+#if 0
         if (handle)
         {
             range.length = 1;
@@ -138,6 +167,7 @@
         {
             handle = TRUE;
         }
+#endif
     }
 
     if (10 == self.tag)

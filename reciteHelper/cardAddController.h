@@ -14,5 +14,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *headText;
 @property (weak, nonatomic) IBOutlet UITextView *detailText;
 
+
 @property (strong, nonatomic) card * backCard;
 @end

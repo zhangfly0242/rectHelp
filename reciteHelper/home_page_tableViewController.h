@@ -15,6 +15,8 @@
 @property(nonatomic, strong) NSMutableArray * data;
 @property(nonatomic, strong) NSMutableArray* cell_arr;
 @property(nonatomic, strong) NSString * grp_name;
+/* 从它进入一个viewController后，会将该值置位，等回到该视图，再负责将tabBar显示 */
+@property(nonatomic) BOOL makeTabBarShowLater;
 
 -(instancetype)initWithData: (NSMutableArray *)data grpName: (NSString *)name ;
 -(void)add_button_click;

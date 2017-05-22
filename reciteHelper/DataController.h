@@ -30,6 +30,8 @@
 /* 向一个分组插入一个新卡片，分组必须先存在，否则可以判断业务逻辑和预想的不一样 */
 -(void) moveOneCard:(card *) cd fromOldGroup:(NSString *)oldgGrpName toGroup:(NSString *)newGrpName;
 -(void) EditOneCard:(card *) cd;
+/* 删除一个卡片*/
+-(void) DeleteOneCard:(card *) cd;
 
 @property(strong, atomic) NSManagedObjectContext * mainMoc;
 @property(strong, atomic) NSManagedObjectContext * writeMoc;

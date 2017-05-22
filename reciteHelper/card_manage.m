@@ -286,6 +286,8 @@
     /* 通过这种方法删除 */
     [[belongGrp mutableArrayValueForKey:@"cardArr"] removeObject:card];
     
+    /* 从core data中删除 */
+    [[DataController dataController] DeleteOneCard:card];
 #if US_ICLOUD
     /* 存储icloud */
     [[icloudManager icloud_mng] saveToIcloud : [card_manage card_mng]];
