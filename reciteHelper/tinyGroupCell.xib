@@ -30,19 +30,33 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grpSelected.png" translatesAutoresizingMaskIntoConstraints="NO" id="wsC-tI-jvq">
+                        <rect key="frame" x="290" y="10" width="22" height="22"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="22" id="hqC-kL-Fli"/>
+                            <constraint firstAttribute="width" constant="22" id="t8T-Dc-ldY"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="wiw-1B-Qq0" firstAttribute="top" secondItem="v2h-3f-TNX" secondAttribute="bottom" constant="5.5" id="Itg-XI-Klv"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="wsC-tI-jvq" secondAttribute="bottom" constant="3.5" id="P9R-5b-f4L"/>
                     <constraint firstAttribute="bottomMargin" secondItem="wiw-1B-Qq0" secondAttribute="bottom" constant="4" id="Sos-BU-GHe"/>
+                    <constraint firstItem="wsC-tI-jvq" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="UhM-IK-UHD"/>
                     <constraint firstItem="v2h-3f-TNX" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="Vbt-dR-fLF"/>
                     <constraint firstItem="v2h-3f-TNX" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="4" id="Xcl-zd-OYs"/>
+                    <constraint firstItem="wsC-tI-jvq" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="2" id="duc-17-bUp"/>
                     <constraint firstItem="wiw-1B-Qq0" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="5" id="pDV-vc-9qR"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="group_brief" destination="wiw-1B-Qq0" id="rLS-LQ-rFQ"/>
                 <outlet property="group_name" destination="v2h-3f-TNX" id="Poi-Qq-yPa"/>
+                <outlet property="grpSelectImg" destination="wsC-tI-jvq" id="Fgr-Qr-R1o"/>
             </connections>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="grpSelected.png" width="40" height="40"/>
+    </resources>
 </document>

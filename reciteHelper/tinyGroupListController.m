@@ -53,6 +53,17 @@
     cell.group_name.text = grp.grpName;
     cell.group_brief.text = [NSString stringWithFormat:@"%lu条", (unsigned long)grp.cardArr.count];
     
+    
+    NSLog(@" %@- %@ ",self.backCard.groupName,cell.group_name.text );
+    /* 卡片所属的分组，，右边显示一个绿色的小勾 */
+    if ([self.backCard.groupName isEqualToString:cell.group_name.text])
+    {
+        cell.grpSelectImg.hidden = NO;
+    }
+    else{
+        cell.grpSelectImg.hidden = YES;
+    }
+    
     /* 如果当前分组不能操作(如最后一个)，那么既不能显示，也不能点击，直接将其隐藏 */
     if (!grp.operation)
     {
@@ -135,7 +146,19 @@
 {
     /* 获得新分组 */
     cardGroup * newGrp = self.grp_arr[indexPath.row];
-        
+    
+    for (tinyGroupCell * cell in self.tableView.visibleCells)
+    {
+        if (!cell.grpSelectImg.hidden)
+        {
+            cell.grpSelectImg.hidden = YES;
+        }
+    }
+    
+    /* 卡片所属的分组，，右边显示一个绿色的小勾 */
+    tinyGroupCell * newCell = self.tableView.visibleCells[indexPath.row];
+    newCell.grpSelectImg.hidden = NO;
+    
     /* 调用标准接口，完成切换分组动作 */
     [[card_manage card_mng] moveCardToNewGroup:self.backCard groupName:newGrp.grpName];
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"exit_group_list" object:nil]];

@@ -155,6 +155,12 @@
     {
         if ([[change valueForKey:@"old"] isEqualToString:@"添加分组"])
         {
+            /* 新的组名还是 “添加分组” ，直接返回，不作任何动作*/
+            if ([[change valueForKey:@"new"] isEqualToString:@"添加分组"])
+            {
+                return;
+            }
+            
             group.operation = YES;
             [[DataController dataController] EditOneGroup:group oldGroupName:[change valueForKey:@"old"]];
             

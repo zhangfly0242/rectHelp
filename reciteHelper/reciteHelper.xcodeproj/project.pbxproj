@@ -64,6 +64,7 @@
 		C666E4701EA7C9C90081E352 /* textUIDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = C666E46F1EA7C9C90081E352 /* textUIDocument.m */; };
 		C674C16E1EA33483009A6188 /* syn_worker_thread.m in Sources */ = {isa = PBXBuildFile; fileRef = C674C16D1EA33483009A6188 /* syn_worker_thread.m */; };
 		C674C1711EA33568009A6188 /* syn_main_thread.m in Sources */ = {isa = PBXBuildFile; fileRef = C674C1701EA33568009A6188 /* syn_main_thread.m */; };
+		C6838AB01ED48F07005873F2 /* grpSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = C6838AAF1ED48F07005873F2 /* grpSelected.png */; };
 		C686644C1EA7A700008CC5E3 /* icloudManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C686644B1EA7A700008CC5E3 /* icloudManager.m */; };
 		C6A0B7631E9BE5ED009EC243 /* cardAddController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6A0B7611E9BE5ED009EC243 /* cardAddController.m */; };
 		C6A0B7641E9BE5ED009EC243 /* cardAddController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C6A0B7621E9BE5ED009EC243 /* cardAddController.xib */; };
@@ -184,6 +185,7 @@
 		C674C16D1EA33483009A6188 /* syn_worker_thread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = syn_worker_thread.m; sourceTree = "<group>"; };
 		C674C16F1EA33568009A6188 /* syn_main_thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = syn_main_thread.h; sourceTree = "<group>"; };
 		C674C1701EA33568009A6188 /* syn_main_thread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = syn_main_thread.m; sourceTree = "<group>"; };
+		C6838AAF1ED48F07005873F2 /* grpSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grpSelected.png; sourceTree = "<group>"; };
 		C686644A1EA7A700008CC5E3 /* icloudManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = icloudManager.h; sourceTree = "<group>"; };
 		C686644B1EA7A700008CC5E3 /* icloudManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = icloudManager.m; sourceTree = "<group>"; };
 		C6A0B7601E9BE5ED009EC243 /* cardAddController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cardAddController.h; sourceTree = "<group>"; };
@@ -331,6 +333,7 @@
 		C609BF701E8D2C9800BF3CA5 /* image */ = {
 			isa = PBXGroup;
 			children = (
+				C6838AAF1ED48F07005873F2 /* grpSelected.png */,
 				C60B6B271ECDBD6C00BB2248 /* group_delete_icon.png */,
 				C62B2CB01EB583FD006A3CC1 /* card page little img */,
 				C63E87C31EB2538F00F08FDB /* add_button.png */,
@@ -704,6 +707,7 @@
 				C609BF411E8D21D100BF3CA5 /* Main.storyboard in Resources */,
 				C6DAB10F1EC4A95700A76E62 /* cellContentView.xib in Resources */,
 				C62B2CC61EB590DA006A3CC1 /* cardEditController.xib in Resources */,
+				C6838AB01ED48F07005873F2 /* grpSelected.png in Resources */,
 				C63BBD1A1EB0E84000A2F620 /* classify_card.jpg in Resources */,
 				C62B2CBA1EB58651006A3CC1 /* double show.jpg in Resources */,
 				C62B2CBC1EB58892006A3CC1 /* down little delete.jpg in Resources */,

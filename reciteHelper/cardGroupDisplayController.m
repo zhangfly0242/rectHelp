@@ -118,6 +118,10 @@
         contentView.tag = 20;
         [contentView configDeleteButton];
 
+        /* 在contView上添加tap手势，因为contentView上的textView设置的是不可点击，使得点击textView上没有效果 */
+        UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handelTap:)];
+        [contentView addGestureRecognizer:tapGes];
+        
         [cell addSubview:contentView];
     }
     
@@ -155,6 +159,16 @@
     
     return cell;
 }
+
+/* 用户在cellContentView上点击了（由于cellContentView上两个占大块面积的textView设置的是不可编辑，所以应该是直接忽略了点击事件，并不往响应者链后传->UICollectionViewCell） */
+-(void)handelTap:(UITapGestureRecognizer *)gestureRecognizer{
+        UICollectionViewCell * cell = (UICollectionViewCell *)[gestureRecognizer.view superview];
+    
+        NSIndexPath * path = [self.myCollectionView indexPathForCell:cell];
+        [self collectionView:self.myCollectionView didSelectItemAtIndexPath:path];
+    
+        [NSRunLoop cancelPreviousPerformRequestsWithTarget:self];//双击事件取消延时
+ }
 
 //
 //- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath

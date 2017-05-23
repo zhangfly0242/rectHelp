@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface home_page_cell : UITableViewCell
-
+@property (weak, nonatomic) IBOutlet UIView *backGroundView;
 @property (weak, nonatomic) IBOutlet UILabel *createTime;
 @property (weak, nonatomic) IBOutlet UILabel *detailText;
 @property (weak, nonatomic) IBOutlet UILabel *groupName;

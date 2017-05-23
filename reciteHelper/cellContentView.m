@@ -31,7 +31,7 @@
 /* 注册通知，随时显示和再次隐藏 */
 -(void)configDeleteButton
 {
-    /* 接收通知，当点击“编辑”时，显示出组的delete_button */
+    /* 接收通知，当点击“编辑”时，显示删除组的delete_button */
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(click_edit) name:@"group_display_enter_edit" object: nil];
 }
 

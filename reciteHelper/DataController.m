@@ -387,8 +387,8 @@
             NSLog(@" WARNING %s fetching Employee objects: %@\n%@ ,  search result : %lu", __FUNCTION__,[error localizedDescription], [error userInfo], results.count);
         }
         
-        NSFetchRequest *request2 = [NSFetchRequest fetchRequestWithEntityName:@"Group"];
-        [request2 setPredicate:[NSPredicate predicateWithFormat:@"grpName == %@",cd.groupName]];
+        NSFetchRequest *request2 = [NSFetchRequest fetchRequestWithEntityName:@"Card"];
+        [request2 setPredicate:[NSPredicate predicateWithFormat:@"createTime == %@",cd.createTime]];
         
         NSError *error2 = nil;
         NSArray * results2 = [backMoc executeFetchRequest:request2 error:&error2];

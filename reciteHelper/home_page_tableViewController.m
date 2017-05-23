@@ -51,10 +51,11 @@
     table.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     /* 可选 : 设置tableView背景图片 */
-//    UIImageView *backImageView=[[UIImageView alloc]initWithFrame:self.view.bounds];
-//    [backImageView setImage:[UIImage imageNamed:@"backPicture"]];
-//   self.tableView.backgroundView = backImageView;
-    self.tableView.backgroundColor = [UIColor lightGrayColor];
+   // UIImageView *backImageView=[[UIImageView alloc]initWithFrame:self.view.bounds];
+   // [backImageView setImage:[UIImage imageNamed:@"backPicture"]];
+   // self.tableView.backgroundView = backImageView;
+   // self.tableView.backgroundColor = [UIColor lightGrayColor];
+    self.tableView.backgroundColor = [UIColor whiteColor];
     
     return;
 }
@@ -84,7 +85,7 @@
     
     [cd addObserver:self
          forKeyPath:@"groupName"
-            options:NSKeyValueObservingOptionNew
+            options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld
             context:nil];
 }
 
@@ -104,13 +105,44 @@
     [table_view registerNib:[UINib nibWithNibName:@"home_page_cell" bundle:nil] forCellReuseIdentifier:@"home_page_cell_identity"];
 }
 
+-(void) kvoHandleCardChange:(id)object KeyPath:(NSString *)keyPath change:(NSDictionary *)change
+{
+    card * cd = (card *)object;
+    NSLog(@"kvoHandleCardChange  change %@",change);
+    
+    if ([keyPath isEqualToString:@"groupName"])
+    {
+        /* 卡片原来是这个组的，组名变化，挪到其它组了 */
+        if ([[change valueForKey:@"old"] isEqualToString:self.grp_name])
+        {
+            NSUInteger index = [self.cell_arr indexOfObject:cd];
+            
+            /* 删除取消关注 */
+            [self unObserveCard:cd];
+            /* 删除卡片 */
+            [self.cell_arr removeObject:cd];
+            NSArray * arr = @[[NSIndexPath indexPathForRow:index inSection:0]];
+            [self.tableView deleteRowsAtIndexPaths:arr withRowAnimation:YES];
+            
+        }
+    }
+    else{
+        NSUInteger index = [self.cell_arr indexOfObject:cd];
+        UITableView * table = (UITableView *)self.view;
+        NSArray * arr = @[[NSIndexPath indexPathForRow:index inSection:0]];
+        
+        [table reloadRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationNone];
+    }
+    
+}
+
 -(void) kvoHandleCardAddDelete: (NSString *)keyPath change:(NSDictionary *)change
 {
      card * cd = [change valueForKey:@"new"];
-    
+
      /* 如果当前显示的是某个特定分组的grp，并且当前增加或删除卡片的组名不是这个分组的，那么不用关心 */
      if (![self.grp_name isEqualToString:ALL_GROUP]
-         && [cd.groupName isEqualToString:self.grp_name])
+         && ![cd.groupName isEqualToString:self.grp_name])
      {
          return ;
      }
@@ -167,18 +199,16 @@
         //card * cd1 = object;
     }
     
+    NSLog(@" observeValueForKeyPath..1 ");
+    
     /* 卡片本身变化 */
     if ([object isKindOfClass: [card class]])
     {
-        card * cd = (card *)object;
-        NSUInteger index = [self.cell_arr indexOfObject:cd];
-        UITableView * table = (UITableView *)self.view;
-        NSArray * arr = @[[NSIndexPath indexPathForRow:index inSection:0]];
-
-        [table reloadRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationNone];
+        [self kvoHandleCardChange:object KeyPath:keyPath change:change];
     }/* 卡片增加或删除 */
     else if([object isKindOfClass: [card_manage class]])
     {
+        NSLog(@" observeValueForKeyPath..2 ");
         [self kvoHandleCardAddDelete: keyPath change:change];
     }
     else{
@@ -212,26 +242,6 @@
     [[card_manage card_mng] deleteCard:cd];
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -254,6 +264,7 @@
         
         /* zhang-attention : 创建button  */
         UIImage * addImg = [UIImage imageNamed:@"add_button.png"];
+        addImg = [UIImage imageWithCGImage:addImg.CGImage scale:5.0 orientation:UIImageOrientationUp];
         /* 这里对 UIImage 要设置 RenderingMode , 否则会显示一个色块 */
         addImg = [addImg imageWithRenderingMode: UIImageRenderingModeAlwaysOriginal];
         UIBarButtonItem * addBar = [[UIBarButtonItem alloc] initWithImage:addImg style:UIBarButtonItemStylePlain target:self action:@selector(add_button_click)];
@@ -310,8 +321,10 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     /* 可选 : 设置cell内部detailText外观 : 圆角 */
-    cell.detailText.layer.cornerRadius = 8;
-    cell.detailText.layer.masksToBounds = YES;
+    //cell.detailText.layer.cornerRadius = 8;
+    //cell.detailText.layer.masksToBounds = YES;
+    cell.backGroundView.layer.cornerRadius = 18;
+    cell.backGroundView.layer.masksToBounds = YES;
     
     /* uiLabel换行设置3步曲 */
     cell.detailText.numberOfLines = 0;//表示label可以多行显示
@@ -497,15 +510,14 @@
 
 -(void) dealloc
 {
-    /* 删除时，取消kvo*/
-    for (card * cd in self.data)
+    /* 删除时，对所有卡片取消kvo*/
+    for (card * cd in self.cell_arr)
     {
         [self unObserveCard:cd];
     }
     
     [[card_manage card_mng] removeObserver:self forKeyPath:@"addCard"];
     [[card_manage card_mng] removeObserver:self forKeyPath:@"deleteCard"];
-    
 }
 
 @end

@@ -16,4 +16,7 @@
 /* 下面有一行小字，显示分组的简要信息，目前是显示个数，如“2条” */
 @property (weak, nonatomic) IBOutlet UILabel *group_brief;
 
+/* 如果卡片属于该分组，那么该分组右边显示出一个绿色的小勾 */
+@property (weak, nonatomic) IBOutlet UIImageView *grpSelectImg;
+
 @end
