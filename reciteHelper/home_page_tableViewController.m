@@ -54,8 +54,7 @@
    // UIImageView *backImageView=[[UIImageView alloc]initWithFrame:self.view.bounds];
    // [backImageView setImage:[UIImage imageNamed:@"backPicture"]];
    // self.tableView.backgroundView = backImageView;
-   // self.tableView.backgroundColor = [UIColor lightGrayColor];
-    self.tableView.backgroundColor = [UIColor whiteColor];
+    self.tableView.backgroundColor = [UIColor lightGrayColor];
     
     return;
 }
@@ -303,7 +302,10 @@
     if (indexPath.row + 1 <= self.cell_arr.count)
     {
         card * backCard = self.cell_arr[indexPath.row];
-        cell.createTime.text = backCard.createTime;
+        /* 显示的样式调整：显示的时间截短一点，不需要显示秒 */
+        NSRange range = [backCard.createTime rangeOfString:@"分"];
+        NSString * createTime = [backCard.createTime substringToIndex:range.location + range.length];
+        cell.createTime.text = createTime;
         cell.detailText.text = backCard.detailText;
         cell.groupName.text = backCard.groupName;
     }

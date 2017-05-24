@@ -99,12 +99,6 @@
         range.length = 1;
         range.location = i;
         
-        if ([self special_str_no_handle: [self.backCard.detailText substringWithRange:range]])
-        {
-            continue;
-        }
-        
-        
         if (jump_count < 2)
         {
             jump_count++;
@@ -112,37 +106,26 @@
         }
         else{
             jump_count = 0;
+            
+            if ([self special_str_no_handle: [self.backCard.detailText substringWithRange:range]])
+            {
+                continue;
+            }
+            
             range.length = 1;
             range.location = i;
             str1 = [str1 stringByReplacingCharactersInRange:range withString:@"x"];
         }
         
-#if 0
-        if (handle)
-        {
-            range.length = 1;
-            range.location = i;
-            str1 = [str1 stringByReplacingCharactersInRange:range withString:@"x"];
-            handle = FALSE;
-        }
-        else
-        {
-            handle = TRUE;
-        }
-#endif
     }
     
+    jump_count = 0;
     handle = FALSE;
     for (i = 1; i <= self.backCard.detailText.length - 1; i++)
     {
         range.length = 1;
         range.location = i;
         
-        if ([self special_str_no_handle: [self.backCard.detailText substringWithRange:range]])
-        {
-            continue;
-        }
-        
         if (jump_count < 2)
         {
             jump_count++;
@@ -150,24 +133,16 @@
         }
         else{
             jump_count = 0;
-            range.length = 1;
-            range.location = i;
-            str1 = [str1 stringByReplacingCharactersInRange:range withString:@"x"];
-        }
-        
-#if 0
-        if (handle)
-        {
+            
+            if ([self special_str_no_handle: [self.backCard.detailText substringWithRange:range]])
+            {
+                continue;
+            }
+            
             range.length = 1;
             range.location = i;
             str2 = [str2 stringByReplacingCharactersInRange:range withString:@"x"];
-            handle = FALSE;
         }
-        else
-        {
-            handle = TRUE;
-        }
-#endif
     }
 
     if (10 == self.tag)

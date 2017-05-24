@@ -20,26 +20,8 @@
                     <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Axw-US-7aB">
                         <rect key="frame" x="0.0" y="21" width="320" height="92"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TDj-U3-Ab3">
-                                <rect key="frame" x="8" y="3" width="29" height="13.5"/>
-                                <color key="backgroundColor" red="0.88564187288284302" green="0.89684069156646729" blue="0.96733134984970093" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="13.5" id="aiQ-0Z-cqp"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4KK-1A-dOn">
-                                <rect key="frame" x="0.0" y="25" width="320" height="67"/>
-                                <color key="backgroundColor" red="0.88564187288284302" green="0.89684069156646729" blue="0.96733134984970093" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <string key="text">issssisisisiisisisisiisisisisiissisisisiffffffffffffffffffffffffsisiffffffffffffffffffffffffsisiffffffffffffffffffffffffsisifffffffffddddffff</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="plK-nf-Nrp">
-                                <rect key="frame" x="284" y="8" width="19.5" height="8.5"/>
+                                <rect key="frame" x="284" y="8" width="20" height="9"/>
                                 <color key="backgroundColor" red="0.88564187288284302" green="0.89684069156646729" blue="0.96733134984970093" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="8.5" id="n7O-5n-oLp"/>
@@ -48,16 +30,34 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4KK-1A-dOn">
+                                <rect key="frame" x="16" y="25" width="288" height="53"/>
+                                <color key="backgroundColor" red="0.88564187288284302" green="0.89684069156646729" blue="0.96733134984970093" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <string key="text">issssisisisiisisisisiisisisisiissisisisiffffffffffffffffffffffffsisiffffffffffffffffffffffffsisiffffffffffffffffffffffffsisifffffffffddddffff</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TDj-U3-Ab3">
+                                <rect key="frame" x="23" y="3" width="29" height="13.5"/>
+                                <color key="backgroundColor" red="0.88564187288284302" green="0.89684069156646729" blue="0.96733134984970093" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="13.5" id="aiQ-0Z-cqp"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
-                        <color key="backgroundColor" red="0.88564187288284302" green="0.89684069156646729" blue="0.96733134984970093" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="4KK-1A-dOn" secondAttribute="trailing" id="2gQ-WK-OSn"/>
+                            <constraint firstAttribute="trailing" secondItem="4KK-1A-dOn" secondAttribute="trailing" constant="16" id="2gQ-WK-OSn"/>
                             <constraint firstItem="TDj-U3-Ab3" firstAttribute="top" secondItem="Axw-US-7aB" secondAttribute="top" constant="3" id="S3j-cM-D72"/>
                             <constraint firstItem="plK-nf-Nrp" firstAttribute="top" secondItem="Axw-US-7aB" secondAttribute="top" constant="8" id="cUi-Jp-yu5"/>
                             <constraint firstAttribute="trailing" secondItem="plK-nf-Nrp" secondAttribute="trailing" constant="16.5" id="eiG-3Z-rvt"/>
-                            <constraint firstItem="TDj-U3-Ab3" firstAttribute="leading" secondItem="Axw-US-7aB" secondAttribute="leading" constant="8" id="fe3-Jk-pJq"/>
-                            <constraint firstAttribute="bottom" secondItem="4KK-1A-dOn" secondAttribute="bottom" id="jUI-ka-zOX"/>
-                            <constraint firstItem="4KK-1A-dOn" firstAttribute="leading" secondItem="Axw-US-7aB" secondAttribute="leading" id="nnM-Ca-4lG"/>
+                            <constraint firstItem="TDj-U3-Ab3" firstAttribute="leading" secondItem="Axw-US-7aB" secondAttribute="leading" constant="23" id="fe3-Jk-pJq"/>
+                            <constraint firstAttribute="bottom" secondItem="4KK-1A-dOn" secondAttribute="bottom" constant="14" id="jUI-ka-zOX"/>
+                            <constraint firstItem="4KK-1A-dOn" firstAttribute="leading" secondItem="Axw-US-7aB" secondAttribute="leading" constant="16" id="nnM-Ca-4lG"/>
                             <constraint firstItem="4KK-1A-dOn" firstAttribute="top" secondItem="TDj-U3-Ab3" secondAttribute="bottom" constant="8.5" id="sjR-TV-KcG"/>
                         </constraints>
                     </view>
