@@ -149,6 +149,8 @@
     {
         if (![self.content.text isEqualToString:self.backCard.detailText])
         {
+           // [self.content addObserver:self forKeyPath:@"text" options:NSKeyValueObservingOptionNew context:nil];
+            
             self.content.text = self.backCard.detailText;
         }
     }
@@ -174,6 +176,8 @@
 /* KVO function， 只要object的keyPath属性发生变化，就会调用此函数*/
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
+    NSLog(@" keyPath %@",keyPath);
+    
     if ([object isKindOfClass: [card class]])
     {
         /* 更新它的内容 */

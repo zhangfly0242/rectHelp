@@ -8,6 +8,7 @@
 
 #define US_CORE_DATA (TRUE)
 #define US_ICLOUD (NO)
+#define CLOUDKIT (YES)
 
 #import "DataController.h"
 #import "cardMO.h"
@@ -19,6 +20,7 @@
 #import "cardMO.h"
 #import "groupMO.h"
 #import "test1ViewController.h"
+#import "cloudKitHelper.h"
 
 @implementation card_manage
 
@@ -33,7 +35,13 @@
 {
     /* 从本地数据库读取数据 , 保存到本地 */
     NSMutableArray * persistentData = [[DataController dataController] FetchAllData];
-
+    
+    /* 关注cloudKIT的获取数据的状态 */
+    [[cloudKitHelper KIT] addObserver:self forKeyPath:@"getDataDone" options:NSKeyValueObservingOptionNew context:nil];
+    
+    /* app一启动时 触发cloudKit初始化时获取数据 */
+    [[cloudKitHelper KIT] getAllData];
+    
     if (!persistentData || 0 == persistentData.count)
     {
         /* 创建一个“未归档”分组 */
@@ -173,12 +181,91 @@
     }
 }
 
+/* 判断当前分组，是否同名的分组(根据组名判断是同样的分组） */
+-(BOOL) containGrpWithSameGrpName: (NSString *) grpName
+{
+    for (cardGroup * grp in self.array)
+    {
+        if ([grp.grpName isEqualToString:grpName])
+        {
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
+/* 判断当前卡片，是否有同一秒创建的卡片(根据创建时间判断是同样的卡片) */
+-(BOOL) containCardWithSameCreateTime: (NSString *) createTime
+{
+    for (cardGroup * grp in self.array)
+    {
+        for (card * cd in grp.cardArr)
+        {
+            if ([cd.createTime isEqualToString:createTime])
+            {
+                return YES;
+            }
+        }
+    }
+    
+    return NO;
+}
+
+-(void) kvoHandleCloudKit:(NSString *)keyPath change:(NSDictionary *)change
+{
+    NSArray * grpArr = [cloudKitHelper KIT].grpArr;
+    NSArray * cardArr = [cloudKitHelper KIT].cardArr;
+    NSString * beongGrpName = nil;
+    
+    for (cardGroup * grp in grpArr)
+    {
+        if (![self containGrpWithSameGrpName:grp.grpName])
+        {
+            [self createNewGrp:grp.grpName];
+        }
+    }
+    
+    NSLog(@"  cardArr count %lu", (unsigned long)cardArr.count);
+    for (card * cd in cardArr)
+    {
+        if (![self containCardWithSameCreateTime:cd.createTime])
+        {
+            /* 找到所属的分组 */
+            for (cardGroup * grp in self.array)
+            {
+                if ([grp.grpName isEqualToString:cd.groupName])
+                {
+                    beongGrpName = cd.groupName;
+                    break;
+                }
+            }
+            
+            /* 创建新卡片 */
+            card * cdAdd = [[card alloc]init];
+            cdAdd.createTime = cd.createTime;
+            cdAdd.headText = cd.headText;
+            cdAdd.detailText = cd.detailText;
+            cdAdd.mark = cd.mark;
+
+            /* 添加到对应的分组中 */
+            [self createNewCard:cd toGrp:beongGrpName];
+        }
+    }
+    
+}
+
 /* KVO function， 只要object的keyPath属性发生变化，就会调用此函数*/
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if ([object isKindOfClass:[cardGroup class]])
     {
         [self kvoHandleGrp:object keyPath:keyPath change:change];
+    }
+    else if ([object isKindOfClass:[cloudKitHelper class]])
+    {
+        NSLog(@" cloudKit kvo notify ");
+        [self kvoHandleCloudKit:keyPath change:change];
     }
     
 #if US_ICLOUD
@@ -250,6 +337,10 @@
     /* 最后通知core data创建新card */
     [[DataController dataController]InsertOneCard:cd toGroup:belongGrp.grpName];
     
+#ifdef CLOUDKIT
+    [[cloudKitHelper KIT] saveAllToCloudKit];
+#endif
+    
 #if US_ICLOUD
     /* 存储icloud */
     [[icloudManager icloud_mng] saveToIcloud : [card_manage card_mng]];
@@ -294,6 +385,11 @@
     
     /* 从core data中删除 */
     [[DataController dataController] DeleteOneCard:card];
+    
+#ifdef CLOUDKIT
+    [[cloudKitHelper KIT] saveAllToCloudKit];
+#endif
+    
 #if US_ICLOUD
     /* 存储icloud */
     [[icloudManager icloud_mng] saveToIcloud : [card_manage card_mng]];
@@ -346,6 +442,10 @@
     cd.groupName = newGrpName;
     [[DataController dataController]moveOneCard:cd fromOldGroup:oldGrpName toGroup:newGrpName];
     [test1ViewController itSelf].textField.text = [[test1ViewController itSelf].textField.text stringByAppendingString:@"1x1x"];
+    
+#ifdef CLOUDKIT
+    [[cloudKitHelper KIT] saveAllToCloudKit];
+#endif
 }
 
 /* 创建一个新分组 */
@@ -382,6 +482,9 @@
     
     self.addGrp = newGrp;
     
+#ifdef CLOUDKIT
+    [[cloudKitHelper KIT] saveAllToCloudKit];
+#endif
 }
 
 /* 删除一个分组 */
@@ -414,17 +517,15 @@
     /* core data创建 */
     [[DataController dataController] DeleteOneGrp:grp];
     
+#ifdef CLOUDKIT
+    [[cloudKitHelper KIT] saveAllToCloudKit];
+#endif
+    
 #if US_ICLOUD
     /* 存储icloud */
     [[icloudManager icloud_mng] saveToIcloud : [card_manage card_mng]];
 #endif
 }
-
-
-
-
-
-
 
 - (void)encodeWithCoder:(NSCoder *)aCoder;
 {

@@ -22,6 +22,11 @@
     [self initScrollView];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(exit_groupView) name:@"exit_group_list" object: nil];
+    
+    /* 监听键盘弹出 */
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    /* 监听键盘隐藏 */
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     // Do any additional setup after loading the view.
 }
 
@@ -135,7 +140,7 @@
 /* noteView结束编辑 ，退回 备注框*/
 - (void)noteViewDidEndEditing : (UITextView *) textView
 {
-    NSLog(@" 备注 : %@",textView.text);
+    self.backCard.mark = textView.text;
     [self noteViewDisappear];
 }
 
@@ -190,11 +195,9 @@
     //给self.view添加一个手势监测；
     [tempCover addGestureRecognizer:singleRecognizer];
     
-    
-    /* 四，设置状态，当前不允许编辑文本，不允许滑动 ，备注状态退出了才可以*/
+    /* 四，设置状态，当前正在备注卡界面，不允许滑动 ，备注状态退出了才可以*/
     self.scrollView.scrollEnabled = NO;
     currentTab.content.editable = NO;
-    
     
     /* 五，开始动画: 将当前view上滑，缩小，加阴影，noteView已经创建好了，直接向上滑出，
      缩小，加阴影。
@@ -236,6 +239,8 @@
         self.noteView.layer.shadowRadius = 10;// 阴影扩散的范围控制
         self.noteView.layer.shadowOffset  = CGSizeMake(0, -10);// 阴影矩形的位置
         
+        /* 设置noteView的内容 */
+        self.noteView.text = self.backCard.mark;
     }];
 }
 
@@ -243,7 +248,38 @@
 /* 向下方隐匿弹出的view */
 -(void) noteViewDisappear
 {
+    if (!self.have_show_note)
+    {
+        return ;
+    }
     self.have_show_note = NO;
+    
+    /* 当前“备注卡”页面在键盘之上，那么回复 */
+    if (self.note_view_above_keyboard)
+    {
+        /* 将“备注卡”更进一步上滑 */
+        CGRect noteViewFrame = self.noteView.frame;
+        noteViewFrame.origin.y += 150;
+        self.noteView.frame = noteViewFrame;
+        
+        /* 标记当前“备注卡”不在键盘之上 */
+        self.note_view_above_keyboard = NO;
+    }
+    
+    /* 如果此时有键盘，那么取消键盘 */
+    [self.noteView resignFirstResponder];
+    
+    /* 如果此时键盘弹出了，那么noteView上移到键盘之上，需要下移，归位 */
+    if (self.note_view_above_keyboard)
+    {
+        CGRect noteViewFrame = self.noteView.frame;
+        noteViewFrame.origin.y -= 150;
+        self.noteView.frame = noteViewFrame;
+        
+        /* 标记当前“备注卡”不在键盘之上 */
+        self.note_view_above_keyboard = NO;
+    }
+    
     [UIView animateWithDuration:0.2 animations:^{
         
         NSInteger tag = 0;
@@ -281,23 +317,18 @@
         /* 去掉边框阴影 */
         currentTab.layer.shadowOpacity = 0;// 阴影透明度
         
-
         /* 隐匿 备注框 */
         CGRect noteViewFrame = self.noteView.frame;
-        
         noteViewFrame.origin.y += [UIScreen mainScreen].bounds.size.height/2;
         self.noteView.frame = noteViewFrame;
-        
         
         /* 去掉边框阴影 */
         self.noteView.layer.shadowOpacity = 0;// 阴影透明度
         
-        
         /* 最后，设置状态，重新允许编辑文本，允许滑动*/
         self.scrollView.scrollEnabled = NO;
         currentTab.content.editable = NO;
-        
-        
+    
     }];
     
     return ;
@@ -338,6 +369,12 @@
     /* 给即将弹出的downView添加子view , 相当于初始化*/
     cardJustInfoEdit * downView = (cardJustInfoEdit *)[self.scrollView viewWithTag:next_tag];
     [downView removeFromSuperview];
+    
+    /* 双框模式，得到下一个view，如果下一个view还没有内容，就设置内容 */
+    if (0 == [downView.content.text length])
+    {
+        [downView setItsContent];
+    }
     
     /* 高度缩小一半，但还不够，因为这样会和容器view:downView的高度一样，会占满它，这样无法显示阴影，所以还要更小一些，
      故再减去4；*/
@@ -523,8 +560,8 @@
 */
 
 
-/* 点击"收藏卡" */
-- (IBAction)gatherCard:(id)sender {
+/* 点击收藏，出现"分组" */
+- (IBAction)show_groupView:(id)sender {
     
     cardJustInfoEdit * currentTab  = [self gatCurrentTab];
     
@@ -540,7 +577,7 @@
     UIView * tempCover = [[UIView alloc]initWithFrame:currentTab.bounds];
     tempCover.backgroundColor = [UIColor blackColor];
     /* 设置透明度，使得两者颜色叠加，实现变暗 */
-    tempCover.alpha = 0.1;
+    tempCover.alpha = 0.5;
     tempCover.tag = 20;
     [currentTab addSubview: tempCover];
     
@@ -557,8 +594,8 @@
     /* 将group view弹出 */
     self.grpController = [[tinyGroupListController alloc]init];
     self.grpController.backCard = self.backCard;
-    /* group controller的视图的起点就是button，但是大小要改变 */
-    CGRect frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width/1.5, [UIScreen mainScreen].bounds.size.height/1.5);
+    /* group controller的视图的起点就是button，但是大小要改变, frame的高度要随分组数量动态设置 */
+    CGRect frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width/2.5, 44 * self.grpController.grp_arr.count);
     
     [self.grpController showTinyGroupView:self.scrollView withframe:frame];
 }
@@ -572,12 +609,15 @@
     [self.grpController.view removeFromSuperview];
     self.grpController = nil;
     
+    cardJustInfoEdit * currentTab  = [self gatCurrentTab];
+    currentTab.content.editable = YES;
+    
+    self.scrollView.scrollEnabled = YES;
+    
     UIView * view = [self.scrollView viewWithTag:20];
     [view removeFromSuperview];
 }
 
-
-/* 点击 “备注卡 */
 - (IBAction)noteCard:(id)sender {
     [self noteViewAppear];
 }
@@ -676,6 +716,30 @@
         [[NSNotificationCenter defaultCenter]postNotificationName:@"betterShowTabBar" object:nil];
     }
 #endif
+}
+
+- (void)keyboardWillShow:(NSNotification *)aNotification
+{
+    /* 当前已经弹出了“备注卡”页面，当前“备注卡”不在键盘之上 (因为键盘弹出，可能会通知多次，所以这里如果已经上移到键盘之上，这里不能再上移了 */
+    if (self.have_show_note && !self.note_view_above_keyboard)
+    {
+        /* 将“备注卡”更进一步上滑 */
+        CGRect noteViewFrame = self.noteView.frame;
+        noteViewFrame.origin.y -= 150;
+        self.noteView.frame = noteViewFrame;
+        
+        /* 标记当前“备注卡”是否移动到键盘之上 */
+        self.note_view_above_keyboard = YES;
+    }
+    
+    NSLog(@" keyboardWillShow aNotification %@", aNotification);
+}
+
+- (void)keyboardWillHide:(NSNotification *)aNotification
+{
+    [self noteViewDisappear];
+    
+    NSLog(@" keyboardWillHide ");
 }
 
 - (void)didReceiveMemoryWarning {

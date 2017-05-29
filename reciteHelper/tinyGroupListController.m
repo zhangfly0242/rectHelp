@@ -24,6 +24,9 @@
     /* 取消分割线 */
     table_view.separatorStyle = UITableViewCellSeparatorStyleNone;
     
+    table_view.layer.cornerRadius = 8;
+    table_view.layer.masksToBounds = YES;
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -43,6 +46,8 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
+    NSLog(@" grp_arr count %lu ", self.grp_arr.count);
     return self.grp_arr.count;
 }
 
@@ -52,7 +57,6 @@
     cardGroup * grp = self.grp_arr[indexPath.row];
     cell.group_name.text = grp.grpName;
     cell.group_brief.text = [NSString stringWithFormat:@"%lu条", (unsigned long)grp.cardArr.count];
-    
     
     NSLog(@" %@- %@ ",self.backCard.groupName,cell.group_name.text );
     /* 卡片所属的分组，，右边显示一个绿色的小勾 */
@@ -64,12 +68,6 @@
         cell.grpSelectImg.hidden = YES;
     }
     
-    /* 如果当前分组不能操作(如最后一个)，那么既不能显示，也不能点击，直接将其隐藏 */
-    if (!grp.operation)
-    {
-        cell.hidden = YES;
-    }
-    
     // Configure the cell...
     
     return cell;
@@ -79,23 +77,16 @@
 -(void) showTinyGroupView: (UIView *) superView withframe: (CGRect) frame
 {
     UIView * view = self.view;
-    view.frame = frame;
- 
-    /* 缩小9/10 , 几乎缩小到看不见*/
-    self.originTransform = view.transform;
-    CGAffineTransform newTransform = CGAffineTransformScale(view.transform, 0.01, 0.01);
-    [view setTransform:newTransform];
-    
+    view.frame = CGRectMake(0, 0, 3, 3);
     [superView addSubview:view];
     
-
-    [UIView animateWithDuration:0.5 animations:^{
-        CGAffineTransform newTransform = self.originTransform;
-        [view setTransform:newTransform];
-        
+    [UIView animateWithDuration:0.2 animations:^{
+        view.frame = frame;
     } completion:^(BOOL finished) {
         /* do nothing */
     }];
+    
+    return ;
 }
 
 
@@ -147,6 +138,12 @@
     /* 获得新分组 */
     cardGroup * newGrp = self.grp_arr[indexPath.row];
     
+    /* 如果当前分组不能操作(如最后一个)，那么既不能显示，也不能点击，直接将其隐藏 */
+    if (!newGrp.operation)
+    {
+        return;
+    }
+    
     for (tinyGroupCell * cell in self.tableView.visibleCells)
     {
         if (!cell.grpSelectImg.hidden)
@@ -197,8 +194,11 @@
             NSLog(@" ERROR : %s unknown change",__FUNCTION__);
         }
     }
-    
-    
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 44;
 }
 
 /* KVO function， 只要object的keyPath属性发生变化，就会调用此函数*/

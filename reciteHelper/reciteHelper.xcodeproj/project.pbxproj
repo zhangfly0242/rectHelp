@@ -68,6 +68,7 @@
 		C686644C1EA7A700008CC5E3 /* icloudManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C686644B1EA7A700008CC5E3 /* icloudManager.m */; };
 		C6A0B7631E9BE5ED009EC243 /* cardAddController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6A0B7611E9BE5ED009EC243 /* cardAddController.m */; };
 		C6A0B7641E9BE5ED009EC243 /* cardAddController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C6A0B7621E9BE5ED009EC243 /* cardAddController.xib */; };
+		C6A645941ED71F1D0005198E /* cloudKitHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = C6A645931ED71F1D0005198E /* cloudKitHelper.m */; };
 		C6CFAFEB1E9870CB00D45BE9 /* root_navViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6CFAFE91E9870CB00D45BE9 /* root_navViewController.m */; };
 		C6CFAFEC1E9870CB00D45BE9 /* root_navViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C6CFAFEA1E9870CB00D45BE9 /* root_navViewController.xib */; };
 		C6CFAFF11E98818800D45BE9 /* profile_vc.m in Sources */ = {isa = PBXBuildFile; fileRef = C6CFAFEF1E98818800D45BE9 /* profile_vc.m */; };
@@ -191,6 +192,8 @@
 		C6A0B7601E9BE5ED009EC243 /* cardAddController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cardAddController.h; sourceTree = "<group>"; };
 		C6A0B7611E9BE5ED009EC243 /* cardAddController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cardAddController.m; sourceTree = "<group>"; };
 		C6A0B7621E9BE5ED009EC243 /* cardAddController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = cardAddController.xib; sourceTree = "<group>"; };
+		C6A645921ED71F1D0005198E /* cloudKitHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cloudKitHelper.h; sourceTree = "<group>"; };
+		C6A645931ED71F1D0005198E /* cloudKitHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cloudKitHelper.m; sourceTree = "<group>"; };
 		C6CFAFE81E9870CB00D45BE9 /* root_navViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = root_navViewController.h; sourceTree = "<group>"; };
 		C6CFAFE91E9870CB00D45BE9 /* root_navViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = root_navViewController.m; sourceTree = "<group>"; };
 		C6CFAFEA1E9870CB00D45BE9 /* root_navViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = root_navViewController.xib; sourceTree = "<group>"; };
@@ -243,6 +246,7 @@
 				C61203861EC810E800098AC0 /* discard */,
 				C62B2CA81EB4B44F006A3CC1 /* card square */,
 				C68664461EA7A684008CC5E3 /* icloud */,
+				C6A6458E1ED71E760005198E /* icloudKit */,
 				C609BF701E8D2C9800BF3CA5 /* image */,
 				C626B9651E9689DD00ED4BB6 /* card_syn_manage */,
 				C6E833871E9A5E160067122E /* card persistence */,
@@ -499,6 +503,15 @@
 			name = "card add controller";
 			sourceTree = "<group>";
 		};
+		C6A6458E1ED71E760005198E /* icloudKit */ = {
+			isa = PBXGroup;
+			children = (
+				C6A645921ED71F1D0005198E /* cloudKitHelper.h */,
+				C6A645931ED71F1D0005198E /* cloudKitHelper.m */,
+			);
+			name = icloudKit;
+			sourceTree = "<group>";
+		};
 		C6CFAFED1E9880C400D45BE9 /* old_profile_nav_container */ = {
 			isa = PBXGroup;
 			children = (
@@ -746,6 +759,7 @@
 				C6352ED61EBE1388008E23EB /* tinyGroupListController.m in Sources */,
 				C609BF6F1E8D21F100BF3CA5 /* home_page_vc.m in Sources */,
 				C6CFAFF11E98818800D45BE9 /* profile_vc.m in Sources */,
+				C6A645941ED71F1D0005198E /* cloudKitHelper.m in Sources */,
 				C609BF441E8D21D100BF3CA5 /* dataController.xcdatamodeld in Sources */,
 				C6DAB10C1EC4A92100A76E62 /* cellContentView.m in Sources */,
 				C626B9641E9689A000ED4BB6 /* card_manage.m in Sources */,

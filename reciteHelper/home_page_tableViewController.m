@@ -107,8 +107,7 @@
 -(void) kvoHandleCardChange:(id)object KeyPath:(NSString *)keyPath change:(NSDictionary *)change
 {
     card * cd = (card *)object;
-    NSLog(@"kvoHandleCardChange  change %@",change);
-    
+
     if ([keyPath isEqualToString:@"groupName"])
     {
         /* 卡片原来是这个组的，组名变化，挪到其它组了 */
@@ -198,8 +197,6 @@
         //card * cd1 = object;
     }
     
-    NSLog(@" observeValueForKeyPath..1 ");
-    
     /* 卡片本身变化 */
     if ([object isKindOfClass: [card class]])
     {
@@ -207,7 +204,6 @@
     }/* 卡片增加或删除 */
     else if([object isKindOfClass: [card_manage class]])
     {
-        NSLog(@" observeValueForKeyPath..2 ");
         [self kvoHandleCardAddDelete: keyPath change:change];
     }
     else{
@@ -324,8 +320,6 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     /* 可选 : 设置cell内部detailText外观 : 圆角 */
-    //cell.detailText.layer.cornerRadius = 8;
-    //cell.detailText.layer.masksToBounds = YES;
     cell.backGroundView.layer.cornerRadius = 18;
     cell.backGroundView.layer.masksToBounds = YES;
     
@@ -428,6 +422,7 @@
     cardEditController * cardEdit = [[cardEditController alloc]init];
     card * card = self.cell_arr[indexPath.row];
     cardEdit.backCard = card;
+    
     [self.navigationController pushViewController:cardEdit animated:YES];
     
     if ([self.grp_name isEqualToString:ALL_GROUP])

@@ -15,6 +15,9 @@
 #import "cardGroup.h"
 #import "groupMO.h"
 
+#define INIT (0)
+#define READY (1)
+
 @implementation DataController
 
 /* 返回自己的单例 */
@@ -33,15 +36,21 @@
             }
         }];
         
+        it_self.state = INIT;
     }
     
     return it_self;
 }
 
-
 /* 插入一个新分组 , */
 -(void) InsertOneGrp:(cardGroup *) grp
 {
+    /* 必须处于ready状态(app启动获取完所有数据后，状态变为ready)，才可以接受写数据或读数据 */
+    if (READY != self.state)
+    {
+        return ;
+    }
+    
     /* 对其观察，进行kvo */
    // [self observeOneCd:cd];
     
@@ -76,14 +85,6 @@
             NSLog(@"CORRECT : %s , save success , %@",__FUNCTION__, [NSThread currentThread]);
         }
 
-        
-        
-        
-        
-        
-        
-        
-        
         /* 先找到添加到的组 */
         NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Group"];
         
@@ -310,6 +311,12 @@
 /* 向一个分组插入一个新卡片，分组必须先存在，否则可以判断业务逻辑和预想的不一样 */
 -(void) InsertOneCard:(card *) cd toGroup:(NSString *)groupName;
 {
+    /* 必须处于ready状态(app启动获取完所有数据后，状态变为ready)，才可以接受写数据或读数据 */
+    if (READY != self.state)
+    {
+        return ;
+    }
+    
     [self.persistentContainer performBackgroundTask:^(NSManagedObjectContext * backMoc) {
         NSInteger retry_count = 0;
         NSArray * results = nil;
@@ -358,8 +365,15 @@
         [[grpMO mutableSetValueForKeyPath:@"relationCard"] addObject:cdMo];
 
         NSError *error = nil;
-        if ([backMoc save:&error] == NO) {
-            NSAssert(NO, @"Error ：%s saving context: %@\n%@", __FUNCTION__,[error localizedDescription], [error userInfo]);
+        
+        @try {
+            if ([backMoc save:&error] == NO) {
+                NSAssert(NO, @"Error ：%s saving context: %@\n%@", __FUNCTION__,[error localizedDescription], [error userInfo]);
+            }
+        } @catch (NSException *exception) {
+            [self InsertOneCard:cd toGroup: groupName];
+        } @finally {
+            //
         }
     }];
     
@@ -587,6 +601,9 @@
             [self observeOneCd:theCard];
         }
     }
+    
+    /* 获取初始数据后，才可以接受写数据或查询新数据 */
+    self.state = READY;
 
     return retArr;
 }

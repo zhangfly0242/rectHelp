@@ -22,8 +22,6 @@
 
 /* 左下角字数统计 */
 @property (weak, nonatomic) IBOutlet UILabel *numbers;
-/* 右下角"删除"按钮 */
-@property (weak, nonatomic) IBOutlet UIButton *little_delete_button;
 
 @property (weak, nonatomic) card * backCard;
 @property (nonatomic) BOOL shouldShowTabBar;
@@ -33,6 +31,8 @@
 @property (nonatomic) BOOL have_show_gather;
 /* 标记当前是否正在显示“备注卡” */
 @property (nonatomic) BOOL have_show_note;
+/* 标记当前“备注卡”是否更加上移，在键盘之上 */
+@property (nonatomic) BOOL note_view_above_keyboard;
 
 /* 维护一个tinyGroupController，用来显示分组 */
 @property(strong, nonatomic) tinyGroupListController * grpController;
@@ -44,7 +44,7 @@
 @property (strong, nonatomic) UITextView * downView;
 
 /* 用户点击收藏 */
-- (IBAction)gatherCard:(id)sender;
+- (IBAction)show_groupView:(id)sender;
 - (IBAction)noteCard:(id)sender;
 - (IBAction)doubleViewModule:(id)sender;
 

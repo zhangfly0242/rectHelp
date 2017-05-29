@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "cardEditController.h"
 
 #define ALL_GROUP @"group"
 

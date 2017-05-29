@@ -14,6 +14,7 @@
 @interface DataController : NSObject
 
 @property (strong, nonatomic) NSPersistentContainer * persistentContainer;
+@property (nonatomic) BOOL state;
 
 /* 返回自己的单例 */
 +(instancetype) dataController;
