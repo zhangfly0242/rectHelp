@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C6072D911EE27CEE00765851 /* table_list_back_img.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C6072D901EE27CEE00765851 /* table_list_back_img.jpg */; };
+		C6072D931EE3B08100765851 /* persion_img.png in Resources */ = {isa = PBXBuildFile; fileRef = C6072D921EE3B08100765851 /* persion_img.png */; };
+		C6072D961EE3B6B500765851 /* current_recite.png in Resources */ = {isa = PBXBuildFile; fileRef = C6072D941EE3B6B500765851 /* current_recite.png */; };
+		C6072D971EE3B6B500765851 /* current_recite_selsect.png in Resources */ = {isa = PBXBuildFile; fileRef = C6072D951EE3B6B500765851 /* current_recite_selsect.png */; };
 		C609BF381E8D21D100BF3CA5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C609BF371E8D21D100BF3CA5 /* main.m */; };
 		C609BF3B1E8D21D100BF3CA5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C609BF3A1E8D21D100BF3CA5 /* AppDelegate.m */; };
 		C609BF3E1E8D21D100BF3CA5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C609BF3D1E8D21D100BF3CA5 /* ViewController.m */; };
@@ -64,6 +68,7 @@
 		C666E4701EA7C9C90081E352 /* textUIDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = C666E46F1EA7C9C90081E352 /* textUIDocument.m */; };
 		C674C16E1EA33483009A6188 /* syn_worker_thread.m in Sources */ = {isa = PBXBuildFile; fileRef = C674C16D1EA33483009A6188 /* syn_worker_thread.m */; };
 		C674C1711EA33568009A6188 /* syn_main_thread.m in Sources */ = {isa = PBXBuildFile; fileRef = C674C1701EA33568009A6188 /* syn_main_thread.m */; };
+		C679C6731EDF18DB00878A71 /* testView.m in Sources */ = {isa = PBXBuildFile; fileRef = C679C6721EDF18DB00878A71 /* testView.m */; };
 		C6838AB01ED48F07005873F2 /* grpSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = C6838AAF1ED48F07005873F2 /* grpSelected.png */; };
 		C686644C1EA7A700008CC5E3 /* icloudManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C686644B1EA7A700008CC5E3 /* icloudManager.m */; };
 		C6A0B7631E9BE5ED009EC243 /* cardAddController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6A0B7611E9BE5ED009EC243 /* cardAddController.m */; };
@@ -101,6 +106,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C6072D901EE27CEE00765851 /* table_list_back_img.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = table_list_back_img.jpg; sourceTree = "<group>"; };
+		C6072D921EE3B08100765851 /* persion_img.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = persion_img.png; sourceTree = "<group>"; };
+		C6072D941EE3B6B500765851 /* current_recite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = current_recite.png; sourceTree = "<group>"; };
+		C6072D951EE3B6B500765851 /* current_recite_selsect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = current_recite_selsect.png; sourceTree = "<group>"; };
 		C609BF331E8D21D100BF3CA5 /* 背个X啊.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "背个X啊.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C609BF371E8D21D100BF3CA5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C609BF391E8D21D100BF3CA5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -186,6 +195,8 @@
 		C674C16D1EA33483009A6188 /* syn_worker_thread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = syn_worker_thread.m; sourceTree = "<group>"; };
 		C674C16F1EA33568009A6188 /* syn_main_thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = syn_main_thread.h; sourceTree = "<group>"; };
 		C674C1701EA33568009A6188 /* syn_main_thread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = syn_main_thread.m; sourceTree = "<group>"; };
+		C679C6711EDF18DB00878A71 /* testView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = testView.h; sourceTree = "<group>"; };
+		C679C6721EDF18DB00878A71 /* testView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = testView.m; sourceTree = "<group>"; };
 		C6838AAF1ED48F07005873F2 /* grpSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grpSelected.png; sourceTree = "<group>"; };
 		C686644A1EA7A700008CC5E3 /* icloudManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = icloudManager.h; sourceTree = "<group>"; };
 		C686644B1EA7A700008CC5E3 /* icloudManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = icloudManager.m; sourceTree = "<group>"; };
@@ -337,6 +348,8 @@
 		C609BF701E8D2C9800BF3CA5 /* image */ = {
 			isa = PBXGroup;
 			children = (
+				C6072D921EE3B08100765851 /* persion_img.png */,
+				C6072D901EE27CEE00765851 /* table_list_back_img.jpg */,
 				C6838AAF1ED48F07005873F2 /* grpSelected.png */,
 				C60B6B271ECDBD6C00BB2248 /* group_delete_icon.png */,
 				C62B2CB01EB583FD006A3CC1 /* card page little img */,
@@ -358,6 +371,8 @@
 			children = (
 				C635EBE01E9A719D00E0770E /* cardMo1.h */,
 				C635EBE11E9A719D00E0770E /* cardMo1.m */,
+				C679C6711EDF18DB00878A71 /* testView.h */,
+				C679C6721EDF18DB00878A71 /* testView.m */,
 				C612038F1EC9FF8D00098AC0 /* test1ViewController.h */,
 				C61203901EC9FF8D00098AC0 /* test1ViewController.m */,
 				C61203911EC9FF8D00098AC0 /* test1ViewController.xib */,
@@ -470,6 +485,8 @@
 		C63BBD1C1EB0E85C00A2F620 /* tabBarImg */ = {
 			isa = PBXGroup;
 			children = (
+				C6072D941EE3B6B500765851 /* current_recite.png */,
+				C6072D951EE3B6B500765851 /* current_recite_selsect.png */,
 				C63E87C11EB2369F00F08FDB /* classify_card_selected.jpg */,
 				C63E87BF1EB2341800F08FDB /* add_new_selected.jpg */,
 				C63E87BB1EB230A400F08FDB /* persion_info_selected.jpg */,
@@ -696,10 +713,12 @@
 				C6E833861E98DB520067122E /* cardInfoController.xib in Resources */,
 				C63E87C01EB2341800F08FDB /* add_new_selected.jpg in Resources */,
 				C659C5421EA1E3A6006AFAD2 /* delete.png in Resources */,
+				C6072D971EE3B6B500765851 /* current_recite_selsect.png in Resources */,
 				C609BF491E8D21D100BF3CA5 /* LaunchScreen.storyboard in Resources */,
 				C6CFAFF21E98818800D45BE9 /* profile_vc.xib in Resources */,
 				C60B6B281ECDBD6C00BB2248 /* group_delete_icon.png in Resources */,
 				C6CFAFEC1E9870CB00D45BE9 /* root_navViewController.xib in Resources */,
+				C6072D931EE3B08100765851 /* persion_img.png in Resources */,
 				C62B2CB31EB58448006A3CC1 /* more edit.jpg in Resources */,
 				C6E833811E98A5F00067122E /* backPicture.png in Resources */,
 				C63BBD141EB0E7A000A2F620 /* add_new.jpg in Resources */,
@@ -710,6 +729,7 @@
 				C626B95A1E8E6D8F00ED4BB6 /* app icon.png in Resources */,
 				C609BF461E8D21D100BF3CA5 /* Assets.xcassets in Resources */,
 				C6352EDB1EBE148B008E23EB /* tinyGroupCell.xib in Resources */,
+				C6072D961EE3B6B500765851 /* current_recite.png in Resources */,
 				C62B2CAF1EB57F44006A3CC1 /* cardJustInfoEdit.xib in Resources */,
 				C63BBD151EB0E7A000A2F620 /* home_list.jpg in Resources */,
 				C659ED3F1EA4E6870027A39E /* searchImage.png in Resources */,
@@ -723,6 +743,7 @@
 				C6838AB01ED48F07005873F2 /* grpSelected.png in Resources */,
 				C63BBD1A1EB0E84000A2F620 /* classify_card.jpg in Resources */,
 				C62B2CBA1EB58651006A3CC1 /* double show.jpg in Resources */,
+				C6072D911EE27CEE00765851 /* table_list_back_img.jpg in Resources */,
 				C62B2CBC1EB58892006A3CC1 /* down little delete.jpg in Resources */,
 				C62B2CB81EB584BC006A3CC1 /* collect card.jpg in Resources */,
 			);
@@ -749,6 +770,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C679C6731EDF18DB00878A71 /* testView.m in Sources */,
 				C609BF3E1E8D21D100BF3CA5 /* ViewController.m in Sources */,
 				C6A0B7631E9BE5ED009EC243 /* cardAddController.m in Sources */,
 				C626B9611E96898700ED4BB6 /* card.m in Sources */,
@@ -935,7 +957,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zhangname.reciteHelper4;
 				PRODUCT_NAME = "背个X啊";
-				PROVISIONING_PROFILE = "d716bc86-7d48-474d-92e9-49e2d55163f7";
+				PROVISIONING_PROFILE = "e1f86f07-e86f-4a55-bc2b-6935b750e445";
 				PROVISIONING_PROFILE_SPECIFIER = reciteHelper0420DevProfile;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

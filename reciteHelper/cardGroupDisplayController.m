@@ -13,6 +13,8 @@
 #import "home_page_tableViewController.h"
 
 #define MAX_ITEM_NUM (2)
+/* 当只有一个分组时，弹出键盘上移还有个问题，暂时去掉 */
+#define NO_AUTO_UP_GROUP
 
 @interface cardGroupDisplayController ()
 
@@ -22,6 +24,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+}
+
+-(void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    if (self.makeTabBarShowLater)
+    {
+        self.makeTabBarShowLater = NO;
+        /* 弹出该页面时显示tabBar */
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"betterShowTabBar" object:nil];
+    }
     
     UICollectionViewFlowLayout *flowLayout= [[UICollectionViewFlowLayout alloc]init];
     flowLayout.headerReferenceSize = CGSizeMake(20, 40);
@@ -41,13 +55,52 @@
     [self.myCollectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"myCell"];
     
     /* 设置dataSource,和delegate */
-
     self.myCollectionView.dataSource = self;
     self.myCollectionView.delegate = self;
     
     [self.view addSubview:self.myCollectionView];
     
-    // Do any additional setup after loading the view.
+#ifdef NO_AUTO_UP_GROUP
+    
+    
+#else
+    /* 监听键盘弹出 */
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    /* 监听键盘隐藏 */
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+#endif
+    
+}
+
+
+- (void)keyboardWillShow:(NSNotification *)aNotification
+{
+    NSLog(@" keyboardWillShow1 self.myCollectionView %d", self.myCollectionView.scrollEnabled);
+
+    /* 获取弹出的键盘的高度*/
+    NSValue *aValue = [aNotification.userInfo valueForKey:@"UIKeyboardBoundsUserInfoKey"];
+    CGFloat height = [aValue CGRectValue].size.height;
+    
+    self.myCollectionView.contentOffset = CGPointMake(self.myCollectionView.contentOffset.x, self.myCollectionView.contentOffset.y + height/2);
+    
+    NSLog(@" keyboardWillShow2 self.myCollectionView %d", self.myCollectionView.scrollEnabled);
+}
+
+- (void)keyboardWillHide:(NSNotification *)aNotification
+{
+    /* 获取弹出的键盘的高度*/
+    NSValue *aValue = [aNotification.userInfo valueForKey:@"UIKeyboardBoundsUserInfoKey"];
+    CGFloat height = [aValue CGRectValue].size.height;
+    
+    self.myCollectionView.contentOffset = CGPointMake(self.myCollectionView.contentOffset.x, self.myCollectionView.contentOffset.y - height/2);
+    NSLog(@" keyboardWillHide ");
+}
+
+
+/* 隐藏“电池栏” */
+- (BOOL)prefersStatusBarHidden
+{
+    return YES; // 返回NO表示要显示，返回YES将hiden
 }
 
 - (void)didReceiveMemoryWarning {
@@ -146,7 +199,7 @@
     }
     else
     {
-        contentView.countDescription.text = @"添加新分组";
+        contentView.countDescription.text = @"新分组";
         [contentView setTextViewKeyBoard:contentView.groupName];
         /* 组名可以更改 */
         contentView.groupName.editable  = YES;
@@ -312,6 +365,7 @@
     self.grpArr = [[NSMutableArray alloc]init];
     for (cardGroup * grp in [card_manage card_mng].array)
     {
+        NSLog(@" addgrp %@",grp.grpName);
         [self.grpArr addObject:grp];
         [self observeOneGrp:grp];
     }
@@ -422,22 +476,12 @@
 /* 用户点击了 “编辑” 按钮 */
 -(void)edit_click
 {
+#ifdef NO_AUTO_UP_GROUP
+    
+#else
     /* 发送通知，使得所有的cell进入编辑状态 */
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"group_display_enter_edit" object:nil]];
-}
-
-
-
--(void )viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    if (self.makeTabBarShowLater)
-    {
-        self.makeTabBarShowLater = NO;
-        /* 弹出该页面时显示tabBar */
-        [[NSNotificationCenter defaultCenter]postNotificationName:@"betterShowTabBar" object:nil];
-    }
-
+#endif
 }
 
 -(void) viewWillDisappear:(BOOL)animated
@@ -456,7 +500,6 @@
 #endif
     
 }
-
 
 /*
 #pragma mark - Navigation

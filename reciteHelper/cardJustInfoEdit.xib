@@ -16,12 +16,12 @@
             <subviews>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Kib-qo-TLJ">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="Kib-qo-TLJ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="3PZ-8Q-kp3"/>
                 <constraint firstAttribute="trailing" secondItem="Kib-qo-TLJ" secondAttribute="trailing" id="Slg-LZ-Jn1"/>
@@ -29,7 +29,7 @@
                 <constraint firstAttribute="bottom" secondItem="Kib-qo-TLJ" secondAttribute="bottom" id="lTJ-Bd-ejn"/>
             </constraints>
             <connections>
-                <outlet property="content" destination="Kib-qo-TLJ" id="4ZI-X5-Z1Z"/>
+                <outlet property="content" destination="Kib-qo-TLJ" id="qeU-gb-2NY"/>
             </connections>
             <point key="canvasLocation" x="-41.5" y="36.5"/>
         </view>

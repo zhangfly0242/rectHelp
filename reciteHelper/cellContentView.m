@@ -48,6 +48,7 @@
 
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
+    if (textView.text)
     self.backGroup.grpName = textView.text;
 }
 
@@ -59,12 +60,12 @@
 }
 */
 
-/* 用户点击了一下“编辑”按钮 */
+/* 用户点击了一下“编辑”按钮 ，所有的cell都会出现 “删除”图标*/
 -(void) click_edit
 {
-    /* 如果当前分组是"未归档"，或者"添加分组"，那么都不能删除，也不显示删除图标 */
+    /* 如果当前分组是"未归档"，或者"添加新组"，那么都不能删除，也不显示删除图标 */
     if ([self.backGroup.grpName isEqualToString:@"未归档"]
-        || [self.backGroup.grpName isEqualToString:@"添加分组"])
+        || [self.backGroup.grpName isEqualToString:@"添加新组"])
     {
         return ;
     }

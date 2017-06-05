@@ -15,6 +15,13 @@
 #import "cardAddController.h"
 #import "card_manage.h"
 #import "cardEditController.h"
+#import "test1ViewController.h"
+#import "profile_vc.h"
+#import "AppDelegate.h"
+#import "card.h"
+
+/* 显示最近页面 */
+#define NO_SHOW_CURRENT_CARD
 
 @interface mainTabBarController ()
 
@@ -51,6 +58,7 @@
             if (grp.cardArr.count > 0)
             {
                 card * card = grp.cardArr[0];
+                self.current_card = card;
                 cardEdit.backCard = card;
         
                 /* 不隐藏tabBar */
@@ -62,8 +70,6 @@
     
     return nil;
 }
-
-
 
 -(void) initWithTabBar
 {
@@ -121,30 +127,35 @@
     /* zhang-attention : 套路 ：注意设置navigation bar非透明 ，否则默认会自动让navigation bar遮住中的视图，这往往不是想要的效果*/
     groupNavController.navigationBar.translucent = NO;
     
+    /* 没有图标，另外没有进行存储，最后，界面也不好，先放弃 */
+#ifdef NO_SHOW_CURRENT_CARD
     /* “最近”视图 */
-    cardEditController * other1 = nil;
-    other1 = [self getCurrentRectCardVC];
-    if (!other1)
+    cardEditController * latest = nil;
+    latest = [self getCurrentRectCardVC];
+    /* 最近一次查看的是空，比如刚下载app，第一次启动时 */
+    if (!latest)
     {
-        NSLog(@"other1 is nil");
-        other1 = (cardEditController *)[[UIViewController alloc]init];
+        NSLog(@"latest is nil");
+        latest = (cardEditController *)[[UIViewController alloc]init];
     }
-
-    UIImage * img3 = [UIImage imageNamed:@"add_new.jpg"];
+    
+    UIImage * img3 = [UIImage imageNamed:@"current_recite.png"];
     img3 = [UIImage imageWithCGImage:img3.CGImage scale:1.88 orientation:UIImageOrientationUp];
     img3 = [img3 imageWithRenderingMode: UIImageRenderingModeAlwaysOriginal];
-    UIImage * img3_2 = [UIImage imageNamed:@"add_new_selected.jpg"];
+    UIImage * img3_2 = [UIImage imageNamed:@"current_recite_selsect.png"];
     img3_2 = [UIImage imageWithCGImage:img3_2.CGImage scale:1.88 orientation:UIImageOrientationUp];
     img3_2 = [img3_2 imageWithRenderingMode: UIImageRenderingModeAlwaysOriginal];
     UITabBarItem * barItem3 = [[UITabBarItem alloc] initWithTitle:@" " image:img3 selectedImage:img3_2];
 
     barItem3.imageInsets = UIEdgeInsetsMake(5, 1, -5, -1);
-    UINavigationController * nav3 = [[UINavigationController alloc]initWithRootViewController:other1];
+    UINavigationController * nav3 = [[UINavigationController alloc]initWithRootViewController:latest];
     nav3.tabBarItem = barItem3;
     nav3.navigationBar.translucent = NO;
+#endif
     
     /* “我的”视图 */
-    UIViewController * aboutMe = [[UIViewController alloc]init];
+    profile_vc * aboutMe = [[profile_vc alloc]init];
+    
     UIImage * img4 = [UIImage imageNamed:@"persion_info.jpg"];
     img4 = [UIImage imageWithCGImage:img4.CGImage scale:1.88 orientation:UIImageOrientationUp];
     img4 = [img4 imageWithRenderingMode: UIImageRenderingModeAlwaysOriginal];
@@ -156,37 +167,35 @@
     
     barItem4.imageInsets = UIEdgeInsetsMake(5, 2, -5, -2);
     
-    UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"https://www.zhihu.com/question/27371173/answer/152263546"]];
-    [webView loadRequest:request];
-    
-    aboutMe.view = webView;
-    aboutMe.view.backgroundColor = [UIColor greenColor];
-
     root_navViewController * aboutMeNav = [[root_navViewController alloc]init];
     [aboutMeNav pushViewController:aboutMe animated:NO];
     aboutMeNav.tabBarItem = barItem4;
     
+#ifdef NO_SHOW_CURRENT_CARD
+    NSArray * array = @[root_nav, groupNavController, aboutMeNav];
+#else
     NSArray * array = @[root_nav, groupNavController, nav3, aboutMeNav];
+#endif
     self.viewControllers = array;
 }
 
--(instancetype) init
+/* 返回自己的单例 */
++(instancetype) TABBAR
 {
-    self = [super init];
-    self.delegate = self;
-    [self initWithTabBar];
+    static mainTabBarController * it_self = nil;
+    if (!it_self)
+    {
+        it_self = [[mainTabBarController alloc]init];
+        it_self.delegate = it_self;
+        [it_self initWithTabBar];
+        
+        [[NSNotificationCenter defaultCenter]addObserver:it_self selector:@selector(hiddenTabBar) name:@"betterHiddenTabBar" object:nil];
+        
+        [[NSNotificationCenter defaultCenter]addObserver:it_self selector:@selector(showTabBar) name:@"betterShowTabBar" object:nil];
+    }
     
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(hiddenTabBar) name:@"betterHiddenTabBar" object:nil];
-    
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showTabBar) name:@"betterShowTabBar" object:nil];
-    
-    return self;
+    return it_self;
 }
-
-
-
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -241,15 +250,6 @@ shouldSelectViewController:(UIViewController *)viewController
     return ;
 }
 
-
-
-
-
-
-
-
-
-
 -(void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -277,7 +277,7 @@ shouldSelectViewController:(UIViewController *)viewController
 -(void) hiddenTabBar
 {
     self.tabBar.translucent = YES;
-
+    
     [UIView animateWithDuration:0.6 animations:^{
             self.tabBar.alpha = 0.0;
     }];
@@ -290,6 +290,31 @@ shouldSelectViewController:(UIViewController *)viewController
     self.tabBar.translucent = NO;
     self.tabBar.alpha = 1.0;
     return ;
+}
+
+- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
+{
+#ifdef NO_SHOW_CURRENT_CARD
+    /* 目前没有第三个“正在背诵” 界面，先直接返回*/
+    return;
+#else
+    NSLog(@" didSelectItem 1 current_cardEdit %@ %p", self.current_cardEdit, self.current_cardEdit);
+    /* 用户点击了某个卡片，将currentVC切换为最新的卡片 */
+
+    if (tabBar.items[2] == item)
+    {
+        NSLog(@" didSelectItem 2 ");
+        
+        UINavigationController * current_vc_nav = self.viewControllers[2];
+      //  [current_vc_nav popViewControllerAnimated:NO];
+        
+        cardEditController * new_cardEdit = [[cardEditController alloc]init];
+        new_cardEdit.backCard = self.current_card;
+        
+        [current_vc_nav setViewControllers:@[new_cardEdit] animated:NO];
+      //  [current_vc_nav pushViewController:new_cardEdit animated:NO];
+    }
+#endif
 }
 
 /*

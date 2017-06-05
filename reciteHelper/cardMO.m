@@ -17,5 +17,9 @@
 @dynamic detailText;
 @dynamic mark;
 @dynamic groupName;
+@dynamic word_size;
+@dynamic empty_jump;
+@dynamic empty_size;
+
 
 @end

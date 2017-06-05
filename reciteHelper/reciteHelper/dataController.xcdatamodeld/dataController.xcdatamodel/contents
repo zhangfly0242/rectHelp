@@ -3,16 +3,19 @@
     <entity name="Card" representedClassName="" syncable="YES">
         <attribute name="createTime" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="detailText" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="empty_jump" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="empty_size" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="groupName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="headText" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="mark" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="word_size" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <entity name="Group" representedClassName="GroupMO" syncable="YES" codeGenerationType="class">
         <attribute name="grpName" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="relationCard" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Card" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Card" positionX="-63" positionY="-18" width="128" height="120"/>
+        <element name="Card" positionX="-63" positionY="-18" width="128" height="165"/>
         <element name="Group" positionX="-63" positionY="-27" width="128" height="75"/>
     </elements>
 </model>

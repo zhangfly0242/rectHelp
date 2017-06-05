@@ -10,4 +10,8 @@
 
 @interface profile_vc : UIViewController
 
+- (IBAction)click_use_statement:(id)sender;
+- (IBAction)clieck_privacy_statement:(id)sender;
+
+
 @end

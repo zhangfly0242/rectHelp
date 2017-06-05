@@ -43,7 +43,7 @@
     
     [dateformatter setDateFormat:@"yyyy年MM月dd日 hh时mm分ss秒"];
     NSString *  locationString=[dateformatter stringFromDate:senddate];
-    self.createTime.text = locationString;
+    self.createTime = locationString;
     
     /* not show vertical scroll indicator */
     self.detailText.showsVerticalScrollIndicator = NO;
@@ -77,10 +77,12 @@
     {
         self.backCard = [[card alloc]init];
         
-        self.backCard.createTime = self.createTime.text;
+        self.backCard.createTime = self.createTime;
         /* 后面这两个数据为空，先添加 */
         self.backCard.headText = textField.text;
         self.backCard.detailText = @" ";
+        
+        NSLog(@"self.backCard.createTime ");
         
         [[card_manage card_mng] createNewCard:self.backCard toGrp:@"未归档"];
     }
@@ -133,7 +135,7 @@
     {
         self.backCard = [[card alloc]init];
         
-        self.backCard.createTime = self.createTime.text;
+        self.backCard.createTime = self.createTime;
         self.backCard.headText = @" ";
         self.backCard.detailText = textView.text;
         

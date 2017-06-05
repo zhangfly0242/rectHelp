@@ -207,6 +207,14 @@
         cardTemp.mark = cd.mark;
         cardTemp.groupName = cd.groupName;
         
+        cardTemp.word_size = [NSNumber numberWithInteger: cd.word_size];
+        cardTemp.empty_jump =
+            [NSNumber numberWithInteger: cd.empty_jump];
+        cardTemp.empty_size =
+            [NSNumber numberWithInteger: cd.empty_size];
+        
+        NSLog(@" EditOneCard : cardTemp.mark  %@ ", cardTemp.mark);
+        
         if ([backMoc save:&error] == NO) {
             NSAssert(NO, @"Error ：%s saving context: %@\n%@", __FUNCTION__,[error localizedDescription], [error userInfo]);
         }
@@ -361,6 +369,11 @@
         cdMo.detailText = cd.detailText;
         cdMo.mark = cd.mark;
         cdMo.groupName = cd.groupName;
+        
+        NSLog(@"word_size  %ld", cd.word_size);
+        cdMo.word_size = [NSNumber numberWithInteger: cd.word_size];
+        cdMo.empty_jump = [NSNumber numberWithInteger: cd.empty_jump];
+        cdMo.empty_size = [NSNumber numberWithInteger: cd.empty_size];
         
         [[grpMO mutableSetValueForKeyPath:@"relationCard"] addObject:cdMo];
 
@@ -526,6 +539,21 @@
                options:NSKeyValueObservingOptionNew
                context:nil];
     
+    [newCd addObserver:self
+            forKeyPath:@"word_size"
+               options:NSKeyValueObservingOptionNew
+               context:nil];
+    
+    [newCd addObserver:self
+            forKeyPath:@"empty_jump"
+               options:NSKeyValueObservingOptionNew
+               context:nil];
+    
+    [newCd addObserver:self
+            forKeyPath:@"empty_size"
+               options:NSKeyValueObservingOptionNew
+               context:nil];
+    
     /* 不关心分组名的变化，分组名变化在 -(void) moveOneCard:(card *) cd fromOldGroup:(NSString *)oldgGrpName toGroup:(NSString *)newGrpName; 中同时完成了 */
 //    [newCd addObserver:self
 //            forKeyPath:@"groupName"
@@ -542,6 +570,9 @@
     [newCd removeObserver:self forKeyPath:@"mark"];
     [newCd removeObserver:self forKeyPath:@"groupName"];
     [newCd removeObserver:self forKeyPath:@"createTime"];
+    [newCd removeObserver:self forKeyPath:@"word_size"];
+    [newCd removeObserver:self forKeyPath:@"empty_jump"];
+    [newCd removeObserver:self forKeyPath:@"empty_size"];
 }
 
 /* 查询一个指定数据 */
@@ -595,6 +626,10 @@
             theCard.detailText = cd.detailText;
             theCard.mark = cd.mark;
             theCard.groupName = cd.groupName;
+            
+            theCard.word_size = cd.word_size.integerValue;
+            theCard.empty_jump = cd.empty_jump.integerValue;
+            theCard.empty_size = cd.empty_size.integerValue;
             
             [theGroup.cardArr addObject:theCard];
             /* core data关注这个card */

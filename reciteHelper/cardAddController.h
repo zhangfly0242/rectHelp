@@ -10,7 +10,7 @@
 #import "card.h"
 
 @interface cardAddController : UIViewController <UITextFieldDelegate, UITextViewDelegate>
-@property (weak, nonatomic) IBOutlet UILabel *createTime;
+@property (strong, nonatomic) NSString *createTime;
 @property (weak, nonatomic) IBOutlet UITextField *headText;
 @property (weak, nonatomic) IBOutlet UITextView *detailText;
 

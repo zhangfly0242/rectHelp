@@ -16,7 +16,7 @@
 
 @property (readonly, strong) NSPersistentContainer *persistentContainer;
 /* 显示当前正在背的卡片，系统一起来时，默认背的是第一张卡片 */
-@property (strong, nonatomic) cardEditController * currentRectCard;
+//@property (strong, nonatomic) cardEditController * currentRectCard;
 
 - (void)saveContext;
 

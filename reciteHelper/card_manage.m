@@ -8,7 +8,7 @@
 
 #define US_CORE_DATA (TRUE)
 #define US_ICLOUD (NO)
-#define CLOUDKIT (YES)
+#define CLOUDKIT (FALSE)
 
 #import "DataController.h"
 #import "cardMO.h"
@@ -24,11 +24,62 @@
 
 @implementation card_manage
 
-//NSInteger intSort(card * card1, card * card2, void *context)
-//{
-//    /* 比较字符串里的数字，来确定大小 */
-//    return [card2.createTime compare:card1.createTime options:NSNumericSearch];
-//}
+NSInteger CardSort(card * cd1, card * cd2, void *context)
+{
+    if (NSOrderedDescending == [cd1.createTime compare: cd2.createTime])
+    {
+        NSLog(@" NSOrderedAscending  %@  %@",
+              cd1.createTime, cd2.createTime);
+        return NSOrderedAscending;
+    }
+    else if (NSOrderedAscending == [cd1.createTime compare: cd2.createTime])
+    {
+        NSLog(@" NSOrderedDescending  %@  %@",
+              cd1.createTime, cd2.createTime);
+        return NSOrderedDescending;
+    }
+    else
+        return NSOrderedSame;
+}
+
+NSInteger GroupSort(cardGroup * grp1, cardGroup * grp2, void *context)
+{
+    if ([grp1.grpName isEqualToString:@"未归档"])
+    {
+        NSLog(@" NSOrderedAscending %@ ",grp1.grpName);
+        return NSOrderedAscending;
+    }
+    
+    if ([grp2.grpName isEqualToString:@"未归档"])
+    {
+        NSLog(@" NSOrderedAscending %@ ",grp1.grpName);
+        return NSOrderedDescending;
+    }
+    
+    if ([grp1.grpName isEqualToString:@"添加新组"])
+    {
+        NSLog(@" NSOrderedDescending %@ ",grp1.grpName);
+        return NSOrderedDescending;
+    }
+    
+    /* zhang-attention : 注意这里可能“添加新组”出现在grp2, 这样写才能保证和所有的都比较到 */
+    if ([grp2.grpName isEqualToString:@"添加新组"])
+    {
+        NSLog(@" NSOrderedDescending %@ ",grp1.grpName);
+        return NSOrderedAscending;
+    }
+    
+    if (NSOrderedDescending == [grp1.grpName compare: grp2.grpName])
+    {
+        return NSOrderedAscending;
+    }
+    else if (NSOrderedAscending == [grp1.grpName compare: grp2.grpName])
+    {
+        return NSOrderedDescending;
+    }
+    else
+        return NSOrderedSame;
+}
 
 /* 从本地数据库读取数据 , 保存到本地 , 并从icloud请求数据*/
 -(void) init_data_core_data
@@ -36,11 +87,15 @@
     /* 从本地数据库读取数据 , 保存到本地 */
     NSMutableArray * persistentData = [[DataController dataController] FetchAllData];
     
+#if CLOUDKIT
+    
+    NSLog(@" add cloudkit observe");
     /* 关注cloudKIT的获取数据的状态 */
     [[cloudKitHelper KIT] addObserver:self forKeyPath:@"getDataDone" options:NSKeyValueObservingOptionNew context:nil];
     
     /* app一启动时 触发cloudKit初始化时获取数据 */
     [[cloudKitHelper KIT] getAllData];
+#endif
     
     if (!persistentData || 0 == persistentData.count)
     {
@@ -51,22 +106,19 @@
         card * oneCd= [[card alloc] init];
         oneCd.createTime = @"2017年3月24日 08时00分00秒";
         oneCd.headText = @"关于风";
-        oneCd.detailText = @" 风追，风追 ";
+        oneCd.detailText = @" 使用说明 : \n   1, 在上方进行“收藏” ，“备注”， 以及开启“双框”模式； \n   2, 在中间区域是内容区域，左滑右滑，你可以看到“原文”，“模式一”，“模式二”，其中模式一和模式二，都是预先扣空的文本； \n   3, 在最下边一排，你可以看到“大”和“小”，用于放大和缩小字体；在右下角的左箭头，用来将扣空减小，而右箭头用来将扣空放大。\n   当你对记忆的内容的熟练后，可以不断将扣空放大，一次次加大联想的难度，相信会对你很有帮助。\n\n   finally, enjoy it~";
         oneCd.mark = @"自然*诗*随想";
         
         [self createNewCard:oneCd toGrp:@"未归档"];
         
         /* 创建一个全新的分组,  */
-        [self createNewGrp: @"新闻"];
-        
-        /* 创建一个全新的分组,  */
-        [self createNewGrp: @"添加分组"];
+        [self createNewGrp: @"添加新组"];
     }
     else
     {
         for (cardGroup * temGrp in persistentData)
         {
-            if ([temGrp.grpName isEqualToString:@"添加分组"])
+            if ([temGrp.grpName isEqualToString:@"添加新组"])
             {
                 temGrp.operation = NO;
             }
@@ -83,10 +135,17 @@
               //  [newGrp.cardArr addObject:newCard];
             }
             
+            [temGrp.cardArr sortUsingFunction:CardSort context:nil];
             /* 观察这个分组 */
             [self oberveGroup:temGrp];
         }
         
+        [persistentData sortUsingFunction:GroupSort context:nil];
+        
+        for (cardGroup * grp in persistentData)
+        {
+            NSLog(@" after sort, grp %@",grp.grpName);
+        }
         self.array = persistentData;
     }
 
@@ -161,10 +220,10 @@
 {
     if ([keyPath isEqualToString:@"grpName"])
     {
-        if ([[change valueForKey:@"old"] isEqualToString:@"添加分组"])
+        if ([[change valueForKey:@"old"] isEqualToString:@"添加新组"])
         {
-            /* 新的组名还是 “添加分组” ，直接返回，不作任何动作*/
-            if ([[change valueForKey:@"new"] isEqualToString:@"添加分组"])
+            /* 新的组名还是 “添加新组” ，直接返回，不作任何动作*/
+            if ([[change valueForKey:@"new"] isEqualToString:@"添加新组"])
             {
                 return;
             }
@@ -173,7 +232,7 @@
             [[DataController dataController] EditOneGroup:group oldGroupName:[change valueForKey:@"old"]];
             
             /* 创建一个全新的分组,  */
-            [self createNewGrp: @"添加分组"];
+            [self createNewGrp: @"添加新组"];
         }
     }
     else{
@@ -217,7 +276,9 @@
     NSArray * grpArr = [cloudKitHelper KIT].grpArr;
     NSArray * cardArr = [cloudKitHelper KIT].cardArr;
     NSString * beongGrpName = nil;
-    
+    BOOL found = FALSE;
+
+    /* 添加新的分组 */
     for (cardGroup * grp in grpArr)
     {
         if (![self containGrpWithSameGrpName:grp.grpName])
@@ -226,7 +287,40 @@
         }
     }
     
-    NSLog(@"  cardArr count %lu", (unsigned long)cardArr.count);
+    NSInteger i = 0;
+    while (TRUE) {
+        
+        /* 处理完毕，跳出 */
+        if (i >= self.array.count)
+        {
+            break;
+        }
+        
+        cardGroup * grp = self.array[i];
+        
+        /* 删除不存在的分组 */
+        found = FALSE;
+        for (cardGroup * grpTemp in grpArr)
+        {
+            if ([grp.grpName isEqualToString:grpTemp.grpName])
+            {
+                found = TRUE;
+                break;
+            }
+        }
+        
+        /* 没找到，则删除该分组 */
+        if (!found)
+        {
+            [self deleteGrp: grp];
+            // 此时不需要i++, 因为删除后，下个元素的位置就是本元素的位置，不需要i++来访问下一个元素。
+        }
+        else{
+            i++;
+        }
+    }
+
+    /* 添加新卡片 */
     for (card * cd in cardArr)
     {
         if (![self containCardWithSameCreateTime:cd.createTime])
@@ -248,11 +342,48 @@
             cdAdd.detailText = cd.detailText;
             cdAdd.mark = cd.mark;
 
+            
+            NSLog(@" kvoHandleCloudKit grpName %@ ", beongGrpName);
             /* 添加到对应的分组中 */
             [self createNewCard:cd toGrp:beongGrpName];
         }
     }
     
+    /* 删除每个分组内多余的卡片 */
+    for (cardGroup * grp in self.array)
+    {
+        NSInteger i = 0;
+        while (TRUE) {
+            /* 处理完毕，跳出 */
+            if (i >= grp.cardArr.count)
+            {
+                break;
+            }
+            
+            card * cd = grp.cardArr[i];
+            
+            /* 删除不存在的分组 */
+            found = FALSE;
+            for (card * cdTemp in cardArr)
+            {
+                if ([cd.createTime isEqualToString:cdTemp.createTime])
+                {
+                    found = TRUE;
+                    break;
+                }
+            }
+            
+            /* 没找到，则删除该分组 */
+            if (!found)
+            {
+                [self deleteCard:cd];
+                // 此时不需要i++, 因为删除后，下个元素的位置就是本元素的位置，不需要i++来访问下一个元素。
+            }
+            else{
+                i++;
+            }
+        }
+    }
 }
 
 /* KVO function， 只要object的keyPath属性发生变化，就会调用此函数*/
@@ -309,6 +440,13 @@
 -(void) createNewCard : (card *) cd toGrp:(NSString *) grpName
 {
     cardGroup * belongGrp = nil;
+ 
+    /* 设置card默认字体大小 */
+    cd.word_size = 16.0;
+    /* 设置card默认隔空间隔 */
+    cd.empty_jump = 2;
+    /* 设置card默认隔空间隔 */
+    cd.empty_size = 2;
     
     for (cardGroup * grp in self.array)
     {
@@ -337,7 +475,7 @@
     /* 最后通知core data创建新card */
     [[DataController dataController]InsertOneCard:cd toGroup:belongGrp.grpName];
     
-#ifdef CLOUDKIT
+#if CLOUDKIT
     [[cloudKitHelper KIT] saveAllToCloudKit];
 #endif
     
@@ -386,7 +524,7 @@
     /* 从core data中删除 */
     [[DataController dataController] DeleteOneCard:card];
     
-#ifdef CLOUDKIT
+#if CLOUDKIT
     [[cloudKitHelper KIT] saveAllToCloudKit];
 #endif
     
@@ -443,7 +581,7 @@
     [[DataController dataController]moveOneCard:cd fromOldGroup:oldGrpName toGroup:newGrpName];
     [test1ViewController itSelf].textField.text = [[test1ViewController itSelf].textField.text stringByAppendingString:@"1x1x"];
     
-#ifdef CLOUDKIT
+#if CLOUDKIT
     [[cloudKitHelper KIT] saveAllToCloudKit];
 #endif
 }
@@ -464,7 +602,7 @@
     cardGroup * newGrp = [[cardGroup alloc]init];
     newGrp.grpName = name;
     
-    if ([name isEqualToString:@"添加分组"])
+    if ([name isEqualToString:@"添加新组"])
     {
         newGrp.operation = NO;
     }
@@ -482,7 +620,7 @@
     
     self.addGrp = newGrp;
     
-#ifdef CLOUDKIT
+#if CLOUDKIT
     [[cloudKitHelper KIT] saveAllToCloudKit];
 #endif
 }
@@ -510,14 +648,15 @@
     self.grpCount --;
     
     [[self mutableArrayValueForKey:@"array"] removeObject:grp];
+    NSLog(@" delete grp %@ ",grp.grpName);
     
     /* zhang-attention : 对象被删除，需要移除观察者 */
     [[card_manage card_mng].deleteGrp removeObserver:self forKeyPath:@"grpName"];
     
-    /* core data创建 */
+    /* core data删除 */
     [[DataController dataController] DeleteOneGrp:grp];
     
-#ifdef CLOUDKIT
+#if CLOUDKIT
     [[cloudKitHelper KIT] saveAllToCloudKit];
 #endif
     

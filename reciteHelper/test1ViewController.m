@@ -7,6 +7,7 @@
 //
 
 #import "test1ViewController.h"
+#import "testView.h"
 
 @interface test1ViewController ()
 
@@ -16,9 +17,52 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    testView * view = [[testView alloc]initWithFrame:CGRectMake(0, 0, 20, 20)];
+    view.backgroundColor = [UIColor redColor];
+    [self.view addSubview:view];
+    
     // Do any additional setup after loading the view from its nib.
 }
 
+-(void) viewWillLayoutSubviews
+{
+    NSLog(@" table list : viewWillLayoutSubviews");
+    [super viewWillLayoutSubviews];
+}
+
+-(void) viewDidLayoutSubviews
+{
+    NSLog(@" table list : viewDidLayoutSubviews");
+    [super viewDidLayoutSubviews];
+}
+
+
+-(void )viewWillAppear:(BOOL)animated
+{
+    NSLog(@" table list : viewWillAppear");
+    [super viewWillAppear:animated];
+    
+    [NSTimer scheduledTimerWithTimeInterval:2 target:self
+                                                    selector:@selector(layout_its_subviews) userInfo:nil repeats:true];
+    
+}
+
+-(void) viewDidAppear:(BOOL)animated
+{
+    NSLog(@" table list : viewDidAppear");
+    [super viewDidAppear:animated];
+    
+    return ;
+}
+
+
+-(void) layout_its_subviews
+{
+    NSLog(@" setNeedsLayout");
+    [self.view setNeedsLayout];
+    //[self.view setNeedsDisplay];
+}
 
 /* 返回自己的单例 */
 +(instancetype) itSelf
@@ -27,7 +71,6 @@
     if (!it_self)
     {
         it_self = [[test1ViewController alloc] init];
-        /*  */
         it_self.view.backgroundColor = [UIColor grayColor];
     }
     

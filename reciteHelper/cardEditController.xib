@@ -10,9 +10,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="cardEditController">
             <connections>
-                <outlet property="collect_button" destination="ncU-4A-08t" id="P4k-mx-Ixl"/>
-                <outlet property="doubleShowButton" destination="c8M-QI-zUm" id="vcu-Rn-8l8"/>
-                <outlet property="note_button" destination="uP6-bL-vC9" id="om5-I6-ZU6"/>
                 <outlet property="scrollView" destination="9V3-ft-iF1" id="C4I-6z-Dwd"/>
                 <outlet property="view" destination="iN0-l3-epB" id="uwF-Ey-0eI"/>
             </connections>
@@ -22,63 +19,19 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ncU-4A-08t">
-                    <rect key="frame" x="7" y="8" width="55" height="20"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="20" id="Ev3-Qn-bI4"/>
-                        <constraint firstAttribute="width" constant="55" id="Pr3-uz-Fmn"/>
-                    </constraints>
-                    <state key="normal" backgroundImage="collect card.jpg"/>
-                    <connections>
-                        <action selector="show_groupView:" destination="-1" eventType="touchUpInside" id="aSQ-Hx-zwW"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uP6-bL-vC9">
-                    <rect key="frame" x="70" y="8" width="55" height="20"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="20" id="9nz-GQ-90r"/>
-                        <constraint firstAttribute="width" constant="55" id="xPr-6l-eCY"/>
-                    </constraints>
-                    <state key="normal" backgroundImage="write note.jpg"/>
-                    <connections>
-                        <action selector="noteCard:" destination="-1" eventType="touchUpInside" id="GHn-Jd-5uV"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c8M-QI-zUm">
-                    <rect key="frame" x="320" y="12" width="44" height="16"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="16" id="7qy-UO-bNB"/>
-                        <constraint firstAttribute="width" constant="44" id="jZH-py-ogM"/>
-                    </constraints>
-                    <state key="normal" backgroundImage="double show.jpg"/>
-                    <connections>
-                        <action selector="doubleViewModule:" destination="-1" eventType="touchUpInside" id="Gb3-RG-UNs"/>
-                    </connections>
-                </button>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9V3-ft-iF1">
-                    <rect key="frame" x="0.0" y="36" width="375" height="624"/>
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </scrollView>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" name="alternateSelectedControlTextColor" catalog="System" colorSpace="catalog"/>
             <constraints>
-                <constraint firstItem="uP6-bL-vC9" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="6S5-yN-EbP"/>
-                <constraint firstItem="ncU-4A-08t" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="7" id="8RW-fb-4ls"/>
-                <constraint firstAttribute="trailing" secondItem="9V3-ft-iF1" secondAttribute="trailing" id="AMb-zv-eUB"/>
-                <constraint firstItem="c8M-QI-zUm" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="12" id="Fa2-1k-gEv"/>
-                <constraint firstItem="9V3-ft-iF1" firstAttribute="top" secondItem="ncU-4A-08t" secondAttribute="bottom" constant="8" id="SCo-rW-MNp"/>
-                <constraint firstItem="uP6-bL-vC9" firstAttribute="leading" secondItem="ncU-4A-08t" secondAttribute="trailing" constant="8" id="SQ5-jK-HxD"/>
-                <constraint firstAttribute="trailing" secondItem="c8M-QI-zUm" secondAttribute="trailing" constant="11" id="gVF-O6-Xpn"/>
-                <constraint firstAttribute="bottom" secondItem="9V3-ft-iF1" secondAttribute="bottom" constant="7" id="hgG-Gq-gGS"/>
-                <constraint firstItem="9V3-ft-iF1" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="jVY-5Y-Qzh"/>
-                <constraint firstItem="ncU-4A-08t" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="tpp-bN-V88"/>
+                <constraint firstItem="9V3-ft-iF1" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="34g-tz-rln"/>
+                <constraint firstAttribute="trailing" secondItem="9V3-ft-iF1" secondAttribute="trailing" id="3EY-a4-3Xe"/>
+                <constraint firstItem="9V3-ft-iF1" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="QEg-Yj-ppN"/>
+                <constraint firstAttribute="bottom" secondItem="9V3-ft-iF1" secondAttribute="bottom" id="WqM-IC-6gF"/>
             </constraints>
             <point key="canvasLocation" x="33.5" y="106.5"/>
         </view>
     </objects>
-    <resources>
-        <image name="collect card.jpg" width="110" height="40"/>
-        <image name="double show.jpg" width="109" height="40"/>
-        <image name="write note.jpg" width="110" height="40"/>
-    </resources>
 </document>

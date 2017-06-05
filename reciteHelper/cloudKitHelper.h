@@ -15,7 +15,19 @@
 
 @property(nonatomic, strong) NSMutableArray* grpArr;
 @property(nonatomic, strong) NSMutableArray* cardArr;
+@property(nonatomic, strong) NSTimer *timer;
+
 @property(nonatomic) NSInteger state;
+
+/* 这两个量用以追踪是否完成了删除 */
+@property(nonatomic) NSInteger currentWaitDelCountGrp;
+
+@property(nonatomic) NSInteger currentWaitDelCountCard;
+
+/* 这两个量用以追踪是否完成了存储 */
+@property(nonatomic) NSInteger currentWaitAddCountGrp;
+
+@property(nonatomic) NSInteger currentWaitAddCountCard;
 
 /* app一启动时，获取初始的数据 */
 @property(nonatomic) BOOL getDataDone;

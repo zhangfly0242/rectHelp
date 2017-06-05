@@ -10,9 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="cardAddController">
             <connections>
-                <outlet property="createTime" destination="aUD-u8-ngJ" id="o2l-q4-Qyr"/>
                 <outlet property="detailText" destination="WZ9-T0-r4C" id="N88-Mw-NMJ"/>
-                <outlet property="headText" destination="pmG-0R-aXy" id="yER-cH-4rt"/>
                 <outlet property="view" destination="vC1-hp-Wnz" id="5Qj-qr-vcK"/>
             </connections>
         </placeholder>
@@ -21,27 +19,14 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="667" image="backPicture.png" translatesAutoresizingMaskIntoConstraints="NO" id="Z66-ym-5JO">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                </imageView>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="321" placeholderIntrinsicHeight="523" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="WZ9-T0-r4C">
-                    <rect key="frame" x="5" y="82" width="365" height="580"/>
+                    <rect key="frame" x="5" y="44" width="365" height="618"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
-                <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pmG-0R-aXy">
-                    <rect key="frame" x="5" y="44" width="25" height="30"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="30" id="EaK-5W-Jof"/>
-                    </constraints>
-                    <nil key="textColor"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <textInputTraits key="textInputTraits"/>
-                </textField>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aUD-u8-ngJ">
-                    <rect key="frame" x="5" y="15" width="42" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请在下方输入你的内容:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aUD-u8-ngJ">
+                    <rect key="frame" x="5" y="15" width="178" height="21"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="21" id="h4r-Pt-MP2"/>
                     </constraints>
@@ -49,32 +34,17 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l2L-6C-pv2">
-                    <rect key="frame" x="313" y="20" width="46" height="30"/>
-                    <state key="normal" title="Button"/>
-                </button>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" red="0.88564187288284302" green="0.89684069156646729" blue="0.96733134984970093" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="WZ9-T0-r4C" secondAttribute="bottom" constant="5" id="12D-Wo-Km7"/>
-                <constraint firstItem="WZ9-T0-r4C" firstAttribute="leading" secondItem="vC1-hp-Wnz" secondAttribute="leading" constant="5" id="45G-aG-yBp"/>
+                <constraint firstAttribute="bottom" secondItem="WZ9-T0-r4C" secondAttribute="bottom" constant="5" id="3B7-eM-hld"/>
+                <constraint firstItem="WZ9-T0-r4C" firstAttribute="leading" secondItem="vC1-hp-Wnz" secondAttribute="leading" constant="5" id="4h5-qq-YjG"/>
                 <constraint firstItem="aUD-u8-ngJ" firstAttribute="top" secondItem="vC1-hp-Wnz" secondAttribute="top" constant="15" id="7Rc-hd-IrS"/>
-                <constraint firstItem="pmG-0R-aXy" firstAttribute="top" secondItem="aUD-u8-ngJ" secondAttribute="bottom" constant="8" id="82r-ln-Yva"/>
-                <constraint firstItem="WZ9-T0-r4C" firstAttribute="top" secondItem="pmG-0R-aXy" secondAttribute="bottom" constant="8" id="Bn4-C2-KTj"/>
-                <constraint firstAttribute="trailing" secondItem="l2L-6C-pv2" secondAttribute="trailing" constant="16" id="HYo-mf-r0W"/>
-                <constraint firstItem="pmG-0R-aXy" firstAttribute="top" secondItem="vC1-hp-Wnz" secondAttribute="top" constant="44" id="Hys-7K-N75"/>
-                <constraint firstAttribute="trailing" secondItem="WZ9-T0-r4C" secondAttribute="trailing" constant="5" id="MfT-hd-wer"/>
+                <constraint firstAttribute="trailing" secondItem="WZ9-T0-r4C" secondAttribute="trailing" constant="5" id="8bZ-ob-Uk1"/>
+                <constraint firstItem="WZ9-T0-r4C" firstAttribute="top" secondItem="aUD-u8-ngJ" secondAttribute="bottom" constant="8" id="HVd-Rx-DFO"/>
                 <constraint firstItem="aUD-u8-ngJ" firstAttribute="leading" secondItem="vC1-hp-Wnz" secondAttribute="leading" constant="5" id="OqQ-HC-WPv"/>
-                <constraint firstAttribute="trailing" secondItem="WZ9-T0-r4C" secondAttribute="trailing" constant="5" id="hlD-ev-s68"/>
-                <constraint firstAttribute="bottom" secondItem="WZ9-T0-r4C" secondAttribute="bottom" constant="5" id="iDZ-Tk-EW5"/>
-                <constraint firstItem="WZ9-T0-r4C" firstAttribute="leading" secondItem="vC1-hp-Wnz" secondAttribute="leading" constant="5" id="r3B-Wd-O28"/>
-                <constraint firstItem="l2L-6C-pv2" firstAttribute="top" secondItem="vC1-hp-Wnz" secondAttribute="top" constant="20" id="vLj-ca-TWQ"/>
-                <constraint firstItem="pmG-0R-aXy" firstAttribute="leading" secondItem="vC1-hp-Wnz" secondAttribute="leading" constant="5" id="vsc-O6-7fr"/>
             </constraints>
             <point key="canvasLocation" x="34.5" y="54.5"/>
         </view>
     </objects>
-    <resources>
-        <image name="backPicture.png" width="713" height="1075"/>
-    </resources>
 </document>

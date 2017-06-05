@@ -23,35 +23,28 @@
     /* 设置frame */
     [self setItsFrame : size];
     
-    //if (10 == self.tag)
-    /* 设置内容 这个操作比较耗时*/
-   // [self setItsContent];
+    self.content.returnKeyType = UIReturnKeyNext;
     
     /* masksToBounds属性关掉，因为阴影设置的方式就是加offset给超出视图部分设置颜色来实现的，一旦不让子视图超出，阴影也就看不出了 */
     self.layer.masksToBounds = NO;
     
-    /* 设置键盘，以及实现代理方法(保存数据，以及隐藏键盘) */
-    [self setTextViewKeyBoard : self.content];
-    
     /* 通过kvo监听 self.backCard.detailText */
-    /* 监听数据的变化 */
-    [backCard addObserver:self
-               forKeyPath:@"headText"
-                  options:NSKeyValueObservingOptionNew
-                  context:nil];
-    
-    /* 监听数据的变化 */
-    [backCard addObserver:self
-         forKeyPath:@"detailText"
-            options:NSKeyValueObservingOptionNew
-            context:nil];
+    [self oberveCard : self.backCard];
     
     /* “模式一” 和 “模式二” 都不可以编辑, 这样只有“原文"才会涉及取消键盘时，保存内容的处理，然后触发kvo*/
     if ((11 == self.tag) || (12 == self.tag))
     {
         self.content.editable = NO;
     }
-        
+    
+    /* 设置键盘，以及实现代理方法(保存数据，以及隐藏键盘) */
+    [self setTextViewKeyBoard : self.content];
+    
+    /* 监听键盘弹出 */
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    /* 监听键盘隐藏 */
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    
     return ;
 }
 
@@ -84,6 +77,19 @@
     
 }
 
+-(NSString *) getXString : (NSInteger) xCount
+{
+    NSInteger i = 0;
+    NSString * x = @"乂";
+    
+    for (i = 1; i < xCount; i++)
+    {
+        x = [x stringByAppendingString:@"乂"];
+    }
+    
+    return x;
+}
+
 /* 设置“原文”， “模式一”，“模式二” 的内容*/
 -(void) setItsContent
 {
@@ -94,54 +100,82 @@
     BOOL handle = FALSE;
     NSInteger jump_count = 0;
     
-    for (i = 0; i <= self.backCard.detailText.length - 1; i++)
+    i = 0;
+    while (i <= self.backCard.detailText.length - 1)
     {
-        range.length = 1;
+        range.length = self.backCard.empty_size;
         range.location = i;
         
-        if (jump_count < 2)
+        if (jump_count < self.backCard.empty_jump)
         {
             jump_count++;
+            i++;
             continue;
         }
         else{
             jump_count = 0;
             
+            range.location = i;
+            range.length = self.backCard.empty_size;
+            
+            /* 如果到了最后，range可能会超出，那么直接将最后的部分替换就行了 */
+            if (i + self.backCard.empty_size >= self.backCard.detailText.length - 1)
+            {
+                NSLog(@"1");
+                range.length = (self.backCard.detailText.length - 1) - i;
+            }
+            
             if ([self special_str_no_handle: [self.backCard.detailText substringWithRange:range]])
             {
+                i = i + self.backCard.empty_size;
                 continue;
             }
             
-            range.length = 1;
-            range.location = i;
-            str1 = [str1 stringByReplacingCharactersInRange:range withString:@"x"];
+            NSString * stringX = [self getXString : range.length];
+            str1 = [str1 stringByReplacingCharactersInRange:range withString: stringX];
+            
+            i = i + self.backCard.empty_size;
         }
         
     }
     
     jump_count = 0;
     handle = FALSE;
-    for (i = 1; i <= self.backCard.detailText.length - 1; i++)
+    i = self.backCard.empty_jump;
+    while (i <= self.backCard.detailText.length - 1)
     {
-        range.length = 1;
+        range.length = self.backCard.empty_size;
         range.location = i;
         
-        if (jump_count < 2)
+        if (jump_count < self.backCard.empty_jump)
         {
             jump_count++;
+            i++;
             continue;
         }
         else{
             jump_count = 0;
             
-            if ([self special_str_no_handle: [self.backCard.detailText substringWithRange:range]])
+            range.location = i;
+            range.length = self.backCard.empty_size;
+            
+            /* 如果到了最后，range可能会超出，那么直接将最后的部分替换就行了 */
+            if (i + self.backCard.empty_size >= self.backCard.detailText.length - 1)
             {
-                continue;
+                NSLog(@"1");
+                range.length = (self.backCard.detailText.length - 1) - i;
             }
             
-            range.length = 1;
-            range.location = i;
-            str2 = [str2 stringByReplacingCharactersInRange:range withString:@"x"];
+            if ([self special_str_no_handle: [self.backCard.detailText substringWithRange:range]])
+            {
+                i = i + self.backCard.empty_size;
+                continue;
+            }
+
+            NSString * stringX = [self getXString : range.length];
+            str2 = [str2 stringByReplacingCharactersInRange:range withString:stringX];
+            
+            i = i + self.backCard.empty_size;
         }
     }
 
@@ -149,8 +183,6 @@
     {
         if (![self.content.text isEqualToString:self.backCard.detailText])
         {
-           // [self.content addObserver:self forKeyPath:@"text" options:NSKeyValueObservingOptionNew context:nil];
-            
             self.content.text = self.backCard.detailText;
         }
     }
@@ -176,12 +208,24 @@
 /* KVO function， 只要object的keyPath属性发生变化，就会调用此函数*/
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    NSLog(@" keyPath %@",keyPath);
-    
     if ([object isKindOfClass: [card class]])
     {
-        /* 更新它的内容 */
-        [self setItsContent];
+        if ([keyPath isEqualToString:@"detailText"])
+        {
+            /* 更新它的内容 */
+            [self setItsContent];
+        }
+        else if ([keyPath isEqualToString:@"word_size"])
+        {
+            NSLog(@" font size %f", self.content.font.pointSize);
+            /* 用新size创建 UIFont ，并赋值给self.content*/
+            self.content.font = [self.content.font fontWithSize:self.backCard.word_size];
+        }
+        else if ([keyPath isEqualToString:@"empty_size"])
+        {
+            /* 重新设置更新它的内容 */
+            [self setItsContent];
+        }
     }
     else{
     }
@@ -219,7 +263,23 @@
 
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
+    NSLog(@" textViewDidEndEditing");
+    
     [self contentViewDidEndEditing : textView];
+}
+
+
+
+-(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    NSLog(@" text : %@", text);
+    if ([text isEqualToString:@"\n"]) {
+        [textView resignFirstResponder];
+        
+        return NO;
+    }
+    
+    return YES;
 }
 
 /* contentView结束编辑 ， 保存文本*/
@@ -302,10 +362,114 @@
     return FALSE;
 }
 
+- (void)keyboardWillShow:(NSNotification *)aNotification
+{
+    NSLog(@"keyboardWillShow");
+    
+    // 延迟一下，否则获得的是上一次的，因为点击后，立刻进来了，此时还没有来得及设置最新的光标位置，即[textView caretRectForPosition:textView.selectedTextRange.start].origin.y。 参考自https://segmentfault.com/q/1010000003825991
+    [self performSelector:@selector(keyBoardShowTryUpTextView:) withObject:aNotification afterDelay:0.1f];
+}
+
+- (void)keyBoardShowTryUpTextView:(NSNotification *)aNotification {
+    
+    CGFloat cursorPosition_y = 0;
+    
+    NSLog(@" textViewDidChange , aNotification %@",aNotification);
+    
+    if (self.content.selectedTextRange) {
+        cursorPosition_y = [self.content caretRectForPosition:self.content.selectedTextRange.start].origin.y;
+    } else {
+        cursorPosition_y = 0;
+    }
+    
+    NSLog(@" cursorPosition-0 : %f %f [%f]", self.content.contentSize.height,cursorPosition_y,
+          self.content.contentSize.height - cursorPosition_y);
+    
+    /* 获取弹出的键盘的高度*/
+    NSValue *aValue = [aNotification.userInfo valueForKey:@"UIKeyboardBoundsUserInfoKey"];
+    CGFloat height = [aValue CGRectValue].size.height;
+    
+    /* textView因为键盘遮挡输入，自动上移套路：三个关键点
+      一，需要延迟下，再获取当前光标位置
+     
+      二，要区别对待，不是点击所有位置都上移: (需要光标位置，contetnSize, 以及键盘高度三个变量来判断) :
+            当前光标距离底部的距离已经小于 键盘的高度了(这里键盘的高度默认为100) , 那么弹出的键盘会遮挡，将textView上移
+    
+      三，上移的距离和键盘高度一样 */
+    if (self.content.contentSize.height - cursorPosition_y < height)
+    {
+        self.content.contentOffset = CGPointMake(0, self.content.contentOffset.y + height);
+        self.temp_go_up = YES;
+    }
+}
+
+- (void)keyboardWillHide:(NSNotification *)aNotification
+{
+    NSLog(@" keyboardWillHide ");
+    
+    /* 获取弹出的键盘的高度*/
+    NSValue *aValue = [aNotification.userInfo valueForKey:@"UIKeyboardBoundsUserInfoKey"];
+    CGFloat height = [aValue CGRectValue].size.height;
+    
+    /* textView因为键盘弹出，临时上移了，此时若键盘消失，需要再次将textView下移 */
+    if (self.temp_go_up)
+    {
+        self.content.contentOffset = CGPointMake(0, self.content.contentOffset.y - height);
+        self.temp_go_up = NO;
+    }
+}
+
+-(void) oberveCard: (card *)backCard
+{
+    /* 通过kvo监听 self.backCard.detailText */
+    /* 监听数据的变化 */
+    [backCard addObserver:self
+               forKeyPath:@"headText"
+                  options:NSKeyValueObservingOptionNew
+                  context:nil];
+    
+    /* 监听数据的变化 */
+    [backCard addObserver:self
+               forKeyPath:@"detailText"
+                  options:NSKeyValueObservingOptionNew
+                  context:nil];
+    
+    /* 监听 字体大小 的变化 */
+    [backCard addObserver:self
+               forKeyPath:@"word_size"
+                  options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
+                  context:nil];
+    
+    /* 监听 扣空的间隔 的变化 */
+    [backCard addObserver:self
+               forKeyPath:@"empty_jump"
+                  options:NSKeyValueObservingOptionNew
+                  context:nil];
+    
+    /* 监听 扣空的空的大小 的变化 */
+    [backCard addObserver:self
+               forKeyPath:@"empty_size"
+                  options:NSKeyValueObservingOptionNew
+                  context:nil];
+    
+    return ;
+}
+
+-(void) unOberveCard: (card *)card
+{
+    /* 取消对card的监听 */
+    [card removeObserver:self forKeyPath:@"headText"];
+    [card removeObserver:self forKeyPath:@"detailText"];
+    [card removeObserver:self forKeyPath:@"word_size"];
+    [card removeObserver:self forKeyPath:@"empty_jump"];
+    [card removeObserver:self forKeyPath:@"empty_size"];
+    
+    return ;
+}
+
 -(void) dealloc
 {
-    [self.backCard removeObserver:self forKeyPath:@"headText"];
-    [self.backCard removeObserver:self forKeyPath:@"detailText"];
+    [self unOberveCard:self.backCard];
 }
 
 

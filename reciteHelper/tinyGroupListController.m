@@ -24,7 +24,7 @@
     /* 取消分割线 */
     table_view.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    table_view.layer.cornerRadius = 8;
+    table_view.layer.cornerRadius = 1;
     table_view.layer.masksToBounds = YES;
     
     // Uncomment the following line to preserve selection between presentations.

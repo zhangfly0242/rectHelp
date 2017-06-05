@@ -18,4 +18,14 @@
 /* 分组 */
 @property(nonatomic, strong) NSString * groupName;
 
+/* 字体大小 */
+@property(nonatomic) NSInteger word_size;
+
+/* 扣空的间隔 */
+@property(nonatomic) NSInteger empty_jump;
+
+/* 扣空的空的大小 */
+@property(nonatomic) NSInteger empty_size;
+
+
 @end

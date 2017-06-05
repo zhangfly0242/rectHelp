@@ -9,6 +9,7 @@
 #import "cardEditController.h"
 #import "cardJustInfoEdit.h"
 #import "tinyGroupListController.h"
+#import <UIKit/UIKit.h>
 
 @interface cardEditController ()
 
@@ -17,12 +18,93 @@
 @implementation cardEditController
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
 
+    [super viewDidLoad];
     [self initScrollView];
+
+    /* 双框模式 */
+    UIImage * img1 = [UIImage imageNamed:@"double show.jpg"];
+    img1 = [UIImage imageWithCGImage:img1.CGImage scale:2.0 orientation:UIImageOrientationUp];
+    /* 这里对 UIImage 要设置 RenderingMode , 否则会显示一个色块 */
+    img1 = [img1 imageWithRenderingMode: UIImageRenderingModeAlwaysOriginal];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(exit_groupView) name:@"exit_group_list" object: nil];
+    UIBarButtonItem * doubleViewBar = [[UIBarButtonItem alloc] initWithImage:img1 style:UIBarButtonItemStylePlain target:self action:@selector(doubleViewClick)];
     
+    /* 备注 */
+    UIImage * img2 = [UIImage imageNamed:@"write note.jpg"];
+    img2 = [UIImage imageWithCGImage:img2.CGImage scale:2.0 orientation:UIImageOrientationUp];
+    /* 这里对 UIImage 要设置 RenderingMode , 否则会显示一个色块 */
+    img2 = [img2 imageWithRenderingMode: UIImageRenderingModeAlwaysOriginal];
+    
+    UIBarButtonItem * markViewBar = [[UIBarButtonItem alloc] initWithImage:img2 style:UIBarButtonItemStylePlain target:self action:@selector(noteViewAppear)];
+    
+    /* 收藏 */
+    UIImage * img3 = [UIImage imageNamed:@"collect card.jpg"];
+    img3 = [UIImage imageWithCGImage:img3.CGImage scale:2.0 orientation:UIImageOrientationUp];
+    /* 这里对 UIImage 要设置 RenderingMode , 否则会显示一个色块 */
+    img3 = [img3 imageWithRenderingMode: UIImageRenderingModeAlwaysOriginal];
+    
+    UIBarButtonItem * groupViewBar = [[UIBarButtonItem alloc] initWithImage:img3 style:UIBarButtonItemStylePlain target:self action:@selector(groupView_show)];
+
+    
+    
+    /* 中间添加一个大空白的区域，隔开下 */
+    UIBarButtonItem * blanItem = [[UIBarButtonItem alloc]
+                                  initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                  target:self
+                                  action:@selector(emptySizeBigger)];
+    
+    /* 定制uinavitaion bar */
+    self.navigationItem.rightBarButtonItems = @[doubleViewBar, blanItem, markViewBar, groupViewBar];
+    
+    /* 定制tool bar item*/
+    /* 控制字体变大 */
+    UIBarButtonItem * barItem = [[UIBarButtonItem alloc] initWithTitle:@"大" style:UIBarButtonItemStylePlain target:self action:@selector(fontBigger)];
+    
+    /* 中间隔开下 */
+    UIBarButtonItem * barItem2 = [[UIBarButtonItem alloc]
+                                  initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                  target:self
+                                  action:@selector(emptySizeBigger)];
+    barItem2.width = 30;
+    
+    /* 控制字体变小 */
+    UIBarButtonItem * barItem3 = [[UIBarButtonItem alloc] initWithTitle:@"小" style:UIBarButtonItemStylePlain target:self action:@selector(fontSmaller)];
+    
+    /* 中间添加一个大空白的区域，隔开下 */
+    UIBarButtonItem * barItem4 = [[UIBarButtonItem alloc]
+                                   initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                   target:self
+                                   action:@selector(emptySizeBigger)];
+    
+    /* 减小扣空的空的大小 */
+    UIBarButtonItem * barItem5 = [[UIBarButtonItem alloc]
+                                  initWithBarButtonSystemItem:UIBarButtonSystemItemRewind
+                                  target:self
+                                  action:@selector(emptySizeSmaller)];
+    
+    /* 中间隔开下 */
+    UIBarButtonItem * barItem6 = [[UIBarButtonItem alloc]
+                                  initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                  target:self
+                                  action:@selector(emptySizeBigger)];
+    barItem6.width = 30;
+    
+    /* 增大扣空的空的大小 */
+    UIBarButtonItem * barItem7 = [[UIBarButtonItem alloc]
+                                  initWithBarButtonSystemItem:UIBarButtonSystemItemFastForward
+                                  target:self
+                                  action:@selector(emptySizeBigger)];
+    
+    
+    NSArray *items=[NSArray arrayWithObjects:barItem,barItem2,barItem3,barItem4,
+                    barItem5, barItem6, barItem7, nil];
+    /* 设置viewcontroller的tool bar */
+    [self setToolbarItems:items];  //向UIToolBar添加UIBarButtonItem
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(groupView_exit) name:@"exit_group_list" object: nil];
+    
+/* 键盘弹出有较多问题，先不做 */
     /* 监听键盘弹出 */
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     /* 监听键盘隐藏 */
@@ -33,7 +115,7 @@
 -(void) initScrollView
 {
     /* 设置scrollView的大小 */
-    CGSize size = CGSizeMake([UIScreen mainScreen].bounds.size.width * 3, [UIScreen mainScreen].bounds.size.height);
+    CGSize size = CGSizeMake(self.scrollView.bounds.size.width * 3, self.scrollView.bounds.size.height);
     self.scrollView.contentSize = size;
     /* 开启分页 */
     self.scrollView.pagingEnabled = YES;
@@ -50,29 +132,40 @@
     /* 在scrollView上添加“模式二”view，tag是 2 */
     [self addThreeTabToScrollView: 12];
     
+/* 点击一下，就隐藏上边栏，目前不做 */
+#if 0
+    /* 在三个view上添加手势，如果用户点击了一下，那么隐藏或显示nagigation bar */
+    cardJustInfoEdit * view1 = [self.scrollView viewWithTag:10];
+    UITapGestureRecognizer* singleRecognizer1 = [[UITapGestureRecognizer alloc] initWithTarget: self action:@selector(navigationBarAppear)];
+    singleRecognizer1.numberOfTapsRequired = 1;
+    [view1 addGestureRecognizer:singleRecognizer1];
+    
+    cardJustInfoEdit * view2 = [self.scrollView viewWithTag:11];
+    UITapGestureRecognizer* singleRecognizer2 = [[UITapGestureRecognizer alloc] initWithTarget: self action:@selector(navigationBarAppear)];
+    singleRecognizer2.numberOfTapsRequired = 1;
+    [view2 addGestureRecognizer:singleRecognizer2];
+    
+    cardJustInfoEdit * view3 = [self.scrollView viewWithTag:12];
+    UITapGestureRecognizer* singleRecognizer3 = [[UITapGestureRecognizer alloc] initWithTarget: self action:@selector(navigationBarAppear)];
+    singleRecognizer3.numberOfTapsRequired = 1;
+    [view3 addGestureRecognizer:singleRecognizer3];
+#endif
+    
     /* 上面添加了三个view之后，还没有设置它们的内容, 由于耗时较长，采取了后续两个延迟设置的方式，这里先设置第一个 ，等到scrollView滑动到对应位置，再设置*/
     
     cardJustInfoEdit * view = [self.scrollView viewWithTag:10];
     [view setItsContent];
     
-    
     /* 预先添加一个备注卡view , 后续用户点击备注时，上滑出来*/
     /* 创建备注 view*/
-    self.noteView = [[UITextView alloc] initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height ,
-                                                                     [UIScreen mainScreen].bounds.size.width,
-                                                                     [UIScreen mainScreen].bounds.size.height/2)];
+    self.noteView = [[UITextView alloc] initWithFrame:CGRectMake(0, self.scrollView.bounds.size.height ,
+                                                                     self.scrollView.bounds.size.width,
+                                                                     self.scrollView.bounds.size.height/2)];
     
     /* 设置键盘 */
     [self setTextViewKeyBoard: self.noteView];
     
     [self.scrollView addSubview:self.noteView];
-
-    /* 预先添加一个view , 后续用户点击双框模式时，上滑出来*/
-    self.downView = [[UITextView alloc] initWithFrame:CGRectMake(0, self.scrollView.bounds.size.height ,
-                                                                 self.scrollView.bounds.size.width,
-                                                                 self.scrollView.bounds.size.height/2)];
-    [self.view addSubview:self.downView];
-    
     return ;
 }
 
@@ -144,6 +237,32 @@
     [self noteViewDisappear];
 }
 
+/* show/hide navigaton bar */
+- (void) navigationBarAppear
+{
+    static BOOL showNaviBar = TRUE;
+
+    if (showNaviBar)
+    {
+        UIView * subView1 = [[UIView alloc]initWithFrame:self.navigationController.navigationBar.frame];
+        subView1.backgroundColor = [UIColor grayColor];
+        subView1.tag =30;
+        
+        /* 在navigationBar上覆盖一个灰色的view，来实现将卡片变暗，集中注意力到卡片上 */
+        [self.navigationController.navigationBar addSubview:subView1];
+        
+        showNaviBar = FALSE;
+    }
+    else
+    {
+        UIView * subView1 = [self.navigationController.navigationBar viewWithTag:30];
+        [subView1 removeFromSuperview];
+        
+        showNaviBar = TRUE;
+    }
+}
+
+
 /* 从下方弹出备注框 */
 - (void) noteViewAppear
 {
@@ -158,15 +277,15 @@
     
     self.have_show_note = YES;
     
-    if (self.scrollView.contentOffset.x < [UIScreen mainScreen].bounds.size.width)
+    if (self.scrollView.contentOffset.x < self.scrollView.bounds.size.width)
     {
         tag = 10;
     }
-    else if (self.scrollView.contentOffset.x < 2 * [UIScreen mainScreen].bounds.size.width)
+    else if (self.scrollView.contentOffset.x < 2 * self.scrollView.bounds.size.width)
     {
         tag = 11;
     }
-    else if (self.scrollView.contentOffset.x < 3 * [UIScreen mainScreen].bounds.size.width)
+    else if (self.scrollView.contentOffset.x < 3 * self.scrollView.bounds.size.width)
     {
         tag = 12;
     }
@@ -226,7 +345,7 @@
         /* 上滑出来 */
         CGRect noteViewFrame = self.noteView.frame;
 
-        noteViewFrame.origin.y -= [UIScreen mainScreen].bounds.size.height/2;
+        noteViewFrame.origin.y -= self.scrollView.bounds.size.height/2;
         self.noteView.frame = noteViewFrame;
 
 
@@ -284,15 +403,15 @@
         
         NSInteger tag = 0;
         
-        if (self.scrollView.contentOffset.x < [UIScreen mainScreen].bounds.size.width)
+        if (self.scrollView.contentOffset.x < self.scrollView.bounds.size.width)
         {
             tag = 10;
         }
-        else if (self.scrollView.contentOffset.x < 2 * [UIScreen mainScreen].bounds.size.width)
+        else if (self.scrollView.contentOffset.x < 2 * self.scrollView.bounds.size.width)
         {
             tag = 11;
         }
-        else if (self.scrollView.contentOffset.x < 3 * [UIScreen mainScreen].bounds.size.width)
+        else if (self.scrollView.contentOffset.x < 3 * self.scrollView.bounds.size.width)
         {
             tag = 12;
         }
@@ -319,7 +438,7 @@
         
         /* 隐匿 备注框 */
         CGRect noteViewFrame = self.noteView.frame;
-        noteViewFrame.origin.y += [UIScreen mainScreen].bounds.size.height/2;
+        noteViewFrame.origin.y += self.scrollView.bounds.size.height/2;
         self.noteView.frame = noteViewFrame;
         
         /* 去掉边框阴影 */
@@ -342,19 +461,19 @@
     NSInteger next_tag = 0;
     CGFloat origin_x = 0;
     
-    if (self.scrollView.contentOffset.x < [UIScreen mainScreen].bounds.size.width)
+    if (self.scrollView.contentOffset.x < self.scrollView.bounds.size.width)
     {
         tag = 10;
         next_tag = 11;
         origin_x = 0;
     }
-    else if (self.scrollView.contentOffset.x < 2 * [UIScreen mainScreen].bounds.size.width)
+    else if (self.scrollView.contentOffset.x < 2 * self.scrollView.bounds.size.width)
     {
         tag = 11;
         next_tag = 12;
         origin_x = self.scrollView.bounds.size.width;
     }
-    else if (self.scrollView.contentOffset.x < 3 * [UIScreen mainScreen].bounds.size.width)
+    else if (self.scrollView.contentOffset.x < 3 * self.scrollView.bounds.size.width)
     {
         tag = 12;
         next_tag = 10;
@@ -398,13 +517,7 @@
     downView.layer.shadowColor = [UIColor grayColor].CGColor;// 阴影的颜色
     downView.layer.shadowRadius = 5;// 阴影扩散的范围控制
     downView.layer.shadowOffset  = CGSizeMake(0, 0);// 阴影矩形的位置
-    
-    self.doubleShowButton.titleLabel.text = @"单框模式";
 
-    UIImage * img = [UIImage imageNamed:@"single show.jpg"];
-    img = [img imageWithRenderingMode: UIImageRenderingModeAlwaysOriginal];
-    [self.doubleShowButton setImage:img forState:UIControlStateNormal];
-    
     [self.scrollView addSubview:downView];
     
     /* 最后，设置状态，双框模式不允许编辑文本，不允许滑动*/
@@ -437,11 +550,12 @@
         currentTab.layer.shadowColor = [UIColor grayColor].CGColor;// 阴影的颜色
         currentTab.layer.shadowRadius = 5;// 阴影扩散的范围控制
         currentTab.layer.shadowOffset  = CGSizeMake(0, 0);// 阴影矩形的位置
-        
+   
+#if 0
         UIImage * img2 = [UIImage imageNamed:@"single show.jpg"];
         img2 = [img2 imageWithRenderingMode: UIImageRenderingModeAlwaysOriginal];
         [self.doubleShowButton setImage:img2 forState:UIControlStateNormal];
-        
+#endif
     
         /* 将downView上滑出来 */
          cardJustInfoEdit * comingDownTab = (cardJustInfoEdit *)[self.scrollView viewWithTag:next_tag];
@@ -449,6 +563,7 @@
         /* origing.y 仅在中间还不够，还要向下一点，是要给上方留出一部分空间，显示阴影 */
          frame3.origin.y = self.scrollView.bounds.size.height/2 + 2;
          comingDownTab.frame = frame3;
+         //comingDownTab.backgroundColor = [UIColor redColor];
 
     }];
 }
@@ -460,19 +575,19 @@
     NSInteger next_tag = 0;
     NSInteger new_origin_x = 0;
     
-    if (self.scrollView.contentOffset.x < [UIScreen mainScreen].bounds.size.width)
+    if (self.scrollView.contentOffset.x < self.scrollView.bounds.size.width)
     {
         tag = 10;
         next_tag = 11;
         new_origin_x = self.scrollView.bounds.size.width;
     }
-    else if (self.scrollView.contentOffset.x < 2 * [UIScreen mainScreen].bounds.size.width)
+    else if (self.scrollView.contentOffset.x < 2 * self.scrollView.bounds.size.width)
     {
         tag = 11;
         next_tag = 12;
         new_origin_x = 2 * self.scrollView.bounds.size.width;
     }
-    else if (self.scrollView.contentOffset.x < 3 * [UIScreen mainScreen].bounds.size.width)
+    else if (self.scrollView.contentOffset.x < 3 * self.scrollView.bounds.size.width)
     {
         tag = 12;
         next_tag = 10;
@@ -562,12 +677,15 @@
 
 /* 点击收藏，出现"分组" */
 - (IBAction)show_groupView:(id)sender {
-    
+    [self groupView_show];
+}
+
+-(void) groupView_show{
     cardJustInfoEdit * currentTab  = [self gatCurrentTab];
     
     if (self.have_show_gather)
     {
-        [self exit_groupView];
+        [self groupView_exit];
         return ;
     }
     
@@ -583,28 +701,26 @@
     
     // 三，在tempCover 上添加单击手势识别，单击就取消弹出的分组框状态
     UITapGestureRecognizer* singleRecognizer;
-    singleRecognizer = [[UITapGestureRecognizer alloc] initWithTarget: self action:@selector(exit_groupView)];
+    singleRecognizer = [[UITapGestureRecognizer alloc] initWithTarget: self action:@selector(groupView_exit)];
     singleRecognizer.numberOfTapsRequired = 1;
     [tempCover addGestureRecognizer:singleRecognizer];
     
     /* 四，设置状态，当前不允许编辑文本，不允许滑动 ，备注状态退出了才可以*/
     self.scrollView.scrollEnabled = NO;
     currentTab.content.editable = NO;
-
+    
     /* 将group view弹出 */
     self.grpController = [[tinyGroupListController alloc]init];
     self.grpController.backCard = self.backCard;
     /* group controller的视图的起点就是button，但是大小要改变, frame的高度要随分组数量动态设置 */
-    CGRect frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width/2.5, 44 * self.grpController.grp_arr.count);
+    CGRect frame = CGRectMake(0, 0, self.scrollView.bounds.size.width/2.5, 44 * self.grpController.grp_arr.count);
     
     [self.grpController showTinyGroupView:self.scrollView withframe:frame];
 }
 
 /* 退出显示的分组信息 */
--(void) exit_groupView
+-(void) groupView_exit
 {
-    NSLog(@"  exit_groupView ");
-    
     self.have_show_gather = NO;
     [self.grpController.view removeFromSuperview];
     self.grpController = nil;
@@ -620,6 +736,57 @@
 
 - (IBAction)noteCard:(id)sender {
     [self noteViewAppear];
+}
+
+/* 空格变大 */
+-(void)emptySizeBigger
+{
+    if (self.backCard.empty_size >= 20)
+    {
+        return ;
+    }
+    
+    self.backCard.empty_size++;
+}
+
+/* 空格变小 */
+-(void)emptySizeSmaller
+{
+    if (self.backCard.empty_size <= 1)
+    {
+        return ;
+    }
+    self.backCard.empty_size--;
+}
+
+/* 字体变大 */
+-(void)fontBigger
+{
+    self.backCard.word_size++;
+}
+
+/* 字体变小 */
+-(void)fontSmaller
+{
+    self.backCard.word_size--;
+}
+
+/* navigation bar 上的item */
+-(void)doubleViewClick
+{
+    /* 表示当前是处于双框模式 */
+    static BOOL doubleView = FALSE;
+    
+    if (!doubleView)
+    {
+        doubleView = TRUE;
+        [self downViewAppear];
+    }
+    else
+    {
+        doubleView = FALSE;
+        [self downViewDisappear];
+    }
 }
 
 /* 点击 “双框模式 */
@@ -639,44 +806,43 @@
     }
 }
 
-
-
-
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     NSInteger tag = 0;
     
-    if (self.scrollView.contentOffset.x < [UIScreen mainScreen].bounds.size.width)
+    if (self.scrollView.contentOffset.x < self.scrollView.bounds.size.width)
     {
         tag = 10;
     }
-    else if (self.scrollView.contentOffset.x < 2 * [UIScreen mainScreen].bounds.size.width)
+    else if (self.scrollView.contentOffset.x < 2 * self.scrollView.bounds.size.width)
     {
         tag = 11;
     }
-    else if (self.scrollView.contentOffset.x < 3 * [UIScreen mainScreen].bounds.size.width)
+    else if (self.scrollView.contentOffset.x < 3 * self.scrollView.bounds.size.width)
     {
         tag = 12;
     }
     
     /* 获取当前要显示的view */
     cardJustInfoEdit * view = [self.scrollView viewWithTag:tag];
-    [view setItsContent];
+    if (0 == view.content.text.length)
+    {
+        [view setItsContent];
+    }
 }
-
 
 -(cardJustInfoEdit *) gatCurrentTab
 {
     NSInteger tag = 0;
-    if (self.scrollView.contentOffset.x < [UIScreen mainScreen].bounds.size.width)
+    if (self.scrollView.contentOffset.x < self.scrollView.bounds.size.width)
     {
         tag = 10;
     }
-    else if (self.scrollView.contentOffset.x < 2 * [UIScreen mainScreen].bounds.size.width)
+    else if (self.scrollView.contentOffset.x < 2 * self.scrollView.bounds.size.width)
     {
         tag = 11;
     }
-    else if (self.scrollView.contentOffset.x < 3 * [UIScreen mainScreen].bounds.size.width)
+    else if (self.scrollView.contentOffset.x < 3 * self.scrollView.bounds.size.width)
     {
         tag = 12;
     }
@@ -691,9 +857,13 @@
     return currentTab;
 }
 
-
 -(void )viewWillAppear:(BOOL)animated
 {
+    NSLog(@" viewWillAppear .. ");
+    
+    /* 显示navigation controller管理的toolbar:
+     它会显示最上面的view controller的bar item */
+    self.navigationController.toolbarHidden = NO;
     [super viewWillAppear:animated];
     
 #if 0
@@ -707,6 +877,15 @@
 
 -(void) viewWillDisappear:(BOOL)animated
 {
+    NSLog(@" viewWillDisappear set toolBar yes ");
+    
+    /* 每次退出，都将这个标记还原，下次再从home_page_list进来再新设置，即这个标记的生存期只有 从home_page_list进来到退出这短暂时间。如果该标记一直存在，会使得最近查看的页面，也隐藏tabBar */
+    if (self.hidesBottomBarWhenPushed)
+    {
+        self.hidesBottomBarWhenPushed  = NO;
+    }
+    
+    self.navigationController.toolbarHidden = YES;
     [super viewWillDisappear:animated];
     
 #if 0
@@ -733,6 +912,12 @@
     }
     
     NSLog(@" keyboardWillShow aNotification %@", aNotification);
+}
+
+/* 隐藏“电池栏” */
+- (BOOL)prefersStatusBarHidden
+{
+    return YES; // 返回NO表示要显示，返回YES将hiden
 }
 
 - (void)keyboardWillHide:(NSNotification *)aNotification

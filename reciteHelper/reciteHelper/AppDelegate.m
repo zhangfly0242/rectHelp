@@ -23,7 +23,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    mainTabBarController * mainTab = [[mainTabBarController alloc]init];
+    mainTabBarController * mainTab = [mainTabBarController TABBAR];
     self.window.rootViewController = mainTab;
     
     return YES;
@@ -88,6 +88,12 @@
     }
     
     return _persistentContainer;
+}
+
+- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
+{
+    return UIInterfaceOrientationMaskPortrait;
+    
 }
 
 #pragma mark - Core Data Saving support

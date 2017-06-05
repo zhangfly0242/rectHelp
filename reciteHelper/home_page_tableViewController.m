@@ -17,6 +17,8 @@
 #import "icloudManager.h"
 #import "cardEditController.h"
 #import "test1ViewController.h"
+#import "AppDelegate.h"
+#import "mainTabBarController.h"
 
 @interface home_page_tableViewController ()
 
@@ -55,6 +57,7 @@
    // [backImageView setImage:[UIImage imageNamed:@"backPicture"]];
    // self.tableView.backgroundView = backImageView;
     self.tableView.backgroundColor = [UIColor lightGrayColor];
+   // self.tableView.backgroundView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"table_list_back_img.jpg"]];
     
     return;
 }
@@ -238,6 +241,8 @@
 }
 
 - (void)viewDidLoad {
+    NSLog(@" table list : viewDidLoad");
+    
     [super viewDidLoad];
     
     self.cell_arr = [[NSMutableArray alloc]init];
@@ -364,17 +369,19 @@
             
         }];
     
+#if 0
     UITableViewRowAction *rowActionSec = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"标签"
         handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
             
             }];
-    
+
     /* zhang-attention : 这里如果要设置背景图片的话，可以先根据image得到uicolor,然后将该uicolor设置为背景颜色 。
      
         但是这样设置背景图片好像会占用过多内存，还可能会内存泄漏 ? 用这种方法之前，先好好看下网上的说法，再决定怎么做*/
     rowActionSec.backgroundColor = [UIColor lightGrayColor];
+#endif
     
-    NSArray *arr = @[rowAction,rowActionSec];
+    NSArray *arr = @[rowAction];
     return arr;
 }
 
@@ -422,9 +429,17 @@
     cardEditController * cardEdit = [[cardEditController alloc]init];
     card * card = self.cell_arr[indexPath.row];
     cardEdit.backCard = card;
+
+    /* 更新最近查看视图 */
+    [mainTabBarController TABBAR].current_card = card;
+    [mainTabBarController TABBAR].current_cardEdit = cardEdit;
     
+    NSLog(@" card.createTime :  %@ ", card.createTime);
+    
+    cardEdit.hidesBottomBarWhenPushed  = YES;
     [self.navigationController pushViewController:cardEdit animated:YES];
     
+#if 0
     if ([self.grp_name isEqualToString:ALL_GROUP])
     {
         /* 随后负责显示该tabBar */
@@ -432,6 +447,7 @@
         /* 隐藏tabBar */
         [[NSNotificationCenter defaultCenter]postNotificationName:@"betterHiddenTabBar" object:nil];
     }
+#endif
 }
 
 /*
@@ -478,12 +494,14 @@
 {
     [super viewWillAppear:animated];
 
+#if 0
     if (self.makeTabBarShowLater)
     {
         self.makeTabBarShowLater = NO;
         /* 弹出该页面时显示tabBar */
         [[NSNotificationCenter defaultCenter]postNotificationName:@"betterShowTabBar" object:nil];
     }
+#endif
 }
 
 -(void) viewWillDisappear:(BOOL)animated
@@ -504,6 +522,12 @@
         [[NSNotificationCenter defaultCenter]postNotificationName:@"betterHiddenTabBar" object:nil];
     }
 #endif
+}
+
+/* 隐藏“电池栏” */
+- (BOOL)prefersStatusBarHidden
+{
+    return YES; // 返回NO表示要显示，返回YES将hiden
 }
 
 -(void) dealloc
